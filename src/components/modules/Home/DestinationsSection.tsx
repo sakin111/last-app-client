@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react';
 import { MapPin } from 'lucide-react';
 import Image from 'next/image';
@@ -48,7 +50,6 @@ export function DestinationsSection() {
                 alt={destination.name}
                 height={100}
                 width={100}
-                layout="fill"
                 objectFit="cover"
                 className="group-hover:scale-110 transition-transform duration-500"
               />

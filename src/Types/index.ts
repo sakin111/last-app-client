@@ -14,6 +14,11 @@ export interface Step {
   description: string;
 }
 
+export enum Role{
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
 export interface Destination {
   name: string;
   image: string;
@@ -37,4 +42,27 @@ export interface User {
   location?: string;
   interests?: string[];
   verified: boolean;
+}
+
+export enum UserStatus {
+    ACTIVE,
+    INACTIVE,
+    DELETED
+}
+
+export interface UserInfo {
+    id?: string | undefined;
+    name: string;
+    email: string;
+    password: string;
+    fullName?: string | null | undefined;
+    profileImage?: string | null | undefined;
+    bio?: string | null | undefined;
+    travelInterests?: string[] | undefined;
+    visitedCountries?: string[];
+    currentLocation?: string | null;
+    role?: Role;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    userStatus?: UserStatus;
 }

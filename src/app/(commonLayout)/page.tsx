@@ -12,7 +12,7 @@ const page = () => {
     return (
       <>
       <Head>
-        <title>AI-Powered Healthcare - Find Your Perfect Doctor</title>
+        <title>A Travel Buddy website to get you a perfect exploring partner</title>
         <meta
           name="description"
           content="Discover top-rated Travel Buddy and match with the energy of your travel style using our AI-powered platform."

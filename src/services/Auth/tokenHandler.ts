@@ -1,4 +1,4 @@
-"user server";
+"use server";
 
 
 import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";

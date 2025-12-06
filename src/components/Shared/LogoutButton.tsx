@@ -1,6 +1,7 @@
 "use client"
 
-import { logoutUser } from "@/src/services/Auth/logout";
+
+import { logoutUser } from "@/services/Auth/logoutUser";
 import { Button } from "../ui/button";
 
 

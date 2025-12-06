@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { Menu, Sheet } from "lucide-react";
+import { Menu } from "lucide-react";
 
 
 
 import LogoutButton from "./LogoutButton";
 import { getCookie } from "@/services/Auth/tokenHandler";
-import { SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+
 import { Button } from "../ui/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 
 
 const Navbar = async () => {
