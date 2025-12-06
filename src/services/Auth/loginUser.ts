@@ -46,7 +46,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             }
         }
 
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
         const res = await fetch(`${baseUrl}/auth/login`, {
             method: "POST",

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { registerUser } from "@/services/Auth/registerUser";
+import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -28,10 +29,10 @@ const RegisterForm = () => {
   return (
     <form action={formAction}>
       <FieldGroup>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
 
           <Field>
-            <FieldLabel htmlFor="name">Full Name</FieldLabel>
+            <FieldLabel htmlFor="name">Name</FieldLabel>
             <Input id="name" name="name" type="text" placeholder="John Doe" />
           <InputFieldError field="name" state={state} />
           </Field>
@@ -51,7 +52,7 @@ const RegisterForm = () => {
 
           <Field>
             <FieldLabel htmlFor="password">Password</FieldLabel>
-            <Input id="password" name="password" type="password" />
+            <Input id="password" name="password" type="password" placeholder="Enter your password" />
 
          <InputFieldError field="password" state={state} />
           </Field>
@@ -62,11 +63,12 @@ const RegisterForm = () => {
               id="confirmPassword"
               name="confirmPassword"
               type="password"
+              placeholder="Re-enter your password"
             />
 
          <InputFieldError field="confirmPassword" state={state} />
           </Field>
-        </div>
+
         <FieldGroup className="mt-4">
           <Field>
             <Button type="submit" disabled={isPending}>
@@ -75,9 +77,13 @@ const RegisterForm = () => {
 
             <FieldDescription className="px-6 text-center">
               Already have an account?{" "}
-              <a href="/login" className="text-blue-600 hover:underline">
+              <Link href="/login" className="text-teal-600 hover:underline">
                 Sign in
-              </a>
+              </Link>
+               <span className="px-1">or go to{" "}</span>
+              <Link href="/" className="text-teal-600 hover:underline">
+               home
+              </Link>
             </FieldDescription>
           </Field>
         </FieldGroup>

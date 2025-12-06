@@ -8,7 +8,6 @@ import { loginUser } from "./loginUser";
 
 const registerValidationZodSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
-    address: z.string().optional(),
     email: z.email({ message: "Valid email is required" }),
     password: z.string().min(6, {
         error: "Password is required and must be at least 6 characters long",
@@ -30,6 +29,7 @@ export const registerUser = async (_currentState: any, formData: any) : Promise<
         name: formData.get("name") as string,
         email: formData.get("email") as string,
         password: formData.get("password") as string,
+        confirmPassword: formData.get('confirmPassword') as string
         }  
     
 
@@ -46,7 +46,8 @@ export const registerUser = async (_currentState: any, formData: any) : Promise<
             }
         }
 
-         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+         const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+
 
     const res = await fetch(`${baseUrl}/user/create-user`,{
         method: "POST",

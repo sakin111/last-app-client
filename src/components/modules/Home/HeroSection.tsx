@@ -5,7 +5,7 @@ import { Search, Sparkles } from 'lucide-react';
 
 export function HeroSection() {
   return (
-    <section className="relative bg-liner-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-24 md:py-36 overflow-hidden">
+    <section className="relative  text-white py-24 md:py-36 overflow-hidden">
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
       <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
       <div className="absolute top-40 right-10 w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -13,16 +13,16 @@ export function HeroSection() {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8 animate-fade-in">
-            <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-medium">Join 50,000+ Happy Travelers</span>
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-cyan-800 rounded-full px-4 py-2 mb-8 animate-fade-in">
+            <Sparkles className="h-4 w-4 text-cyan-800" />
+            <span className="text-sm font-medium text-accent-foreground">Join 50,000+ Happy Travelers</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-liner-to-r from-white to-blue-100 animate-fade-in-up">
+          <h1 className="text-5xl md:text-7xl font-bold text-transparent mb-6 bg-clip-text bg-gradient-to-r from-black to-cyan-600 animate-fade-in-up">
             Find Your Perfect Travel Companion
           </h1>
           
-          <p className="text-xl md:text-2xl mb-10 text-blue-50 leading-relaxed animate-fade-in-up animation-delay-200">
+          <p className="text-xl md:text-2xl mb-10 text-chart-3 leading-relaxed animate-fade-in-up animation-delay-200">
             Connect with verified travelers worldwide, share adventures, and create unforgettable memories together
           </p>
           
@@ -40,7 +40,7 @@ export function HeroSection() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-blue-600 hover:scale-105 transition-all duration-300 w-full sm:w-auto"
+                className=" border-2 border-white/30 bg-accent-foreground backdrop-blur-sm text-white hover:bg-white hover:text-blue-600 hover:scale-105 transition-all duration-300 w-full sm:w-auto"
               >
                 Get Started Free
               </Button>
@@ -50,11 +50,11 @@ export function HeroSection() {
           <div className="mt-12 flex items-center justify-center gap-8 text-sm animate-fade-in animation-delay-600">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>100% Verified Profiles</span>
+              <span className='text-accent-foreground'>100% Verified Profiles</span>
             </div>
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>Secure & Private</span>
+              <span className='text-accent-foreground'>Secure & Private</span>
             </div>
           </div>
         </div>

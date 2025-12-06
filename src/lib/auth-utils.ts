@@ -1,4 +1,3 @@
-"use server"
 
 export type UserRole = "ADMIN" | "USER";
 

@@ -11,14 +11,14 @@ interface Destination {
 }
 
 const destinations: Destination[] = [
-  { name: 'Bali, Indonesia', image: 'https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg', travelers: 2847 },
-  { name: 'Paris, France', image: 'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg', travelers: 3241 },
-  { name: 'Tokyo, Japan', image: 'https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg', travelers: 2956 },
-  { name: 'New York, USA', image: 'https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg', travelers: 4123 },
-  { name: 'Barcelona, Spain', image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg', travelers: 2534 },
-  { name: 'Dubai, UAE', image: 'https://images.pexels.com/photos/1470502/pexels-photo-1470502.jpeg', travelers: 3689 },
-  { name: 'Sydney, Australia', image: 'https://images.pexels.com/photos/1878293/pexels-photo-1878293.jpeg', travelers: 2187 },
-  { name: 'London, UK', image: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg', travelers: 4567 },
+  { name: 'Bali, Indonesia', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762333042/file-1762333038535-590325258.jpg', travelers: 2847 },
+  { name: 'Paris, France', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762332917/file-1762332910196-56934235.jpg', travelers: 3241 },
+  { name: 'Tokyo, Japan', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762329653/file-1762329645646-569200669.jpg', travelers: 2956 },
+  { name: 'New York, USA', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046114/Gemini_Generated_Image_yxdwwnyxdwwnyxdw_vtnggm.jpg', travelers: 4123 },
+  { name: 'Barcelona, Spain', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046213/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 2534 },
+  { name: 'Dubai, UAE', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046312/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 3689 },
+  { name: 'Sydney, Australia', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046410/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 2187 },
+  { name: 'London, UK', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046508/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 4567 },
 ];
 
 export function DestinationsSection() {
@@ -48,8 +48,7 @@ export function DestinationsSection() {
               <Image
                 src={destination.image}
                 alt={destination.name}
-                height={100}
-                width={100}
+                 fill={true}
                 objectFit="cover"
                 className="group-hover:scale-110 transition-transform duration-500"
               />
