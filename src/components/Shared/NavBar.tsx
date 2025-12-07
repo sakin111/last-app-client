@@ -1,31 +1,26 @@
-import Link from "next/link";
+
 import { Menu } from "lucide-react";
-
-
-
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import LogoutButton from "./LogoutButton";
 import { getCookie } from "@/services/Auth/tokenHandler";
 
-import { Button } from "../ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
-
-
 const Navbar = async () => {
   const navItems = [
-    { href: "#", label: "Consultation" },
-    { href: "#", label: "Health Plans" },
-    { href: "#", label: "Medicine" },
-    { href: "#", label: "Diagnostics" },
-    { href: "#", label: "NGOs" },
+    { href: "/", label: "Home" },
+    { href: "/travel", label: "Travel" },
+    { href: "/WeProvide", label: "We Provide" },
+    { href: "/howItWorks", label: "How it Works" },
   ];
 
-  const accessToken = await getCookie("accessToken")
+  const accessToken = await getCookie("accessToken");
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur  dark:bg-background/95">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-primary">PH Doc</span>
+          <span className="text-2xl font-bold text-primary font-sans">Typers</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -40,10 +35,9 @@ const Navbar = async () => {
           ))}
         </nav>
 
-
         <div className="hidden md:flex items-center space-x-2">
           {accessToken ? (
-            <LogoutButton/>
+            <LogoutButton />
           ) : (
             <Link href="/login">
               <Button>Login</Button>
@@ -56,7 +50,10 @@ const Navbar = async () => {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline"> <Menu /> </Button>
+              <Button variant="outline">
+                {" "}
+                <Menu />{" "}
+              </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] p-4">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>

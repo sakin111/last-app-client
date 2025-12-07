@@ -6,8 +6,8 @@ function Footer() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold mb-2">PH Doc</h3>
-            <p className="text-sm text-muted-foreground">Your health is our priority. We are here to provide the best medical services.</p>
+            <h3 className="font-bold mb-2 font-sans text-2xl text-blue-950">Typers</h3>
+            <p className="text-sm text-muted-foreground">Your Travel Buddy will make your journey suitable through us.</p>
           </div>
           <div>
             <h3 className="font-semibold mb-2">Quick Links</h3>
@@ -30,14 +30,14 @@ function Footer() {
           <div>
             <h3 className="font-semibold mb-2">Contact Us</h3>
             <p className="text-sm text-muted-foreground">
-              123 Medical Lane<br />
-              Health City, HC 12345<br />
-              contact@phdoc.com
+              123 TravelLane<br />
+              Travel City, TC 12345<br />
+              contact@travel.com
             </p>
           </div>
         </div>
         <div className="mt-8 border-t pt-4 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} PH Doc. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Typers. All Rights Reserved.
         </div>
       </div>
     </footer>

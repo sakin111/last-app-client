@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 
@@ -84,19 +85,34 @@ export async function getNewAccessToken() {
 
         const result = await response.json();
 
-        const setCookieHeaders = response.headers.getSetCookie();
+        const rawSetCookie: string[] = (() => {
+            try {
 
-        if (setCookieHeaders && setCookieHeaders.length > 0) {
-            setCookieHeaders.forEach((cookie: string) => {
+                const h: any = response.headers;
+                if (h && typeof h.getSetCookie === "function") {
+                    const arr = h.getSetCookie();
+                    if (Array.isArray(arr)) return arr;
+                }
+            } catch (e) {}
+
+            const header = response.headers.get("set-cookie") || response.headers.get("Set-Cookie");
+            if (!header) return [];
+            return Array.isArray(header)
+                ? header
+                : header.split(/,(?=\s*[^\s=]+=)/).map((s) => s.trim());
+        })();
+
+        if (rawSetCookie.length > 0) {
+            rawSetCookie.forEach((cookie: string) => {
                 const parsedCookie = parse(cookie);
 
-                if (parsedCookie['accessToken']) {
+                if (parsedCookie["accessToken"]) {
                     accessTokenObject = parsedCookie;
                 }
-                if (parsedCookie['refreshToken']) {
+                if (parsedCookie["refreshToken"]) {
                     refreshTokenObject = parsedCookie;
                 }
-            })
+            });
         } else {
             throw new Error("No Set-Cookie header found");
         }

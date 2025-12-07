@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Search, Sparkles } from 'lucide-react';
 
-export function HeroSection() {
+const HeroSection = () => {
   return (
     <section className="relative  text-white py-24 md:py-36 overflow-hidden">
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
@@ -62,3 +62,4 @@ export function HeroSection() {
     </section>
   );
 }
+export default HeroSection;

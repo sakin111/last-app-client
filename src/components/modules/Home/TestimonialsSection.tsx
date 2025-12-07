@@ -33,10 +33,10 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-export function TestimonialsSection() {
+const TestimonialsSection = () => {
   return (
     <section className="py-20 bg-white relative overflow-hidden">
-      {/* Decorative background */}
+
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl"></div>
@@ -58,7 +58,7 @@ export function TestimonialsSection() {
               key={index} 
               className="hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white group relative overflow-hidden"
             >
-              {/* Quote decoration */}
+
               <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Quote className="h-16 w-16 text-blue-600" />
               </div>
@@ -91,3 +91,5 @@ export function TestimonialsSection() {
     </section>
   );
 }
+
+export default TestimonialsSection;

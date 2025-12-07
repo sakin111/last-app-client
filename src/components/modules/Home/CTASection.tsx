@@ -2,10 +2,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Heart, ArrowRight } from 'lucide-react';
 
-export function CTASection() {
+const CTASection = () => {
   return (
     <section className="py-24 bg-liner-to-br from-blue-600 via-indigo-700 to-purple-800 text-white relative overflow-hidden">
-      {/* Animated background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
         <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -53,3 +52,5 @@ export function CTASection() {
     </section>
   );
 }
+
+export default CTASection;

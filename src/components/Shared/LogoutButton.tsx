@@ -13,7 +13,7 @@ const LogoutButton = () => {
     return (
         <div>
             <Button onClick={handleLogout} variant={"secondary"}>
-
+             Logout
             </Button>
         </div>
     );

@@ -22,7 +22,10 @@ const LoginForm = ({redirect} : {redirect?:string | undefined}) => {
   const [state, formAction, isPending] = useActionState(loginUser, null);
 
   useEffect(() => {
-    if (state && !state.success && state.message) {
+    if(state && state.success){
+     toast.success("Logged in successfully");
+    }
+    else if (state && !state.success && state.message) {
       toast.error(state.message);
     }
   }, [state]);

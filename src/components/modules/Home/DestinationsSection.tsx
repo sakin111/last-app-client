@@ -21,7 +21,7 @@ const destinations: Destination[] = [
   { name: 'London, UK', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046508/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 4567 },
 ];
 
-export function DestinationsSection() {
+const DestinationsSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -79,3 +79,4 @@ export function DestinationsSection() {
     </section>
   );
 }
+export default DestinationsSection;

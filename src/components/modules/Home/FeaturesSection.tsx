@@ -33,7 +33,7 @@ const features: Feature[] = [
   },
 ];
 
-export function FeaturesSection() {
+const FeaturesSection = () => {
   return (
     <section className="py-20 bg-liner-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
@@ -66,3 +66,4 @@ export function FeaturesSection() {
     </section>
   );
 }
+export default FeaturesSection;

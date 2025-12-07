@@ -61,7 +61,7 @@ export interface UserInfo {
     travelInterests?: string[] | undefined;
     visitedCountries?: string[];
     currentLocation?: string | null;
-    role?: Role;
+    role: Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     userStatus?: UserStatus;
