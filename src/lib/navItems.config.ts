@@ -12,16 +12,9 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
                 {
                     title: "Dashboard",
                     href: defaultDashboard,
-                    icon: "LayoutDashboard",
+                    icon: "IconLayoutDashboard",
                     roles: ["USER", "ADMIN"],
                 },
-                {
-                    title: "My Profile",
-                    href: `/my-profile`,
-                    icon: "User",
-                    roles: ["USER","ADMIN"],
-                },
-
             ]
         },
         {
@@ -30,7 +23,7 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
                 {
                     title: "Change Password",
                     href: "/change-password",
-                    icon: "Settings", 
+                    icon: "IconSettings", 
                     roles: ["USER"],
                 },
             ],
@@ -47,25 +40,31 @@ export const userNavItems: NavSection[] = [
             {
                 title: "MY Activity",
                 href: "/dashboard/myActivity",
-                icon: "Calendar", 
+                icon: "IconJumpRope", 
+                roles: ["USER"],
+            },
+            {
+                title: "Create Travel",
+                href: "/dashboard/createTravel",
+                icon: "IconPencilPlus", 
                 roles: ["USER"],
             },
             {
                 title: "MY Travel",
                 href: "/dashboard/myTravel",
-                icon: "Plane ", 
+                icon: "IconPlane", 
                 roles: ["USER"],
             },
             {
                 title: "MY Profile",
                 href: "/dashboard/myProfile",
-                icon: "User", 
+                icon: "IconUserScan", 
                 roles: ["USER"],
             },
             {
                 title: "My Requests",
                 href: "/dashboard/requests",
-                icon: "ClipboardList", 
+                icon: "IconBell", 
                 roles: ["USER"],
             },
         ],
@@ -78,32 +77,34 @@ export const adminNavItems: NavSection[] = [
         title: "Admin activity",
         items: [
             {
-                title: "Admins",
+                title: "Admin Profile",
                 href: "/admin/dashboard/profile",
-                icon: "Shield", 
+                icon: "IconUserScan", 
                 roles: ["ADMIN"],
             },
             {
-                title: "Admins",
+                title: "Users",
                 href: "/admin/dashboard/users",
-                icon: "Shield", 
+                icon: "IconUsers", 
                 roles: ["ADMIN"],
             },
             {
-                title: "Admins",
+                title: "All Travel",
                 href: "/admin/dashboard/allTravel",
-                icon: "Stethoscope", 
+                icon: "IconPlaneTilt", 
                 roles: ["ADMIN"],
             },
             {
-                title: "Admins",
+                title: "All Requests",
                 href: "/admin/dashboard/allRequest",
-                icon: "Users", 
+                icon: "IconBell", 
                 roles: ["ADMIN"],
             },
         ],
     },
 ]
+
+
 
 export const getNavItemsByRole = (role: UserRole): NavSection[] => {
     const commonNavItems = getCommonNavItems(role);

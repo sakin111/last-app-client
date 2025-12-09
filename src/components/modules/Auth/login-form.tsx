@@ -1,84 +1,196 @@
-
-
 "use client";
 
-
-
-import InputFieldError from "@/components/Shared/InputFieldError";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { loginUser } from "@/services/Auth/loginUser";
-import { useActionState, useEffect } from "react";
-import { toast } from "sonner";
 
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import InputFieldError from "@/components/Shared/InputFieldError";
 
+export default function TravelCreateForm({ state, formAction }: any) {
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
+  const [files, setFiles] = useState<File[]>([]);
 
-
-
-
-
-const LoginForm = ({redirect} : {redirect?:string | undefined}) => {
-  const [state, formAction, isPending] = useActionState(loginUser, null);
-
-  useEffect(() => {
-    if(state && state.success){
-     toast.success("Logged in successfully");
-    }
-    else if (state && !state.success && state.message) {
-      toast.error(state.message);
-    }
-  }, [state]);
   return (
-    <form action={formAction}>
+    <form action={formAction} className="max-w-xl mx-auto p-6 border rounded-lg shadow-sm">
+      <h2 className="text-2xl font-semibold mb-6">Create Travel Plan</h2>
 
-      {redirect && <input type="hidden" name="redirect" value={redirect}/>}
-      <FieldGroup>
-        <div className="grid grid-cols-1 gap-4">
-          {/* Email */}
-          <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="m@example.com"
+      <FieldGroup className="space-y-5">
 
-            />
+        {/* TITLE */}
+        <Field>
+          <FieldLabel htmlFor="title">Title</FieldLabel>
+          <Input
+            id="title"
+            name="title"
+            placeholder="Trip to Cox's Bazar"
+          />
+          <InputFieldError field="title" state={state} />
+        </Field>
 
-      <InputFieldError field="email" state={state} />
-          </Field>
+        {/* DESTINATION */}
+        <Field>
+          <FieldLabel htmlFor="destination">Destination</FieldLabel>
+          <Input
+            id="destination"
+            name="destination"
+            placeholder="Enter destination"
+          />
+          <InputFieldError field="destination" state={state} />
+        </Field>
 
-          {/* Password */}
-          <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-    
-            />
-      <InputFieldError field="password" state={state} />
-          </Field>
-        </div>
-        <FieldGroup className="mt-4">
-          <Field>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Logging in..." : "Login"}
-            </Button>
+        {/* START DATE */}
+        <Field>
+          <FieldLabel>Start Date</FieldLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "w-full border rounded-md px-3 py-2 flex items-center justify-start",
+                  !startDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDate ? format(startDate, "PPP") : "Pick a date"}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={(date) => {
+                  setStartDate(date);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+          {/* Hidden input so server action receives the date */}
+          <input type="hidden" name="startDate" value={startDate?.toISOString() || ""} />
+          <InputFieldError field="startDate" state={state} />
+        </Field>
 
-            <FieldDescription className="px-6 text-center">
-              Don&apos;t have an account?{" "}
-              <a href="/register" className="text-blue-600 hover:underline">
-                Sign up
-              </a>
-            </FieldDescription>
-          </Field>
-        </FieldGroup>
+        {/* END DATE */}
+        <Field>
+          <FieldLabel>End Date</FieldLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "w-full border rounded-md px-3 py-2 flex items-center justify-start",
+                  !endDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {endDate ? format(endDate, "PPP") : "Pick a date"}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <Calendar
+                mode="single"
+                selected={endDate}
+                onSelect={(date) => {
+                  setEndDate(date);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+          {/* Hidden input for server */}
+          <input type="hidden" name="endDate" value={endDate?.toISOString() || ""} />
+          <InputFieldError field="endDate" state={state} />
+        </Field>
+
+        {/* BUDGET RANGE */}
+        <Field>
+          <FieldLabel>Budget Range</FieldLabel>
+          <select
+            name="budgetRange"
+            className="border rounded-md p-2 w-full"
+          >
+            <option value="">Select budget range</option>
+            <option value="low">Low (0 - 5k)</option>
+            <option value="medium">Medium (5k - 20k)</option>
+            <option value="high">High (20k+)</option>
+          </select>
+          <InputFieldError field="budgetRange" state={state} />
+        </Field>
+
+        {/* TRAVEL TYPE */}
+        <Field>
+          <FieldLabel>Travel Type</FieldLabel>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="travelType" value="SOLO" defaultChecked />
+              Solo
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input type="radio" name="travelType" value="GROUP" />
+              Group
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input type="radio" name="travelType" value="COUPLE" />
+              Couple
+            </label>
+          </div>
+          <InputFieldError field="travelType" state={state} />
+        </Field>
+
+        {/* DESCRIPTION */}
+        <Field>
+          <FieldLabel>Description</FieldLabel>
+          <Textarea
+            name="description"
+            placeholder="Describe your travel plan..."
+            rows={4}
+          />
+          <InputFieldError field="description" state={state} />
+        </Field>
+
+        {/* VISIBILITY */}
+        <Field>
+          <FieldLabel>Public Visibility</FieldLabel>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" name="visibility" defaultChecked />
+            <span>Make this travel plan public</span>
+          </div>
+          <InputFieldError field="visibility" state={state} />
+        </Field>
+
+        {/* IMAGES */}
+        <Field>
+          <FieldLabel>Images</FieldLabel>
+          <Input
+            type="file"
+            name="images"
+            multiple
+            onChange={(e) => {
+              const arr = Array.from(e.target.files || []);
+              setFiles(arr);
+            }}
+          />
+          <FieldDescription>Upload images for your travel plan</FieldDescription>
+          <InputFieldError field="images" state={state} />
+        </Field>
+
+        {/* SUBMIT */}
+        <Field>
+          <Button type="submit">Create Travel Plan</Button>
+        </Field>
       </FieldGroup>
     </form>
   );
-};
-
-export default LoginForm;
+}
