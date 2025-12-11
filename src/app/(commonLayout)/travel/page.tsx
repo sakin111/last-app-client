@@ -1,12 +1,14 @@
 import TravelSection from "@/components/modules/Travels/TravelSection ";
 
 
-const page = () => {
+
+const TravelPage = () => {
     return (
         <div>
+            <h1>Travel The World</h1>
             <TravelSection />
         </div>
     );
 };
 
-export default page;
+export default TravelPage;

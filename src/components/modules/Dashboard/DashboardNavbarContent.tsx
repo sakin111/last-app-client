@@ -19,7 +19,6 @@ interface DashboardNavbarContentProps {
 const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.ComponentProps<typeof Sidebar>> = ({
   userInfo,
   navItems = [],
-  dashboardHome,
   ...props
 }) => {
 

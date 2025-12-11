@@ -1,297 +1,208 @@
 "use client";
 
-import { useState } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
+
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Switch } from "@/components/ui/switch";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import InputFieldError from "@/components/Shared/InputFieldError";
+import { Textarea } from "@/components/ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { travelCreate } from "@/services/Dashboard/travel.service";
+import { showToast } from "@/components/Shared/UniversalToaster";
 
-// --------------------
-// ZOD SCHEMA
-// --------------------
-const travelSchema = z.object({
-  title: z.string().min(3, "Title is required"),
-  destination: z.string().min(2),
-  startDate: z.date(),
-  endDate: z.date(),
-  budgetRange: z.string().min(1),
-  travelType: z.enum(["SOLO", "GROUP", "COUPLE"]),
-  description: z.string().optional(),
-  visibility: z.boolean().default(true),
-  images: z.any().optional(),
-});
+export default function TravelCreateForm({redirect}:{redirect?: string | undefined}) {
 
-type TravelValues = z.infer<typeof travelSchema>;
-
-// --------------------
-// MAIN COMPONENT
-// --------------------
-export default function TravelCreateForm() {
+const [state, formAction, isPending] = useActionState(travelCreate, null);
+const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
   const [files, setFiles] = useState<File[]>([]);
 
-  const form = useForm<TravelValues>({
-    resolver: zodResolver(travelSchema),
-    defaultValues: {
-      visibility: true,
-      travelType: "SOLO",
-    },
-  });
-
-  const onSubmit = async (values: TravelValues) => {
-    const formData = new FormData();
-
-    // Add normal fields (excluding images)
-    Object.entries(values).forEach(([key, value]) => {
-      if (key === "images") return;
-      formData.append(key, value as any);
-    });
-
-    // Add image files
-    files.forEach((file) => formData.append("images", file));
-
-    console.log("Submitted:", values);
-
-    // Example API call
-    // await fetch("/api/travel", { method: "POST", body: formData });
-  };
+    useEffect(() => {
+      if(state && state.success) {
+        showToast("Travel created successfully","success")
+      }
+  if (state && !state.success && state.message) {
+        showToast("unable to create travel","error")
+      }
+    }, [state]);
 
   return (
-    <div className="max-w-xl mx-auto p-6 border rounded-lg shadow-sm">
+    <form action={formAction} className="max-w-xl mx-auto p-6 border rounded-lg shadow-sm">
       <h2 className="text-2xl font-semibold mb-6">Create Travel Plan</h2>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      {redirect && <input type="hidden" name="redirect" value={redirect}/>}
 
-          {/* TITLE */}
-          <FormField
-            control={form.control}
+      <FieldGroup className="space-y-5">
+
+        {/* TITLE */}
+        <Field>
+          <FieldLabel htmlFor="title">Title</FieldLabel>
+          <Input
+            id="title"
             name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Trip to Cox’s Bazar" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Trip to Cox's Bazar"
           />
+          <InputFieldError field="title" state={state} />
+        </Field>
 
-          {/* DESTINATION */}
-          <FormField
-            control={form.control}
+        {/* DESTINATION */}
+        <Field>
+          <FieldLabel htmlFor="destination">Destination</FieldLabel>
+          <Input
+            id="destination"
             name="destination"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Destination</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter destination" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Enter destination"
           />
+          <InputFieldError field="destination" state={state} />
+        </Field>
 
-          {/* START DATE */}
-          <FormField
-            control={form.control}
-            name="startDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Start Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className={cn(
-                          "justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value ? format(field.value, "PPP") : "Pick a date"}
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
+        {/* START DATE */}
+        <Field>
+          <FieldLabel>Start Date</FieldLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "w-full border rounded-md px-3 py-2 flex items-center justify-start",
+                  !startDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDate ? format(startDate, "PPP") : "Pick a date"}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={(date) => {
+                  setStartDate(date);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
 
-                  <PopoverContent>
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <input type="hidden" name="startDate" value={startDate?.toISOString() || ""} />
+          <InputFieldError field="startDate" state={state} />
+        </Field>
 
-          {/* END DATE */}
-          <FormField
-            control={form.control}
-            name="endDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>End Date</FormLabel>
+        {/* END DATE */}
+        <Field>
+          <FieldLabel>End Date</FieldLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "w-full border rounded-md px-3 py-2 flex items-center justify-start",
+                  !endDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {endDate ? format(endDate, "PPP") : "Pick a date"}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <Calendar
+                mode="single"
+                selected={endDate}
+                onSelect={(date) => {
+                  setEndDate(date);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+          {/* Hidden input for server */}
+          <input type="hidden" name="endDate" value={endDate?.toISOString() || ""} />
+          <InputFieldError field="endDate" state={state} />
+        </Field>
 
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className={cn(
-                          "justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value ? format(field.value, "PPP") : "Pick a date"}
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-
-                  <PopoverContent>
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                    />
-                  </PopoverContent>
-                </Popover>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* BUDGET RANGE */}
-          <FormField
-            control={form.control}
+        {/* BUDGET RANGE */}
+        <Field>
+          <FieldLabel>Budget Range</FieldLabel>
+              <Input
+            id="budgetRange"
             name="budgetRange"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Budget Range</FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select budget range" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low (0 - 5k)</SelectItem>
-                    <SelectItem value="medium">Medium (5k - 20k)</SelectItem>
-                    <SelectItem value="high">High (20k+)</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Enter budget range"
           />
+          <InputFieldError field="budgetRange" state={state} />
+        </Field>
 
-          {/* TRAVEL TYPE */}
-          <FormField
-            control={form.control}
-            name="travelType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Travel Type</FormLabel>
+        {/* TRAVEL TYPE */}
+        <Field>
+          <FieldLabel>Travel Type</FieldLabel>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="travelType" value="SOLO" defaultChecked />
+              Solo
+            </label>
 
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex gap-5"
-                >
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem value="SOLO" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Solo</FormLabel>
-                  </FormItem>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="travelType" value="GROUP" />
+              Group
+            </label>
 
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem value="GROUP" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Group</FormLabel>
-                  </FormItem>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="travelType" value="FRIENDS" />
+             Friends
+            </label>
+          </div>
+          <InputFieldError field="travelType" state={state} />
+        </Field>
 
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem value="COUPLE" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Couple</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* DESCRIPTION */}
-          <FormField
-            control={form.control}
+        {/* DESCRIPTION */}
+        <Field>
+          <FieldLabel>Description</FieldLabel>
+          <Textarea
             name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea rows={4} placeholder="Describe your travel plan..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Describe your travel plan..."
+            rows={4}
           />
+          <InputFieldError field="description" state={state} />
+        </Field>
 
-          {/* VISIBILITY */}
-          <FormField
-            control={form.control}
-            name="visibility"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-between border p-3 rounded-lg">
-                <FormLabel>Public Visibility</FormLabel>
-                <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-              </FormItem>
-            )}
+        {/* VISIBILITY */}
+        <Field>
+          <FieldLabel>Public Visibility</FieldLabel>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" name="visibility" defaultChecked />
+            <span>Make this travel plan public</span>
+          </div>
+          <InputFieldError field="visibility" state={state} />
+        </Field>
+
+        {/* IMAGES */}
+        <Field>
+          <FieldLabel>Images</FieldLabel>
+          <Input
+            type="file"
+            name="images"
+            multiple
+            onChange={(e) => {
+              const arr = Array.from(e.target.files || []);
+              setFiles(arr);
+            }}
           />
+          <FieldDescription>Upload images for your travel plan</FieldDescription>
+          <InputFieldError field="images" state={state} />
+        </Field>
 
-          {/* IMAGE UPLOAD */}
-          <FormItem>
-            <FormLabel>Images</FormLabel>
-            <Input
-              type="file"
-              multiple
-              onChange={(e) => {
-                const selected = Array.from(e.target.files || []);
-                setFiles(selected);
-              }}
-            />
-            <FormDescription>Upload travel images (optional)</FormDescription>
-          </FormItem>
-
-          <Button type="submit" className="w-full">
-            Create Travel Plan
-          </Button>
-        </form>
-      </Form>
-    </div>
+        <Field>
+          <Button type="submit" disabled={isPending}>Create Travel Plan</Button>
+        </Field>
+      </FieldGroup>
+    </form>
   );
 }

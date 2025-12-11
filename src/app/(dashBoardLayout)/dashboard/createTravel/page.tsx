@@ -1,9 +1,13 @@
+import TravelCreateForm from "@/components/modules/Dashboard/CreateTravel";
 
 
-const CreateTravelPage = () => {
+const CreateTravelPage = async({searchParams}: {searchParams : Promise<{redirect?:string}>}) => {
+
+    const params = await searchParams || {}
     return (
         <div>
-           creating travel 
+            <h1 className="text-2xl font-sans font-semibold  text-blue-950 text-center my-7">Create Travels</h1>
+           <TravelCreateForm redirect={params.redirect} />
         </div>
     );
 };

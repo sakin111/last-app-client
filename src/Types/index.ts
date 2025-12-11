@@ -50,6 +50,37 @@ export enum UserStatus {
     DELETED
 }
 
+export interface TravelData {
+  data: {
+    id: string;
+    title: string;
+    destination: string;
+    startDate: Date;
+    endDate: Date;
+    budgetRange: string;
+    travelType: TravelType;
+    description: string;
+    visibility: boolean;
+    images: string[];
+    createdAt: Date;
+    updatedAt: Date;
+    authorId: string;
+  }
+  meta:{
+	      page: number;
+        limit: number;
+        total: number;
+        totalPage: number;
+
+  }
+}
+
+export enum TravelType {
+  SOLO,
+  GROUP,
+  FRIENDS
+}
+
 export interface UserInfo {
     id?: string | undefined;
     name: string;

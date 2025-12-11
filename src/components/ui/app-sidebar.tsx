@@ -5,7 +5,7 @@ import { getUserInfo } from "@/services/Auth/getUserInfo";
 import { UserInfo } from "@/Types";
 
 
-const DashboardNavbar = async () => {
+const DashboardNavbar = async ({...props}) => {
   const userInfo = (await getUserInfo()) as UserInfo;
   const navItems = getNavItemsByRole(userInfo.role);
   const dashboardHome = getDefaultDashboardRoute(userInfo.role);
@@ -15,6 +15,7 @@ const DashboardNavbar = async () => {
       userInfo={userInfo}
       navItems={navItems}
       dashboardHome={dashboardHome}
+      {...props}
     />
   );
 };
