@@ -13,7 +13,7 @@ import { getIcon } from "@/lib/icon-map";
 interface DashboardNavbarContentProps {
   userInfo: UserInfo;
   navItems?: NavSection[];
-  dashboardHome?: string;
+  dashboard?: string;
 }
 
 const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.ComponentProps<typeof Sidebar>> = ({
@@ -32,10 +32,10 @@ const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.Compo
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
               <Link href="/">
-                <IconHome2 className="!size-5" />
+                <IconHome2 className="size-5!" />
               <span className="text-base font-semibold">Typers</span>
               </Link>
             </SidebarMenuButton>

@@ -1,9 +1,13 @@
+import DashboardHome from '@/components/modules/Dashboard/DashboardHome';
+import { getUserInfo } from '@/services/Auth/getUserInfo';
 import React from 'react';
 
-const DashboardPage = () => {
+const DashboardPage = async() => {
+
+    const user = await getUserInfo()
   return (
     <div>
-      this is dashboard page
+    <DashboardHome user={user}/>
     </div>
   );
 };

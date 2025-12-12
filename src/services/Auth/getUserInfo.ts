@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
-
-
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { getCookie } from "./tokenHandler";
 import { UserInfo } from "@/Types";
 import { serverFetch } from "@/lib/server-fetch";
@@ -14,12 +11,13 @@ export const getUserInfo = async (): Promise<UserInfo | any> => {
     let userInfo: UserInfo | any;
     try {
 
-        const response = await serverFetch.get("/auth/getMe", {
+        const response = await serverFetch.get("/user/me", {
             cache: "force-cache",
             next: { tags: ["user-info"] }
         })
 
         const result = await response.json();
+        console.log("User Info Response:", result);
 
         if (result.success) {
             const accessToken = await getCookie("accessToken");
@@ -28,19 +26,14 @@ export const getUserInfo = async (): Promise<UserInfo | any> => {
                 throw new Error("No access token found");
             }
 
-            const verifiedToken = jwt.verify(accessToken, process.env.JWT_SECRET as string) as JwtPayload;
 
             userInfo = {
-                id: verifiedToken.id || "User Id",
-                email: verifiedToken.email,
-                role: verifiedToken.role,
+                id: result.data.id || "User Id",
+                name: result.data.name || "Unknown User",
+                email: result.data.email,
+                role: result.data.role,
             }
         }
-
-        userInfo = {
-            name: result.data.admin?.name || result.data.doctor?.name || result.data.patient?.name || result.data.name || "Unknown User",
-            ...result.data
-        };
 
 
 
@@ -49,7 +42,7 @@ export const getUserInfo = async (): Promise<UserInfo | any> => {
         console.log(error);
         return {
             id: "",
-            name: "Unknown User",
+            name: "",
             email: "",
             role: "PATIENT",
         };

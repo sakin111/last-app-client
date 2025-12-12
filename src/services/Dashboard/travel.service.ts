@@ -4,6 +4,7 @@
 import { redirect } from "next/navigation";
 import z from "zod";
 import { getCookie } from "@/services/Auth/tokenHandler";
+import { serverFetch } from "@/lib/server-fetch";
 
 const TravelValidationSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -120,3 +121,46 @@ export const getAllTravels = async (): Promise<any> => {
     throw error
   }
 }
+export const myTravel = async (): Promise<any> => {
+  try {
+  
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/getTravel`, {
+      cache: 'no-store'
+    })
+    const result = await res.json()
+    return result;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+
+export const UpdateMyTravel = async ({travelId}: {travelId:string}): Promise<any> => {
+  try {
+  
+    const res = await serverFetch.patch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/${travelId}`, {
+ 
+    })
+    const result = await res.json()
+    return result;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+export const DeleteMyTravelById = async ({travelId}: {travelId:string}): Promise<any> => {
+  try {
+  
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/${travelId}`, {
+      cache: 'no-store'
+    })
+    const result = await res.json()
+    return result;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+
