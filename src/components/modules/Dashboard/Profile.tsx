@@ -153,7 +153,7 @@ export default function Profile() {
                 src={user?.profileImage || ""}
               />
             </div>
-            <div className="text-sm font-medium">{user?.fullName.toUpperCase()}</div>
+            <div className="text-sm font-medium">{user?.fullName?.toUpperCase() || ""}</div>
           <div className="text-sm text-gray-600">{user?.email}</div>
             <label className="cursor-pointer">
               <input

@@ -1,0 +1,101 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getPlans } from "@/services/subscribe/sub.service";
+import SubsButton, { Plan } from "./SubButton";
+
+export default function Subscription() {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const data = await getPlans();
+        setPlans(data ?? []);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load subscription plans. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  return (
+    <section className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-12">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+            Simple, transparent pricing
+          </h1>
+          <p className="mt-3 text-gray-600 max-w-xl mx-auto">
+            Choose the plan that fits your needs. Cancel anytime.
+          </p>
+        </div>
+
+
+        {loading && (
+          <div className="flex justify-center py-20">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-gray-900" />
+          </div>
+        )}
+
+        {error && (
+          <div className="text-center text-red-500 font-medium">{error}</div>
+        )}
+
+        {!loading && !error && plans.length === 0 && (
+          <div className="text-center text-gray-500">No subscription plans available.</div>
+        )}
+
+
+        {!loading && plans.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {plans.map((plan, index) => (
+              <div className="animate-fade-in" key={index}>
+                <Card className="relative h-full rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition">
+
+                  {index === 0 && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-black px-4 py-1 text-xs font-semibold text-white">
+                      Most Popular
+                    </span>
+                  )}
+
+                  <CardHeader className="text-center space-y-2">
+                    <CardTitle className="text-xl font-semibold text-gray-900">
+                      {plan.name}
+                    </CardTitle>
+                    <p className="text-sm text-gray-500">
+                      {plan.description || "Access all premium features"}
+                    </p>
+                  </CardHeader>
+
+                  <CardContent className="flex flex-col items-center justify-between gap-6">
+                    <div className="text-center">
+                      <p className="text-4xl font-bold text-gray-900">
+                        ${plan.price}
+                      </p>
+                      <p className="mt-1 text-sm text-gray-600">
+                        {plan.duration} days access
+                      </p>
+                    </div>
+
+                    <SubsButton
+                      priceId={plan.stripeId}
+                      plan={plan}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

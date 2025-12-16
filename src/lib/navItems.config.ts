@@ -50,6 +50,12 @@ export const userNavItems: NavSection[] = [
                 icon: "IconBell", 
                 roles: ["USER"],
             },
+            {
+                title: "Subscription Plan",
+                href: "/dashboard/subscriptionPlan",
+                icon: "IconCoinFilled", 
+                roles: ["USER"],
+            },
         ],
     },
 
@@ -81,6 +87,12 @@ export const adminNavItems: NavSection[] = [
                 title: "All Requests",
                 href: "/admin/dashboard/allRequest",
                 icon: "IconBell", 
+                roles: ["ADMIN"],
+            },
+            {
+                title: "Create Subscription",
+                href: "/admin/dashboard/subscription",
+                icon: "IconCoinFilled", 
                 roles: ["ADMIN"],
             },
         ],

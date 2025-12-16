@@ -90,7 +90,6 @@ export const travelCreate = async (_currentState: any, formData: FormData): Prom
       throw new Error(result.message || "Travel creation failed");
     }
 
-    // Redirect to travel page on success
     redirect("/travel");
 
   } catch (error: any) {
@@ -124,7 +123,7 @@ export const getAllTravels = async (): Promise<any> => {
 export const myTravel = async (): Promise<any> => {
   try {
   
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/getTravel`, {
+    const res = await serverFetch.get(`/travel/myTravel`, {
       cache: 'no-store'
     })
     const result = await res.json()
@@ -136,23 +135,26 @@ export const myTravel = async (): Promise<any> => {
 }
 
 
-export const UpdateMyTravel = async ({travelId}: {travelId:string}): Promise<any> => {
+export const UpdateMyTravel = async (travelId: string, formData: any): Promise<any> => {
   try {
-  
-    const res = await serverFetch.patch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/${travelId}`, {
- 
-    })
-    const result = await res.json()
+ const res = await serverFetch.patch(`/travel/${travelId}`, {
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formData),
+  cache: "no-store" 
+});
+
+    const result = await res.json();
     return result;
   } catch (error) {
-    console.error(error)
-    throw error
+    console.error(error);
+    throw error;
   }
-}
-export const DeleteMyTravelById = async ({travelId}: {travelId:string}): Promise<any> => {
+};
+
+export const DeleteMyTravelById = async (travelId:string): Promise<any> => {
   try {
   
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/${travelId}`, {
+    const res = await serverFetch.delete(`/travel/${travelId}`, {
       cache: 'no-store'
     })
     const result = await res.json()

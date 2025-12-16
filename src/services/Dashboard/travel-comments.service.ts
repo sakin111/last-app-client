@@ -2,7 +2,7 @@
 "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
-import { getCookie } from "@/services/Auth/tokenHandler";
+
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -27,17 +27,11 @@ export const createRequest = async (travelPlanId: string) => {
 
 export const getAllRequests = async () => {
   try {
-    const accessToken = await getCookie("accessToken");
 
-    if (!accessToken) {
-      throw new Error("No Token provided");
-    }
+    const res = await serverFetch.get(`/request/getAll`, {
 
-    const res = await fetch(`${baseUrl}/request/getAll`, {
-      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
       },
     });
 
@@ -51,18 +45,11 @@ export const getAllRequests = async () => {
 
 export const getRequestsForMyPlans = async () => {
   try {
-    const accessToken = await getCookie("accessToken");
-
-    if (!accessToken) {
-      throw new Error("No Token provided");
-    }
-
-    const res = await fetch(`${baseUrl}/request/my/plans`, {
-      method: "GET",
+    const res = await serverFetch.get("/request/my/plans", {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
       },
+      cache: "no-store"
     });
 
     const result = await res.json();
@@ -78,17 +65,10 @@ export const updateRequestStatus = async (
   status: string
 ) => {
   try {
-    const accessToken = await getCookie("accessToken");
 
-    if (!accessToken) {
-      throw new Error("No Token provided");
-    }
-
-    const res = await fetch(`${baseUrl}/request/${requestId}/status`, {
-      method: "PATCH",
+    const res = await serverFetch.patch(`/request/${requestId}/status`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ status }),
     });

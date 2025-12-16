@@ -1,10 +1,12 @@
+import GetRequest from "@/components/modules/Dashboard/GetRequest";
+
 export const metadata = { title: "My Requests" };
 
 const RequestsPage = () => {
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">My Requests</h1>
-      <p className="mt-2 text-muted-foreground">Placeholder for user requests.</p>
+      <h1 className="text-2xl font-bold mb-5">My Requests</h1>
+      <GetRequest/>
     </div>
   );
 }

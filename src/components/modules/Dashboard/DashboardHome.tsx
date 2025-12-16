@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { IconCoin } from '@tabler/icons-react';
 
-import { User, Settings, Compass, LayoutDashboard } from "lucide-react";
+import { User, Compass, LayoutDashboard } from "lucide-react";
 
 export default function DashboardHome({ user }: { user: any }) {
   return (
@@ -22,7 +23,7 @@ export default function DashboardHome({ user }: { user: any }) {
 
         {/* Cards */}
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <Link href="/profile">
+          <Link href="/dashboard/myProfile">
             <Card className="bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700 hover:border-neutral-600 transition cursor-pointer">
               <CardContent className="p-6 flex flex-col gap-4">
                 <User className="w-10 h-10 text-gray-600 dark:text-gray-400" />
@@ -34,7 +35,7 @@ export default function DashboardHome({ user }: { user: any }) {
             </Card>
           </Link>
 
-          <Link href="/travel">
+          <Link href="/dashboard/myTravel">
             <Card className="bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700 hover:border-neutral-600 transition cursor-pointer">
               <CardContent className="p-6 flex flex-col gap-4">
                 <Compass className="w-10 h-10 text-gray-600 dark:text-gray-400" />
@@ -46,13 +47,13 @@ export default function DashboardHome({ user }: { user: any }) {
             </Card>
           </Link>
 
-          <Link href="/settings">
+          <Link href="/dashboard/subscriptionPlan">
             <Card className="bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700 hover:border-neutral-600 transition cursor-pointer">
               <CardContent className="p-6 flex flex-col gap-4">
-                <Settings className="w-10 h-10 text-gray-600 dark:text-gray-400" />
+                <IconCoin className="w-10 h-10 text-gray-600 dark:text-gray-400" />
                 <div>
-                  <h2 className="text-lg font-semibold">Settings</h2>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Account and application settings</p>
+                  <h2 className="text-lg font-semibold">Subscription</h2>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">Pick what you like and Go</p>
                 </div>
               </CardContent>
             </Card>
