@@ -51,10 +51,10 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
 
         const res = await fetch(`${baseUrl}/auth/login`, {
             method: "POST",
-            body: JSON.stringify(loginData),
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify(loginData)
         });
 
         const result = await res.json()
@@ -103,7 +103,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
 
 
         await setCookie("accessToken", accessTokenObject.accessToken, {
-            secure: true,
+            secure: false,
             httpOnly: true,
             maxAge: parseInt(accessTokenObject['Max-Age']) || 1000 * 60 * 60 * 24,
             path: accessTokenObject.Path || "/",
@@ -111,7 +111,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         });
 
         await setCookie("refreshToken", refreshTokenObject.refreshToken, {
-            secure: true,
+            secure: false,
             httpOnly: true,
             maxAge: parseInt(refreshTokenObject['Max-Age']) || 1000 * 60 * 60 * 24 * 90,
             path: refreshTokenObject.Path || "/",

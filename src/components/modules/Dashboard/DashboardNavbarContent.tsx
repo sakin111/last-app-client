@@ -56,9 +56,9 @@ const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.Compo
       <SidebarFooter>
         <NavUser
           user={{
-            name: userInfo.name || "Guest",
-            email: userInfo.email || "",
-            avatar: (userInfo as UserInfo).profileImage || "/favicon.ico",
+            name: userInfo.data.name || "Guest",
+            email: userInfo.data.email || "",
+            avatar: (userInfo as UserInfo).data.profileImage || "/favicon.ico",
           }}
         />
       </SidebarFooter>

@@ -1,29 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { serverFetch } from "@/lib/server-fetch";
-import { getCookie } from "@/services/Auth/tokenHandler";
 
-export const getUserProfile = async () => {
+
+
+import { serverFetch } from '@/lib/server-fetch';
+
+
+export async function getUserProfile() {
   try {
-    const token = await getCookie("accessToken");
-    if (!token) throw new Error("Unauthorized");
 
-    const res = await serverFetch.get(`/user/me`, {
-      cache: "no-store"
+  
+    const response = await serverFetch.get(`/user/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+       cache:"no-store"
     });
 
-    if (!res.ok) throw new Error("Failed");
+    if (!response.ok) {
+      throw new Error('Failed to fetch profile');
+    }
 
-    const result = await res.json();
-    return result.data;
-    
-  } catch (err) {
-    console.error("Error fetching profile:", err);
-    return null;
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    return null; 
   }
-};
-
+}
 export const updateProfile = async (form :any) => {
   try {
     const res = await serverFetch.patch(`/user/update-profile`, {
@@ -46,8 +51,6 @@ export const updateProfile = async (form :any) => {
 
 export const updateProfileImage = async (formData: FormData) => {
   try {
-
-
     const res = await serverFetch.patch(`/user/update-profileImage`, {
       body: formData,
     });

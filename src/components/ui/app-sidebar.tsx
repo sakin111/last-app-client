@@ -7,8 +7,8 @@ import { getUserProfile } from "@/services/Dashboard/profile.service";
 
 const DashboardNavbar = async ({...props}) => {
   const userInfo = (await getUserProfile()) as UserInfo;
-  const navItems = getNavItemsByRole(userInfo.role);
-  const dashboard = getDefaultDashboardRoute(userInfo.role);
+  const navItems = getNavItemsByRole(userInfo.data.role);
+  const dashboard = getDefaultDashboardRoute(userInfo.data.role);
 
   return (
     <DashboardNavbarContent

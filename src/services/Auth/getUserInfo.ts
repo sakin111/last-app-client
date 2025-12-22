@@ -12,12 +12,11 @@ export const getUserInfo = async (): Promise<UserInfo | any> => {
     try {
 
         const response = await serverFetch.get("/user/me", {
-            cache: "force-cache",
-            next: { tags: ["user-info"] }
+        cache: 'no-store',
         })
 
         const result = await response.json();
-        console.log("User Info Response:", result);
+
 
         if (result.success) {
             const accessToken = await getCookie("accessToken");

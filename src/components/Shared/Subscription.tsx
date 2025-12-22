@@ -11,20 +11,24 @@ export default function Subscription() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        const data = await getPlans();
-        setPlans(data ?? []);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load subscription plans. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+   const fetchPlans = async () => {
+  try {
+    setLoading(true)
+    const res = await getPlans();
+    if (res.success) {
+      const plans = res.data; 
+      setPlans(plans);
+      setLoading(false)
+    }
+  } catch (error) {
+    console.error(error);
+    setError("failed to load the subscription plan")
+  }
+};
 
     fetchPlans();
   }, []);
+
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-12">
@@ -86,7 +90,6 @@ export default function Subscription() {
                     </div>
 
                     <SubsButton
-                      priceId={plan.stripeId}
                       plan={plan}
                     />
                   </CardContent>

@@ -9,15 +9,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { changePassword, getUserProfile, updateProfile, updateProfileImage } from "@/services/Dashboard/profile.service";
+import profile from "../../../../public/profile.png"
+import { changePassword, getUserProfile, updateProfile, updateProfileImage, } from "@/services/Dashboard/profile.service";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoaderIcon } from "lucide-react";
+
+
 
 
 const profileSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  fullName: z.string().min(2, "Full Name must be at least 2 characters"),
-  email: z.email("Invalid email address"),
+  name: z.string().min(2, "Name must be at least 2 characters").optional(),
+  fullName: z.string().min(2, "Full Name must be at least 2 characters").optional(),
+  email: z.email("Invalid email address").optional(),
   currentLocation: z.string().optional(),
   bio: z.string().optional(),
 });
@@ -46,25 +50,34 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    (async () => {
-      const data = await getUserProfile();
-      setUser(data);
+    const fetchUser = async () => {
+      setIsLoading(true);
+      const result = await getUserProfile();
 
-      profileForm.reset({
-        name: data?.name,
-        fullName: data?.fullName,
-        email: data?.email,
-        currentLocation: data?.location,
-        bio: data?.bio,
-      });
-    })();
+
+      if (result && result.success && result.data) {
+        const userData = result.data;
+        setUser(userData);
+
+        profileForm.reset({
+          name: userData.name || "",
+          fullName: userData.fullName || "",
+          email: userData.email || "",
+          currentLocation: userData.location || "",
+          bio: userData.bio || "",
+        });
+      }
+      setIsLoading(false);
+    };
+
+    fetchUser();
   }, [profileForm]);
 
   const saveProfile = async (values: any) => {
     setIsLoading(true);
     const res = await updateProfile(values);
     setIsLoading(false);
-    
+
     if (res.success) {
       toast.success("Profile updated successfully");
       setUser(res.data);
@@ -89,7 +102,7 @@ export default function Profile() {
 
     setIsLoading(true);
     const fd = new FormData();
-    fd.append("images", file);
+    fd.append("profileImage", file);
 
     const res = await updateProfileImage(fd);
     setIsLoading(false);
@@ -127,6 +140,13 @@ export default function Profile() {
       </div>
     );
   }
+  if (isLoading) {
+    return (
+      <div >
+        <LoaderIcon className="animate-spin repeat-infinite"></LoaderIcon>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8">
@@ -145,16 +165,16 @@ export default function Profile() {
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-2">
             <div className="relative">
-              <Image
-                alt="Profile Image"
-                width={120}
-                height={120}
-                className="rounded-full object-cover border-4 border-blue-100"
-                src={user?.profileImage || ""}
-              />
+                <Image
+                  src={user.profileImage || profile}
+                  alt="Profile Image"
+                  width={120}
+                  height={120}
+                  className="rounded-full object-cover border-4 border-blue-100"
+                />
             </div>
             <div className="text-sm font-medium">{user?.fullName?.toUpperCase() || ""}</div>
-          <div className="text-sm text-gray-600">{user?.email}</div>
+            <div className="text-sm text-gray-600">{user?.email}</div>
             <label className="cursor-pointer">
               <input
                 type="file"
@@ -175,10 +195,10 @@ export default function Profile() {
                 {isLoading ? "Uploading..." : "Change Picture"}
               </Button>
             </label>
-          <CardContent className="space-y-3 text-center">
-          
-          <div className="text-sm text-gray-500">{user?.bio || "No bio provided"}</div>
-        </CardContent>
+            <CardContent className="space-y-3 text-center">
+
+              <div className="text-sm text-gray-500">{user?.bio || "No bio provided"}</div>
+            </CardContent>
           </CardContent>
         </Card>
 

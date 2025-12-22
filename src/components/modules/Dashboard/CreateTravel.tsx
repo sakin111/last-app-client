@@ -1,58 +1,62 @@
 "use client";
-
 import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import {
   Field,
   FieldGroup,
   FieldLabel,
   FieldDescription,
 } from "@/components/ui/field";
-
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import InputFieldError from "@/components/Shared/InputFieldError";
 import { Textarea } from "@/components/ui/textarea";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { travelCreate } from "@/services/Dashboard/travel.service";
 import { showToast } from "@/components/Shared/UniversalToaster";
 
-export default function TravelCreateForm({redirect}:{redirect?: string | undefined}) {
-
-const [state, formAction, isPending] = useActionState(travelCreate, null);
-const [startDate, setStartDate] = useState<Date | undefined>();
+export default function TravelCreateForm({
+  redirect,
+}: {
+  redirect?: string | undefined;
+}) {
+  const [state, formAction, isPending] = useActionState(travelCreate, null);
+  const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
-  const [files, setFiles] = useState<File[]>([]);
+  const [_files, setFiles] = useState<File[]>([]);
 
-    useEffect(() => {
-      if(state && state.success) {
-        showToast("Travel created successfully","success")
-      }
-  if (state && !state.success && state.message) {
-        showToast("unable to create travel","error")
-      }
-    }, [state]);
+  useEffect(() => {
+    if (state && state.success) {
+      showToast("Travel created successfully", "success");
+    }
+    if (state && !state.success && state.message) {
+      showToast("unable to create travel", "error");
+    }
+  }, [state]);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
-    <form action={formAction} className="max-w-xl mx-auto p-6 border rounded-lg shadow-sm">
+    <form
+      action={formAction}
+      className="max-w-xl mx-auto p-6 border rounded-lg shadow-sm"
+    >
       <h2 className="text-2xl font-semibold mb-6">Create Travel Plan</h2>
-
-      {redirect && <input type="hidden" name="redirect" value={redirect}/>}
+      {redirect && <input type="hidden" name="redirect" value={redirect} />}
 
       <FieldGroup className="space-y-5">
-
         {/* TITLE */}
         <Field>
           <FieldLabel htmlFor="title">Title</FieldLabel>
-          <Input
-            id="title"
-            name="title"
-            placeholder="Trip to Cox's Bazar"
-          />
+          <Input id="title" name="title" placeholder="Trip to Cox's Bazar" />
           <InputFieldError field="title" state={state} />
         </Field>
 
@@ -90,11 +94,15 @@ const [startDate, setStartDate] = useState<Date | undefined>();
                 onSelect={(date) => {
                   setStartDate(date);
                 }}
+                disabled={(date) => date < today}
               />
             </PopoverContent>
           </Popover>
-
-          <input type="hidden" name="startDate" value={startDate?.toISOString() || ""} />
+          <input
+            type="hidden"
+            name="startDate"
+            value={startDate?.toISOString() || ""}
+          />
           <InputFieldError field="startDate" state={state} />
         </Field>
 
@@ -121,18 +129,22 @@ const [startDate, setStartDate] = useState<Date | undefined>();
                 onSelect={(date) => {
                   setEndDate(date);
                 }}
+                disabled={(date) => date < today}
               />
             </PopoverContent>
           </Popover>
-          {/* Hidden input for server */}
-          <input type="hidden" name="endDate" value={endDate?.toISOString() || ""} />
+          <input
+            type="hidden"
+            name="endDate"
+            value={endDate?.toISOString() || ""}
+          />
           <InputFieldError field="endDate" state={state} />
         </Field>
 
         {/* BUDGET RANGE */}
         <Field>
           <FieldLabel>Budget Range</FieldLabel>
-              <Input
+          <Input
             id="budgetRange"
             name="budgetRange"
             placeholder="Enter budget range"
@@ -145,18 +157,21 @@ const [startDate, setStartDate] = useState<Date | undefined>();
           <FieldLabel>Travel Type</FieldLabel>
           <div className="flex gap-4">
             <label className="flex items-center gap-2">
-              <input type="radio" name="travelType" value="SOLO" defaultChecked />
+              <input
+                type="radio"
+                name="travelType"
+                value="SOLO"
+                defaultChecked
+              />
               Solo
             </label>
-
             <label className="flex items-center gap-2">
               <input type="radio" name="travelType" value="GROUP" />
               Group
             </label>
-
             <label className="flex items-center gap-2">
               <input type="radio" name="travelType" value="FRIENDS" />
-             Friends
+              Friends
             </label>
           </div>
           <InputFieldError field="travelType" state={state} />
@@ -200,7 +215,9 @@ const [startDate, setStartDate] = useState<Date | undefined>();
         </Field>
 
         <Field>
-          <Button type="submit" disabled={isPending}>Create Travel Plan</Button>
+          <Button type="submit" disabled={isPending}>
+            Create Travel Plan
+          </Button>
         </Field>
       </FieldGroup>
     </form>

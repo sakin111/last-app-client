@@ -82,7 +82,8 @@ export enum TravelType {
 }
 
 export interface UserInfo {
-    id?: string | undefined;
+  data:{
+      id?: string | undefined;
     name: string;
     email: string;
     password: string;
@@ -96,4 +97,5 @@ export interface UserInfo {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     userStatus?: UserStatus;
+  }
 }

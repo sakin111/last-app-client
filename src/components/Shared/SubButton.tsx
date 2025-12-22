@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { serverFetch } from "@/lib/server-fetch";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { redirectToStripeCheckout } from "@/services/subscribe/stripe";
 
 
 export interface Plan {
@@ -14,32 +15,23 @@ export interface Plan {
   stripeId: string;
 }
 
-interface SubscribeFormProps {
-  priceId: string;
-  plan: Plan
+interface SubsButtonProps {
+  plan: Plan;
 }
 
-
-export default function SubsButton({ priceId, plan }: SubscribeFormProps) {
+export default function SubsButton({ plan }: SubsButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async () => {
     setLoading(true);
     try {
-      const res = await serverFetch.post("/payment/checkout-session", {
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ stripePriceId: priceId, plan: plan.name }),
+      await redirectToStripeCheckout({
+         stripePriceId: plan.stripeId,
+         planId: plan.id,
       });
-
-      const data = await res.json();
-      if (data?.data?.sessionUrl) {
-        window.location.href = data.data.sessionUrl;
-      } else {
-        alert("Failed to create checkout session");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong");
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      alert(error?.message || "Something went wrong during checkout");
     } finally {
       setLoading(false);
     }
@@ -47,6 +39,9 @@ export default function SubsButton({ priceId, plan }: SubscribeFormProps) {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md">
+      <h3 className="text-lg font-semibold mb-2">{plan.name}</h3>
+      {plan.description && <p className="text-sm mb-4">{plan.description}</p>}
+      <p className="text-md font-medium mb-4">${plan.price} / {plan.duration} days</p>
 
       <Button
         onClick={handleSubscribe}

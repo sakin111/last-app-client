@@ -1,7 +1,7 @@
 import AdminSubCreate from "@/components/modules/Admin/AdminSubCreate";
 
 
-const createSubPage = () => {
+const subscriptionPage = () => {
     return (
         <div>
             <AdminSubCreate/>
@@ -9,4 +9,4 @@ const createSubPage = () => {
     );
 };
 
-export default createSubPage;
+export default subscriptionPage;

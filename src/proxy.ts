@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -31,17 +32,31 @@ export async function proxy(request: NextRequest) {
     const accessToken = await getCookie("accessToken") || null;
 
     let userRole: UserRole | null = null;
-    if (accessToken) {
-        const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.JWT_SECRET as string);
 
-        if (typeof verifiedToken === "string") {
-            await deleteCookie("accessToken");
-            await deleteCookie("refreshToken");
-            return NextResponse.redirect(new URL('/login', request.url));
-        }
+if (accessToken) {
+    try {
+        const verifiedToken = jwt.verify(
+            accessToken,
+            process.env.JWT_SECRET as string
+        ) as JwtPayload;
 
         userRole = verifiedToken.role;
+    } catch (error: any) {
+        await deleteCookie("accessToken");
+
+        const tokenRefreshResult = await getNewAccessToken();
+
+        if (tokenRefreshResult?.tokenRefreshed) {
+            const url = request.nextUrl.clone();
+            url.searchParams.set("tokenRefreshed", "true");
+            return NextResponse.redirect(url);
+        }
+        console.log(error);
+        await deleteCookie("refreshToken");
+        return NextResponse.redirect(new URL("/login", request.url));
     }
+}
+
 
     const routerOwner = getRouteOwner(pathname);
 

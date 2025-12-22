@@ -77,11 +77,13 @@ export async function getNewAccessToken() {
         let accessTokenObject: null | any = null;
         let refreshTokenObject: null | any = null;
 
-        const response = await serverFetch.post("/auth/refresh-token", {
-            headers: {
-                Cookie: `refreshToken=${refreshToken}`,
-            },
-        });
+       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/refresh-token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", 
+    });
 
         const result = await response.json();
 
@@ -127,7 +129,7 @@ export async function getNewAccessToken() {
 
         await deleteCookie("accessToken");
         await setCookie("accessToken", accessTokenObject.accessToken, {
-            secure: true,
+            secure: false,
             httpOnly: true,
             maxAge: parseInt(accessTokenObject['Max-Age']) || 1000 * 60 * 60 * 24,
             path: accessTokenObject.Path || "/",
@@ -136,7 +138,7 @@ export async function getNewAccessToken() {
 
         await deleteCookie("refreshToken");
         await setCookie("refreshToken", refreshTokenObject.refreshToken, {
-            secure: true,
+            secure: false,
             httpOnly: true,
             maxAge: parseInt(refreshTokenObject['Max-Age']) || 1000 * 60 * 60 * 24 * 90,
             path: refreshTokenObject.Path || "/",
