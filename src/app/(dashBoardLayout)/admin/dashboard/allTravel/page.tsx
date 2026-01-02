@@ -1,10 +1,26 @@
-export const metadata = { title: "All Travel" };
+import TravelsClient from "@/components/modules/Travels/TravelsClients";
+import { getTravels } from "@/services/Dashboard/travel.service";
 
-export default function AdminAllTravelPage() {
+interface PageProps {
+  searchParams: Promise<{
+    page?: string;
+    limit?: string;
+    search?: string;
+    sortBy?: string;
+    sortOrder?: string;
+  }>;
+}
+
+export default async function TravelsPage({ searchParams }: PageProps) {
+
+  const params = await searchParams;
+  
+  const { data, meta } = await getTravels(params);
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">All Travel</h1>
-      <p className="mt-2 text-muted-foreground">Admin all travel placeholder.</p>
-    </div>
+    <TravelsClient
+      travels={data}
+      meta={meta}
+    />
   );
 }

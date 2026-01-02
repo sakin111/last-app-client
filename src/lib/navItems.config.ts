@@ -45,7 +45,7 @@ export const userNavItems: NavSection[] = [
                 roles: ["USER"],
             },
             {
-                title: "My Requests",
+                title: "Requests",
                 href: "/dashboard/requests",
                 icon: "IconBell", 
                 roles: ["USER"],

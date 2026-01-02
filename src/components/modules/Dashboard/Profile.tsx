@@ -1,19 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import profile from "../../../../public/profile.png"
 import { changePassword, getUserProfile, updateProfile, updateProfileImage, } from "@/services/Dashboard/profile.service";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoaderIcon } from "lucide-react";
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
+import { TravelInterestSelect } from "@/components/Shared/TravelInterestSelect";
 
 
 
@@ -24,6 +27,8 @@ const profileSchema = z.object({
   email: z.email("Invalid email address").optional(),
   currentLocation: z.string().optional(),
   bio: z.string().optional(),
+  travelInterests: z.string().array().optional(),
+  visitedCountries: z.string().array().optional()
 });
 
 const passwordSchema = z
@@ -40,6 +45,8 @@ const passwordSchema = z
 export default function Profile() {
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const options = useMemo(() => countryList().getData(), []);
+
 
   const profileForm = useForm({
     resolver: zodResolver(profileSchema),
@@ -53,6 +60,7 @@ export default function Profile() {
     const fetchUser = async () => {
       setIsLoading(true);
       const result = await getUserProfile();
+      console.log(result);
 
 
       if (result && result.success && result.data) {
@@ -65,6 +73,8 @@ export default function Profile() {
           email: userData.email || "",
           currentLocation: userData.location || "",
           bio: userData.bio || "",
+          travelInterests: userData.travelInterests || [],
+          visitedCountries: userData.visitedCountries || [],
         });
       }
       setIsLoading(false);
@@ -165,13 +175,13 @@ export default function Profile() {
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-2">
             <div className="relative">
-                <Image
-                  src={user.profileImage || profile}
-                  alt="Profile Image"
-                  width={120}
-                  height={120}
-                  className="rounded-full object-cover border-4 border-blue-100"
-                />
+              <Image
+                src={user.profileImage || profile}
+                alt="Profile Image"
+                width={120}
+                height={120}
+                className="rounded-full object-cover border-4 border-blue-100"
+              />
             </div>
             <div className="text-sm font-medium">{user?.fullName?.toUpperCase() || ""}</div>
             <div className="text-sm text-gray-600">{user?.email}</div>
@@ -293,6 +303,40 @@ export default function Profile() {
                       {...profileForm.register("bio")}
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      travel Interests
+                    </label>
+                    <Controller
+                      control={profileForm.control}
+                      name="travelInterests"
+                      render={({ field }) => (
+                        <TravelInterestSelect
+                          value={field.value || []}
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
+                  <Controller
+                    control={profileForm.control}
+                    name="visitedCountries"
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={options}
+                        isMulti
+                        placeholder="Select countries"
+                        value={options.filter(opt =>
+                          field.value?.includes(opt.value)
+                        )}
+                        onChange={(selected) =>
+                          field.onChange(selected.map(item => item.value))
+                        }
+                      />
+                    )}
+                  />
+
 
                   <Button
                     type="submit"

@@ -99,3 +99,39 @@ export interface UserInfo {
     userStatus?: UserStatus;
   }
 }
+
+
+export interface TravelQuery {
+  page?: string;
+  limit?: string;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: string;
+}
+
+export interface TravelMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface TravelResponse<T> {
+  data: T[];
+  meta: TravelMeta;
+}
+
+export interface PublicProfile {
+  id: string;
+  email: string;
+  name: string;
+  fullName: string;
+  role: string;
+  userStatus: "ACTIVE" | "INACTIVE";
+  travelInterests: string[];
+  visitedCountries: string[];
+  profileImage: string | null;
+  bio: string | null;
+  rating: number;     
+  ratingCount: number; 
+}

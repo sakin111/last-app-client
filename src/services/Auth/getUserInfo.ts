@@ -43,7 +43,7 @@ export const getUserInfo = async (): Promise<UserInfo | any> => {
             id: "",
             name: "",
             email: "",
-            role: "PATIENT",
+            role: "USER",
         };
     }
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-// import { getCookie } from "../Auth/tokenHandler";
+
 
 interface CheckoutParams {
  stripePriceId: string;
@@ -11,7 +11,7 @@ export const redirectToStripeCheckout = async (
   params: CheckoutParams
 ) => {
   try {
-    //  const accessToken = await getCookie("accessToken");
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/payment/checkout-session`,
       {

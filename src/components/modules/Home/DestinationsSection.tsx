@@ -7,18 +7,17 @@ import Image from 'next/image';
 interface Destination {
   name: string;
   image: string;
-  travelers: number;
 }
 
 const destinations: Destination[] = [
-  { name: 'Bali, Indonesia', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762333042/file-1762333038535-590325258.jpg', travelers: 2847 },
-  { name: 'Paris, France', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762332917/file-1762332910196-56934235.jpg', travelers: 3241 },
-  { name: 'Tokyo, Japan', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762329653/file-1762329645646-569200669.jpg', travelers: 2956 },
-  { name: 'New York, USA', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046114/Gemini_Generated_Image_yxdwwnyxdwwnyxdw_vtnggm.jpg', travelers: 4123 },
-  { name: 'Barcelona, Spain', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046213/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 2534 },
-  { name: 'Dubai, UAE', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046312/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 3689 },
-  { name: 'Sydney, Australia', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046410/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 2187 },
-  { name: 'London, UK', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046508/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg', travelers: 4567 },
+  { name: 'Bali, Indonesia', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762333042/file-1762333038535-590325258.jpg'},
+  { name: 'Paris, France', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762332917/file-1762332910196-56934235.jpg' },
+  { name: 'Tokyo, Japan', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1762329653/file-1762329645646-569200669.jpg'},
+  { name: 'New York, USA', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046114/Gemini_Generated_Image_yxdwwnyxdwwnyxdw_vtnggm.jpg'},
+  { name: 'Barcelona, Spain', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765046213/a_beautiful_place_in_Chile_where_mountain_exists_no_flowers_suitable_for_computer_device_screen_size_ybvfao.jpg'},
+  { name: 'Dubai, UAE', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765786099/travel-buddy/travels/hcpaf1lhypsjecvmsebc.jpg' },
+  { name: 'Sydney, Australia', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1765957511/travel-buddy/travels/db8stfkjxl3vhjzgcnet.jpg'},
+  { name: 'London, UK', image: 'https://res.cloudinary.com/dmbf41o2r/image/upload/v1766859647/travel-buddy/travels/kbtxt71oiazxeanlrquj.jpg'},
 ];
 
 const DestinationsSection = () => {
@@ -65,11 +64,6 @@ const DestinationsSection = () => {
                     <MapPin className="h-4 w-4" />
                     <h3 className="font-semibold text-lg">{destination.name}</h3>
                   </div>
-                  <p className={`text-sm text-blue-100 transition-all duration-300 ${
-                    hoveredIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                  }`}>
-                    {destination.travelers.toLocaleString()} travelers
-                  </p>
                 </div>
               </div>
             </div>

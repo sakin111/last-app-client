@@ -55,7 +55,7 @@ const HowItWorksSection = () => {
               )}
               
               <div className="relative">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-liner-to-br from-blue-600 to-indigo-600 text-white text-2xl font-bold mb-6 shadow-lg group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-blue-500/50 transition-all duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-liner-to-br from-blue-600 to-indigo-600 text-black text-2xl font-bold mb-6 shadow-lg group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-blue-500/50 transition-all duration-300">
                   {step.number}
                 </div>
               </div>

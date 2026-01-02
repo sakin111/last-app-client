@@ -23,7 +23,8 @@ const LoginForm = ({redirect} : {redirect?:string | undefined}) => {
 
   useEffect(() => {
 if (state && !state.success && state.message) {
-      toast.error(state.message);
+      toast.error("login failed");
+      console.log(state.error);
     }
   }, [state]);
   return (

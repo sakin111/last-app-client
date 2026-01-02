@@ -48,7 +48,6 @@ export default function GetRequest() {
   const fetchRequests = async () => {
     setLoading(true);
     const res = await getRequestsForMyPlans();
-    console.log(res,"this is from get req");
     if (res?.success) {
       setRequests(res.data || []);
     }

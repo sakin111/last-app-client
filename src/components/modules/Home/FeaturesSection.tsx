@@ -14,22 +14,22 @@ const features: Feature[] = [
     icon: Users,
     title: 'Verified Travelers',
     description: 'Connect with verified travelers who share your passion for exploration and adventure',
-    iconBgColor: 'bg-blue-100',
-    iconColor: 'text-blue-600',
+    iconBgColor: 'bg-gray-700',
+    iconColor: 'text-white',
   },
   {
     icon: Shield,
     title: 'Safe & Secure',
     description: 'Your safety is our priority. All profiles are verified and privacy is protected',
-    iconBgColor: 'bg-green-100',
-    iconColor: 'text-green-600',
+    iconBgColor: 'bg-gray-700',
+    iconColor: 'text-white',
   },
   {
     icon: Globe,
     title: 'Global Community',
     description: 'Join thousands of travelers from around the world exploring together',
-    iconBgColor: 'bg-orange-100',
-    iconColor: 'text-orange-600',
+    iconBgColor: 'bg-gray-700',
+    iconColor: 'text-white',
   },
 ];
 

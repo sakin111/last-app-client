@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import z from "zod";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { serverFetch } from "@/lib/server-fetch";
+import { TravelQuery, TravelResponse } from "@/Types";
 
 const TravelValidationSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -84,7 +85,7 @@ export const travelCreate = async (_currentState: any, formData: FormData): Prom
     }
 
     const result = await res.json();
-    console.log("API Response:", result);
+
 
     if (!result.success) {
       throw new Error(result.message || "Travel creation failed");
@@ -127,6 +128,9 @@ export const myTravel = async (): Promise<any> => {
       cache: 'no-store'
     })
     const result = await res.json()
+    if(!result.data){
+      return []
+    }
     return result;
   } catch (error) {
     console.error(error)
@@ -164,5 +168,42 @@ export const DeleteMyTravelById = async (travelId:string): Promise<any> => {
     throw error
   }
 }
+
+
+
+
+export async function getTravels(
+  query: TravelQuery
+): Promise<TravelResponse<any>> {
+
+  const accessToken = await getCookie("accessToken")
+
+  const params = new URLSearchParams({
+    page: query.page ?? "1",
+    limit: query.limit ?? "10",
+    search: query.search ?? "",
+    sortBy: query.sortBy ?? "createdAt",
+    sortOrder: query.sortOrder ?? "desc",
+  });
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/getAll?${params.toString()}`,
+    {
+      method: "GET",
+      headers:{
+      Cookie: accessToken ? `accessToken=${accessToken}` : "",
+      },
+      cache:"no-cache"
+    }
+    
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch travel plans");
+  }
+
+  return res.json();
+}
+
 
 

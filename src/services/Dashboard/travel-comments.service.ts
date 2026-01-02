@@ -2,6 +2,8 @@
 "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
+import { getCookie } from "../Auth/tokenHandler";
+import {  TravelResponse } from "@/Types";
 
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
@@ -24,25 +26,39 @@ export const createRequest = async (travelPlanId: string) => {
   }
 };
 
+interface GetRequestsParams {
+  page: number;
+  limit: number;
+}
 
-export const getAllRequests = async () => {
-  try {
+export async function getAllRequests(
+  params: GetRequestsParams
+): Promise<TravelResponse<any>> {
+  const query = new URLSearchParams({
+    page: String(params.page),
+    limit: String(params.limit),
+  });
+  const accessToken = await getCookie("accessToken")
 
-    const res = await serverFetch.get(`/request/getAll`, {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/request/getAll?${query.toString()}`,
 
+    {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        Cookie: accessToken ? `accessToken=${accessToken}` : "",
       },
-    });
+      cache: "no-store"
 
-    const result = await res.json();
-    return result;
-  } catch (error: any) {
-    console.error("Error fetching requests:", error);
-    return { success: false, message: "Failed to fetch requests" };
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch requests");
   }
-};
 
+  return res.json();
+}
 export const getRequestsForMyPlans = async () => {
   try {
     const res = await serverFetch.get("/request/my/plans", {
@@ -95,6 +111,28 @@ export const getAllReviews = async () => {
     });
 
     const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error fetching reviews:", error);
+    return { success: false, message: "Failed to fetch reviews" };
+  }
+};
+export const getIndividualR = async () => {
+  try {
+
+    const accessToken = getCookie("accessToken")
+    const res = await fetch(`${baseUrl}/review/individual`, {
+      method: "GET",
+      headers: {
+        Cookie: accessToken ? `accessToken=${accessToken}` : ""
+      },
+      credentials:"include"
+    });
+
+    const result = await res.json();
+    if(!result.data){
+      return []
+    }
     return result;
   } catch (error: any) {
     console.error("Error fetching reviews:", error);

@@ -205,6 +205,7 @@ export default function TravelCreateForm({
             type="file"
             name="images"
             multiple
+            accept="image/*"
             onChange={(e) => {
               const arr = Array.from(e.target.files || []);
               setFiles(arr);

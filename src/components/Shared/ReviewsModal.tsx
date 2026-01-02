@@ -16,6 +16,8 @@ import { IconOctagonPlus, IconStar } from "@tabler/icons-react";
 import { getReviews, addReview } from "@/services/Dashboard/travel-comments.service";
 import { timeAgo } from "@/lib/time-ago";
 import { toast } from "sonner";
+import { getCookie } from "@/services/Auth/tokenHandler";
+import { useRouter } from "next/navigation";
 
 interface Review {
   id: string;
@@ -35,14 +37,15 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [rating, setRating] = useState(5);
-  const [content, setContent] = useState(""); 
+  const [content, setContent] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
+  const router = useRouter()
 
   const fetchReviews = async () => {
     setLoading(true);
     try {
       const result = await getReviews(targetId);
-      console.log(result,"this is from review model");
+      console.log(result);
       if (result.success && Array.isArray(result.data)) {
         setReviews(result.data);
       }
@@ -58,7 +61,14 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
 
     setSubmitting(true);
     try {
-      const result = await addReview(targetId, rating, content); 
+      const token = await getCookie("accessToken");
+
+      if (!token) {
+        toast.error("Please login to post a review");
+        router.push("/login");
+        return;
+      }
+      const result = await addReview(targetId, rating, content);
       if (result.success) {
         toast.success("Review added successfully!");
         setContent("");
@@ -93,11 +103,10 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
       className="focus:outline-none transition-transform hover:scale-110"
     >
       <IconStar
-        className={`w-6 h-6 sm:w-7 sm:h-7 ${
-          value <= (hoveredRating || rating)
+        className={`w-6 h-6 sm:w-7 sm:h-7 ${value <= (hoveredRating || rating)
             ? "fill-yellow-400 text-yellow-400"
             : "text-gray-300"
-        }`}
+          }`}
       />
     </button>
   );
@@ -123,7 +132,7 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
           </DialogDescription>
         </DialogHeader>
 
-        {/* Average Rating */}
+   
         {reviews.length > 0 && (
           <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
             <div>
@@ -138,7 +147,7 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
           </div>
         )}
 
-        {/* Review Input */}
+  
         <div className="space-y-3 border-b pb-4">
           <label className="text-sm font-medium text-gray-700 mb-2 block">
             Your Rating
@@ -151,7 +160,7 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
 
           <Textarea
             placeholder="Share your experience..."
-            value={content} // <-- bind content
+            value={content} 
             onChange={(e) => setContent(e.target.value)}
             className="min-h-20 resize-none text-sm"
           />
@@ -166,7 +175,7 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
           </Button>
         </div>
 
-        {/* Reviews List */}
+   
         <div className="space-y-4 max-h-96 overflow-y-auto">
           {loading ? (
             <div className="text-center py-8 text-gray-500">Loading reviews...</div>
@@ -194,9 +203,8 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
                         {[...Array(5)].map((_, i) => (
                           <IconStar
                             key={i}
-                            className={`w-3 h-3 sm:w-4 sm:h-4 ${
-                              i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                            }`}
+                            className={`w-3 h-3 sm:w-4 sm:h-4 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                              }`}
                           />
                         ))}
                       </div>
