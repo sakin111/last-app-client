@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -25,15 +25,22 @@ import {
   getRequestsForMyPlans,
   updateRequestStatus,
 } from "@/services/Dashboard/travel-comments.service";
+import { timeAgo } from "@/lib/time-ago";
 
 interface RequestUser {
   name: string;
   email: string;
+  profileImage:string
 }
 
 interface TravelRequest {
   id: string;
   planTitle: string;
+  profileImage:string;
+  travelPlan:{
+    title:string
+  },
+
   message: string;
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   user: RequestUser;
@@ -74,7 +81,9 @@ export default function GetRequest() {
       setUpdatingId(null);
     }
   };
-
+  if (process.env.NODE_ENV === 'development') {
+    console.log(requests,"thisis form request");
+  }
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
       <Card className="shadow-md">
@@ -118,6 +127,7 @@ export default function GetRequest() {
                     <TableRow key={req.id}>
                       <TableCell className="flex items-center gap-3">
                         <Avatar>
+                          <AvatarImage src={req.user?.profileImage} alt={req.user?.name} />
                           <AvatarFallback>
                             {req.user?.name?.charAt(0)?.toUpperCase()}
                           </AvatarFallback>
@@ -131,7 +141,7 @@ export default function GetRequest() {
                       </TableCell>
 
                       <TableCell className="font-medium">
-                        {req.planTitle}
+                        {req.travelPlan.title.slice(0, 20)}{req.travelPlan.title.length > 20 ? "..." : ""}
                       </TableCell>
 
                       <TableCell className="hidden md:table-cell max-w-xs truncate">
@@ -153,7 +163,9 @@ export default function GetRequest() {
                       </TableCell>
 
                       <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
-                        {new Date(req.createdAt).toLocaleDateString()}
+                       {
+                        timeAgo(req.createdAt.toString())
+                       }
                       </TableCell>
 
                       <TableCell>

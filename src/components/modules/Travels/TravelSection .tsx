@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 
 import { MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,6 +12,9 @@ import ReviewsModal from '@/components/Shared/ReviewsModal';
 import RequestButton from '@/components/Shared/RequestButton';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { TravelSearchBar } from './TravelSearchBar';
 
 type TravelSectionProps = {
   id: string;
@@ -37,22 +41,94 @@ type TravelSectionProps = {
   location: string;
   content: string;
   image: string;
-  comments: number;
-  shares: number;
   date: string;
 };
 
-const TravelSection = async () => {
-  const result = await getAllTravels();
 
-  if (!result?.data || result.data.length === 0) {
-    return <div className="text-center p-8">No travels found</div>;
+
+const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
+  const [travels, setTravels] = useState<TravelSectionProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const queryKey = useMemo(() => searchParams.toString(), [searchParams]);
+
+  const fetchTravels = useCallback(async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    setLoading(true);
+    setIsRefreshing(true)
+
+    try {
+      const params: Record<string, string> = {};
+      searchParams.forEach((v, k) => (params[k] = v));
+
+      const res = await getAllTravels(params, controller.signal);
+
+      if (res?.success) {
+        setTravels(res.data ?? []);
+        setError(null);
+      } else {
+        setTravels([]);
+        setError(res?.message || "Failed to fetch travels");
+      }
+    } catch (e: any) {
+     if (e.name !== "AbortError") {
+      setTravels([]);
+      setError("Failed to fetch travels");
+      console.error(e);
+    }
+    } finally {
+      setLoading(false);
+      setIsRefreshing(false);
+    }
+  }, [queryKey, searchParams]);
+
+  useEffect(() => {
+    fetchTravels();
+    return () => abortControllerRef.current?.abort();
+  }, [fetchTravels]);
+
+
+
+
+
+  if (error) {
+    return <div className="text-center p-8 text-red-500">{error}</div>;
+  }
+
+  if (loading && travels.length === 0) {
+    return <div className="text-center p-8 text-gray-500">Loading travels...</div>;
+  }
+
+  if (!travels || travels.length === 0) {
+    return (
+      <div>
+        <TravelSearchBar />
+      </div>
+    );
   }
 
   return (
     <div className="w-full mx-auto bg-white min-h-screen sm:p-4">
+      {isRefreshing && (
+        <div className="text-xs text-muted-foreground flex items-center gap-2">
+          <div className="h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          Updating...
+        </div>
+      )}
+      <TravelSearchBar />
       <div className="max-w-2xl mx-auto">
-        {result.data.sort((a: { createdAt: string | number | Date; }, b: { createdAt: string | number | Date; }) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((travel: TravelSectionProps, idx: number) => (
+        {travels.map((travel: TravelSectionProps, idx: number) => (
           <Card
             className="border-0 shadow-none rounded-none border-b border-gray-200 bg-white hover: transition-colors cursor-pointer"
             key={travel.id || idx}
@@ -60,17 +136,17 @@ const TravelSection = async () => {
             <CardContent className="p-0">
               <div className="p-3 sm:p-4 flex items-start justify-between">
                 <div className="flex gap-2 sm:gap-3 flex-1 min-w-0">
-                 <Link href={`/profile/${travel.author.id}`}>
-                  <Avatar className="w-10 h-10 sm:w-12 sm:h-12 shrink-0">
-                    <AvatarImage
-                      src={travel.author?.profileImage}
-                      alt={travel.author?.name || "User profile picture"}
-                    />
-                    <AvatarFallback>
-                      {travel.author?.name?.charAt(0) || ''}
-                    </AvatarFallback>
-                  </Avatar>
-                 </Link>
+                  <Link href={`/profile/${travel.author.id}`}>
+                    <Avatar className="w-10 h-10 sm:w-12 sm:h-12 shrink-0">
+                      <AvatarImage
+                        src={travel.author?.profileImage}
+                        alt={travel.author?.name || "User profile picture"}
+                      />
+                      <AvatarFallback>
+                        {travel.author?.name?.charAt(0) || ''}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Link>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
                       <h3 className="font-bold text-gray-900  text-sm sm:text-base truncate">
@@ -85,7 +161,7 @@ const TravelSection = async () => {
                       <span className="text-gray-500 text-xs sm:text-sm">
                         {timeAgo(travel.createdAt.toString())}
                       </span>
-                      <div className="flex items-center gap-2 ml-2 sm:ml-16 flex-nowrap">
+                      <div className="flex items-center gap-2 ml-2 sm:ml-16 flex-nowrap sm:flex-wrap">
                         <Button
                           variant="outline"
                           className="text-xs sm:text-sm font-sans whitespace-nowrap shrink-0"
@@ -116,7 +192,7 @@ const TravelSection = async () => {
 
                     </div>
 
-                    {/* Content */}
+
                     <div className="mt-2">
                       <p className="text-black text-sm sm:text-[15px] leading-normal mb-2 sm:mb-3">
                         {travel.title}
@@ -125,18 +201,18 @@ const TravelSection = async () => {
                         {travel.description}
                       </p>
 
-                      {/* Location */}
+
                       <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">
                         <MapPin className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                         <span className="truncate">
                           {travel.destination}
                         </span>
                         <Button variant="outline" className='p-2 font-normal text-sm ml-4 '>
-                           {travel.travelType}
+                          {travel.travelType}
                         </Button>
                       </div>
 
-                      {/* Image */}
+
                       {(travel.image || travel.images?.[0]) && (
                         <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200">
                           <Image
@@ -151,9 +227,9 @@ const TravelSection = async () => {
 
                       <div className="flex items-center justify-start gap-7 mt-2 sm:mt-3 max-w-full sm:max-w-md">
 
-                        <ReviewsModal targetId={travel.author.id} />
+                        <ReviewsModal targetId={travel.author.id} checkSub={checkSub} />
 
-                        <RequestButton travelId={travel.id} />
+                        <RequestButton travelId={travel.id} checkSub={checkSub} />
 
                       </div>
                     </div>

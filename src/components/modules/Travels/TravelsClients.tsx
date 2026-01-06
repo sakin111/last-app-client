@@ -1,35 +1,114 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Paginator } from "@/components/Shared/Paginator";
-import { ClearFilters, DateRangeFilter, FilterSelect, SearchInput, SortSelect, TableFilterBar } from "@/components/Shared/TablerInput";
-import { TravelMeta } from "@/Types";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Paginator } from "@/components/Shared/Paginator";
+import {
+  ClearFilters,
+  DateRangeFilter,
+  FilterSelect,
+  SearchInput,
+  SortSelect,
+  TableFilterBar,
+} from "@/components/Shared/TablerInput";
+import { TravelMeta } from "@/Types";
+import { toast } from "sonner";
 
-interface TravelsClientProps {
-  travels: any[];
-  meta: TravelMeta;
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAllTravels } from "@/services/Dashboard/travel.service";
+
+interface Travel {
+  id: string;
+  title: string;
+  destination: string;
+  travelType: string;
+  budgetRange: string;
+  startDate: string;
+  endDate: string;
+  isExpired: boolean;
 }
 
-export default function TravelsClient({
-  travels,
-  meta,
-}: TravelsClientProps) {
+interface ApiResponse {
+  success: boolean;
+  message: string;
+  data?: Travel[];
+  meta?: TravelMeta;
+}
+
+export default function TravelsClient() {
+  const [travels, setTravels] = useState<Travel[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [meta, setMeta] = useState<TravelMeta | null>(null);
+
   const router = useRouter();
   const searchParams = useSearchParams();
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  const onPageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    router.push(`?${params.toString()}`);
-  };
+  const queryKey = useMemo(() => searchParams.toString(), [searchParams]);
+
+
+  const fetchTravels = useCallback(async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    setIsRefreshing(true);
+
+    try {
+      const params: Record<string, string> = {};
+      searchParams.forEach((v, k) => (params[k] = v));
+
+      const res: ApiResponse = await getAllTravels(params, controller.signal);
+
+      if (res?.success) {
+        setTravels(res.data ?? []);
+        setMeta(res.meta ?? null);
+      } else {
+        setTravels([]);
+        toast.error(res?.message || "Failed to fetch travels");
+      }
+    } catch (e: any) {
+      if (e.name !== "AbortError") {
+        toast.error("Unexpected error");
+        console.error(e);
+      }
+    } finally {
+      setLoading(false);
+      setIsRefreshing(false);
+    }
+  }, [queryKey, searchParams]);
+
+  useEffect(() => {
+    fetchTravels();
+    return () => abortControllerRef.current?.abort();
+  }, [fetchTravels]);
+
+  // -------------------------
+  // Pagination (same logic)
+  // -------------------------
+  const onPageChange = useCallback(
+    (page: number) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (page === 1) params.delete("page");
+      else params.set("page", String(page));
+
+      router.replace(params.toString() ? `?${params.toString()}` : "", {
+        scroll: false,
+      });
+    },
+    [router, searchParams]
+  );
 
   return (
     <section className="space-y-6">
-
-       <TableFilterBar>
+      {/* Filters */}
+      <TableFilterBar>
         <SearchInput placeholder="Search travels..." />
-        
+
         <SortSelect
           options={[
             { label: "Newest First", value: "-createdAt" },
@@ -41,7 +120,7 @@ export default function TravelsClient({
           ]}
           defaultSort="-createdAt"
         />
-        
+
         <FilterSelect
           name="travelType"
           label="Travel Type"
@@ -49,11 +128,10 @@ export default function TravelsClient({
             { label: "SOLO", value: "SOLO" },
             { label: "GROUP", value: "GROUP" },
             { label: "FRIENDS", value: "FRIENDS" },
-
           ]}
           placeholder="All Types"
         />
-        
+
         <FilterSelect
           name="isExpired"
           label="Status"
@@ -63,54 +141,58 @@ export default function TravelsClient({
           ]}
           placeholder="All Status"
         />
-        
-        <DateRangeFilter 
+
+        <DateRangeFilter
           startDateName="startDate"
           endDateName="endDate"
           label="Travel Dates"
         />
-        
+
         <ClearFilters preserveParams={["limit"]} />
       </TableFilterBar>
 
-      <div className="rounded-lg border">
+      {/* Table */}
+      <div className="rounded-lg border overflow-x-auto">
+          <Card>
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <CardTitle>User Management</CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">Manage all registered users</p>
+            </div>
+            {isRefreshing && (
+              <div className="text-xs text-muted-foreground flex items-center gap-2">
+                <div className="h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                Updating...
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        </Card>
         <table className="w-full">
           <thead>
             <tr className="border-b bg-muted/50">
-              <th className="p-4 text-left font-medium">Title</th>
-              <th className="p-4 text-left font-medium">Destination</th>
-              <th className="p-4 text-left font-medium">Travel Type</th>
-              <th className="p-4 text-left font-medium">Budget Range</th>
-              <th className="p-4 text-left font-medium">Start Date</th>
-              <th className="p-4 text-left font-medium">End Date</th>
-              <th className="p-4 text-left font-medium">Status</th>
+              <th className="p-4 text-left">Title</th>
+              <th className="p-4 text-left">Destination</th>
+              <th className="p-4 text-left">Travel Type</th>
+              <th className="p-4 text-left">Budget</th>
+              <th className="p-4 text-left">Start</th>
+              <th className="p-4 text-left">End</th>
+              <th className="p-4 text-left">Status</th>
             </tr>
           </thead>
+
           <tbody>
-            {travels.length === 0 ? (
+            {loading && travels.length === 0 ? (
               <tr>
-                <td colSpan={7} className="p-8 text-center">
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <svg
-                      className="h-12 w-12 text-muted-foreground"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    <p className="text-lg font-medium text-muted-foreground">
-                      No travels found
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      There are no travel plans to display at the moment.
-                    </p>
-                  </div>
+                <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                  Loading travels...
+                </td>
+              </tr>
+            ) : travels.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                  No travels found
                 </td>
               </tr>
             ) : (
@@ -118,17 +200,13 @@ export default function TravelsClient({
                 <tr key={travel.id} className="border-b hover:bg-muted/50">
                   <td className="p-4 font-medium">{travel.title}</td>
                   <td className="p-4">{travel.destination}</td>
-                  <td className="p-4 capitalize">{travel.travelType || "N/A"}</td>
-                  <td className="p-4">{travel.budgetRange || "N/A"}</td>
+                  <td className="p-4 capitalize">{travel.travelType}</td>
+                  <td className="p-4">{travel.budgetRange}</td>
                   <td className="p-4">
-                    {travel.startDate
-                      ? new Date(travel.startDate).toLocaleDateString()
-                      : "N/A"}
+                    {new Date(travel.startDate).toLocaleDateString()}
                   </td>
                   <td className="p-4">
-                    {travel.endDate
-                      ? new Date(travel.endDate).toLocaleDateString()
-                      : "N/A"}
+                    {new Date(travel.endDate).toLocaleDateString()}
                   </td>
                   <td className="p-4">
                     <span
@@ -148,13 +226,12 @@ export default function TravelsClient({
         </table>
       </div>
 
-      {travels.length > 0 && (
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+      
+      {travels.length > 0 && meta && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            Showing{" "}
-            <strong>{(meta.page - 1) * meta.limit + 1}</strong> –{" "}
-            <strong>{Math.min(meta.page * meta.limit, meta.total)}</strong> of{" "}
-            <strong>{meta.total}</strong>
+            Showing {(meta.page - 1) * meta.limit + 1} –{" "}
+            {Math.min(meta.page * meta.limit, meta.total)} of {meta.total}
           </p>
 
           <Paginator

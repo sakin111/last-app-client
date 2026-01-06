@@ -1,8 +1,10 @@
 import GetRequest from "@/components/modules/Dashboard/GetRequest";
 
+
 export const metadata = { title: "My Requests" };
 
-const RequestsPage = () => {
+const RequestsPage = async () => {
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-5">My Requests</h1>

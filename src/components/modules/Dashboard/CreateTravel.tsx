@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useActionState, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,18 +21,31 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { travelCreate } from "@/services/Dashboard/travel.service";
+import { travelCreate } from "@/services/Dashboard/travel.server";
 import { showToast } from "@/components/Shared/UniversalToaster";
+import { toast } from "sonner";
 
 export default function TravelCreateForm({
-  redirect,
+  redirect,checkSub
 }: {
   redirect?: string | undefined;
+  checkSub:any
 }) {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(travelCreate, null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
-  const [_files, setFiles] = useState<File[]>([]);
+
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    console.log(checkSub,"this is checksub");
+  }
+  useEffect(() => {
+    if (checkSub === false)  {
+      toast("Please subscribe to create a travel plan");
+      router.push("/dashboard/subscriptionPlan");
+    }
+  }, [checkSub, router]);
 
   useEffect(() => {
     if (state && state.success) {
@@ -206,9 +221,8 @@ export default function TravelCreateForm({
             name="images"
             multiple
             accept="image/*"
-            onChange={(e) => {
-              const arr = Array.from(e.target.files || []);
-              setFiles(arr);
+            onChange={() => {
+              // Files are handled in form submission
             }}
           />
           <FieldDescription>Upload images for your travel plan</FieldDescription>

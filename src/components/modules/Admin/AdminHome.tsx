@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,20 +18,20 @@ import ActivityLineChart from "@/components/Shared/ActivityLineCard";
 
 
 
-export default function DashboardHome({ user, review, travel, Subscribed }: any) {
+export default function AdminHome({ users,sub, travels }: any) {
+
+  
+  const totalUsers = typeof users?.data === "number" ? users.data : 0;
+  const totalSubscriptions = typeof sub?.data === "number" ? sub.data : 0;
+  const totalTravels = Array.isArray(travels?.data) ? travels.data : [];
 
 
 
-  const reviewsR = review?.data?.reviews || [];
-  const travels = Array.isArray(travel?.data) ? travel.data : [];
-  const subscribe = Subscribed ? Subscribed.data : [];
+    const activityData = [
 
-
-
-
-  const activityData = [
-    { label: "Reviews", value: reviewsR.length },
-    { label: "Travels", value: travels.length },
+    { label: "Travels", value: totalTravels.length },
+    { label: "Users", value: totalUsers },
+    { label: "Subscriptions", value: totalSubscriptions },
   ];
 
   return (
@@ -46,58 +45,23 @@ export default function DashboardHome({ user, review, travel, Subscribed }: any)
               Overview
             </h1>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-              Welcome back, {user?.name ?? "User"}
+             Admin DashBoard Control
             </p>
           </div>
 
-
+  
         </header>
 
-
+    
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard title="Review Count" value={reviewsR.length} trend="" />
-          <StatCard title="Travel Created" value={travels.length} trend="" />
-          <Card className="border border-zinc-200/60 dark:border-zinc-800">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                    Subscription Status
-                  </p>
 
-                  <p
-                    className={cn(
-                      "mt-2 text-2xl font-semibold tracking-tight font-sans",
-                      subscribe?.subscription?.paymentStatus
-                        ? "text-zinc-900 dark:text-zinc-100"
-                        : "text-zinc-500 dark:text-zinc-400"
-                    )}
-                  >
-                    {subscribe?.subscription?.paymentStatus
-                      ? "Subscribed"
-                      : "No Plan"}
-                  </p>
-                </div>
-
-                <Badge
-                  variant="outline"
-                  className={cn(
-                    "rounded-md px-3 py-1 text-xs font-medium",
-                    subscribe?.subscription?.paymentStatus
-                      ? "border-emerald-200 text-emerald-600 dark:border-emerald-900 dark:text-emerald-400"
-                      : "border-zinc-300 text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
-                  )}
-                >
-                  {subscribe?.subscription?.paymentStatus ? "ACTIVE" : "INACTIVE"}
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-
+          <StatCard title="Travel Created" value={totalTravels.length} trend="" />
+          <StatCard title="User Count" value={totalUsers} trend="" />
+         <StatCard title="Subscription Count" value={totalSubscriptions} trend="" />
 
         </section>
 
-
+ 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           <ActivityBarCard

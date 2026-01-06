@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RatingBars } from "./RatingBars";
+import { IconRosetteDiscountCheck } from '@tabler/icons-react';
 
 interface ProfileHeaderProps {
   profile: {
@@ -10,6 +11,9 @@ interface ProfileHeaderProps {
     role: string;
     userStatus: "ACTIVE" | "INACTIVE" | "DELETED";
     profileImage?: string;
+    subscription?: {
+      paymentStatus?: "COMPLETED" | "PENDING" | "NONE";
+    };
     ratingBreakdown: {
       5: number;
       4: number;
@@ -21,11 +25,13 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ profile }: ProfileHeaderProps) {
+
+  console.log(profile);
   return (
     <Card className="border border-gray-200 bg-white shadow-sm">
       <CardContent className="p-6">
         <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-          {/* Avatar */}
+   
           <div className="relative shrink-0">
             <Image
               src={profile.profileImage || "/profile.png"}
@@ -38,12 +44,17 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
             {profile.userStatus === "ACTIVE" && (
               <span className="absolute bottom-1 right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white" />
             )}
+              {profile?.subscription?.paymentStatus === 'COMPLETED' && (
+                        <Badge variant="default" className="text-xs">
+                         <IconRosetteDiscountCheck stroke={2} />
+                        </Badge>
+                      )}
           </div>
 
-          {/* Info */}
+  
           <div className="flex-1 w-full">
             <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
-              {/* Name */}
+             
               <div className="text-center sm:text-left">
                 <h1 className="text-lg font-semibold text-gray-900">
                   {profile.fullName}

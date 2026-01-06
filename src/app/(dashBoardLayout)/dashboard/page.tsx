@@ -1,17 +1,22 @@
 import DashboardHome from '@/components/modules/Dashboard/DashboardHome';
 import { getUserInfo } from '@/services/Auth/getUserInfo';
 import { getIndividualR } from '@/services/Dashboard/travel-comments.service';
-import { myTravel } from '@/services/Dashboard/travel.service';
+import { myTravel } from '@/services/Dashboard/travel.server';
+import { getMyPlan } from '@/services/subscribe/sub.service';
 
+// Mark this page as dynamic since it uses cookies for authentication
+export const dynamic = 'force-dynamic';
 
 const DashboardPage = async() => {
 
     const user = await getUserInfo()
-    const review = await getIndividualR()
+    const review = await getIndividualR(1, 10)
     const travel = await myTravel()
+    const Subscribed = await getMyPlan()
+
   return (
     <div>
-    <DashboardHome user={user} review={review} travel={travel}/>
+    <DashboardHome user={user} review={review} travel={travel} Subscribed={Subscribed}/>
     </div>
   );
 };

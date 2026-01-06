@@ -33,7 +33,7 @@ interface User {
   location: string | null;
 }
 
-interface ApiResponse {
+export interface ApiResponse {
   success: boolean;
   message: string;
   data?: User[];

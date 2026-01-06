@@ -13,12 +13,6 @@ const serverFetchHelper = async (
     await getNewAccessToken();
   }
 
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Making request to:', `${BACKEND_API_URL}${endpoint}`);
-    console.log('With credentials:', 'include');
-  }
-
   const response = await fetch(`${BACKEND_API_URL}${endpoint}`, {
     ...restOptions,
     headers: {
@@ -28,12 +22,6 @@ const serverFetchHelper = async (
 
     credentials: "include",
   });
-
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Response status:', response.status);
-    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-  }
 
   return response;
 };

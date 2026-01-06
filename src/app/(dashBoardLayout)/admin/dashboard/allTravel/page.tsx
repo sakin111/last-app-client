@@ -1,5 +1,5 @@
 import TravelsClient from "@/components/modules/Travels/TravelsClients";
-import { getTravels } from "@/services/Dashboard/travel.service";
+import { getTravels } from "@/services/Dashboard/travel.server";
 
 interface PageProps {
   searchParams: Promise<{
@@ -11,16 +11,15 @@ interface PageProps {
   }>;
 }
 
-export default async function TravelsPage({ searchParams }: PageProps) {
+export default async function TravelsPage() {
 
-  const params = await searchParams;
+
   
-  const { data, meta } = await getTravels(params);
+
 
   return (
     <TravelsClient
-      travels={data}
-      meta={meta}
+   
     />
   );
 }

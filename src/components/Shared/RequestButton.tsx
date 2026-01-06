@@ -6,11 +6,9 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { createRequest as createRequestService } from "@/services/Dashboard/travel-comments.service";
 
-interface RequestButtonProps {
-  travelId: string;
-}
 
-const RequestButton = ({ travelId }: RequestButtonProps) => {
+
+const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub: boolean }) => {
   const router = useRouter();
 
   const handleRequest = async () => {
@@ -18,10 +16,15 @@ const RequestButton = ({ travelId }: RequestButtonProps) => {
 
     if (!token) {
       toast.error("Please login to send a request");
-      router.push("/login"); 
+      router.push("/login");
       return;
     }
 
+    if (checkSub === false) {
+      toast("Please subscribe to request a travel plan");
+      router.push("/dashboard/subscriptionPlan");
+      return;
+    }
     const result = await createRequestService(travelId);
 
     if (result.success) {

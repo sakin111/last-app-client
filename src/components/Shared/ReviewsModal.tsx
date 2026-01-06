@@ -18,6 +18,7 @@ import { timeAgo } from "@/lib/time-ago";
 import { toast } from "sonner";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { useRouter } from "next/navigation";
+import { check } from "zod";
 
 interface Review {
   id: string;
@@ -31,7 +32,7 @@ interface Review {
   };
 }
 
-export default function ReviewsModal({ targetId }: { targetId: string }) {
+export default function ReviewsModal({ targetId, checkSub }: { targetId: string, checkSub: boolean }) {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,6 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
     setLoading(true);
     try {
       const result = await getReviews(targetId);
-      console.log(result);
       if (result.success && Array.isArray(result.data)) {
         setReviews(result.data);
       }
@@ -66,6 +66,11 @@ export default function ReviewsModal({ targetId }: { targetId: string }) {
       if (!token) {
         toast.error("Please login to post a review");
         router.push("/login");
+        return;
+      }
+      if(checkSub === false){
+        toast("Please subscribe to post a review");
+        router.push("/dashboard/subscriptionPlan");
         return;
       }
       const result = await addReview(targetId, rating, content);

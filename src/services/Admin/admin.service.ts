@@ -53,11 +53,15 @@ export const adminGetAllUser = async (
     }
     
     const data = await res.json();
-    console.log('Users data:', data);
+    if (process.env.NODE_ENV === "development") {
+      console.log('Users data:', data);
+    }
     
     return data;
   } catch (error: any) {
-    console.error("Error fetching users:", error);
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error fetching users:", error);
+    }
      if (error.name === "AbortError") {
       throw error;
      }
@@ -129,6 +133,32 @@ export const deleteUser = async (userId: string): Promise<ApiResponse> => {
     return {
       success: false,
       message: "Failed to delete user"
+    };
+  }
+};
+
+
+export const getAllUserCount = async () => {
+  try {
+    const accessToken = await getCookie("accessToken")
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/user/allUserCount`, {
+      method:"GET",
+      headers: {
+        Cookie: accessToken ? `accessToken=${accessToken}` : ""
+      },
+      credentials:"include"
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error counting user:", error);
+    return {
+      success: false,
+      message: "Failed to count user"
     };
   }
 };

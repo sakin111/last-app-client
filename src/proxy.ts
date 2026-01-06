@@ -51,7 +51,9 @@ if (accessToken) {
             url.searchParams.set("tokenRefreshed", "true");
             return NextResponse.redirect(url);
         }
-        console.log(error);
+        if (process.env.NODE_ENV === "development") {
+            console.error("Token verification error:", error);
+        }
         await deleteCookie("refreshToken");
         return NextResponse.redirect(new URL("/login", request.url));
     }

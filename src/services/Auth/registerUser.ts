@@ -67,7 +67,9 @@ export const registerUser = async (_currentState: any, formData: any) : Promise<
     if(error?.digest?.startsWith("NEXT_REDIRECT")){
         throw error
     }
-    console.log(error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Registration error:", error);
+    }
     return {error: "Registration failed"}
   }
 }

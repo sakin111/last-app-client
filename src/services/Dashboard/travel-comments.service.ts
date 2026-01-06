@@ -3,7 +3,7 @@
 
 import { serverFetch } from "@/lib/server-fetch";
 import { getCookie } from "../Auth/tokenHandler";
-import {  TravelResponse } from "@/Types";
+import { TravelResponse } from "@/Types";
 
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
@@ -103,42 +103,62 @@ export const updateRequestStatus = async (
 
 export const getAllReviews = async () => {
   try {
+    const accessToken = await getCookie("accessToken")
     const res = await fetch(`${baseUrl}/review/getAll`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        cookie: accessToken ? `accessToken=${accessToken}` : "",
       },
+      credentials: "include"
     });
 
     const result = await res.json();
-    return result;
-  } catch (error: any) {
-    console.error("Error fetching reviews:", error);
-    return { success: false, message: "Failed to fetch reviews" };
-  }
-};
-export const getIndividualR = async () => {
-  try {
-
-    const accessToken = getCookie("accessToken")
-    const res = await fetch(`${baseUrl}/review/individual`, {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken}` : ""
-      },
-      credentials:"include"
-    });
-
-    const result = await res.json();
-    if(!result.data){
-      return []
+    if (process.env.NODE_ENV === "development") {
+      console.log(result, "this is review");
     }
     return result;
   } catch (error: any) {
-    console.error("Error fetching reviews:", error);
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error fetching reviews:", error);
+    }
     return { success: false, message: "Failed to fetch reviews" };
   }
 };
+export const getIndividualR = async (page: number = 1, limit: number = 10) => {
+  try {
+    const accessToken = await getCookie("accessToken")
+    const query = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+    });
+    const res = await fetch(`${baseUrl}/review/individual?${query.toString()}`, {
+      method: "GET",
+      headers: {
+        cookie: accessToken ? `accessToken=${accessToken}` : "",
+      },
+      credentials: "include",
+    });
+
+    const result = await res.json();
+
+    if (!result?.data) {
+      if (!result.success) {
+        throw new Error(result.message || "Unauthorized");
+
+      }
+      return { success: false, message: "Unauthorized", data: [] };
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return {
+      success: false,
+      message: "Failed to fetch reviews",
+    };
+  }
+};
+
 
 export const getReviewById = async (reviewId: string) => {
   try {

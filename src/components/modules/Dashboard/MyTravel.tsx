@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { DeleteMyTravelById, myTravel, UpdateMyTravel, } from "@/services/Dashboard/travel.service";
+import { DeleteMyTravelById, myTravel, UpdateMyTravel, } from "@/services/Dashboard/travel.server";
 import {
   Table,
   TableBody,

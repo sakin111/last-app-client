@@ -38,7 +38,9 @@ export const getUserInfo = async (): Promise<UserInfo | any> => {
 
         return userInfo;
     } catch (error: any) {
-        console.log(error);
+        if (process.env.NODE_ENV === "development") {
+            console.error("Error getting user info:", error);
+        }
         return {
             id: "",
             name: "",

@@ -38,7 +38,9 @@ export async function updateMyProfile(formData: FormData) {
         revalidateTag("user-info", { expire: 0 });
         return result;
     } catch (error: any) {
-        console.log(error);
+        if (process.env.NODE_ENV === 'development') {
+            console.error("Update profile error:", error);
+        }
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
