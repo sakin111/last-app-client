@@ -32,7 +32,7 @@ const Navbar = async () => {
           {navItems
             .filter((link) => {
               if (link.href === "/dashboard") {
-                return !!accessToken; // Only show dashboard when logged in
+                return !!accessToken;
               }
               return true;
             })
@@ -90,9 +90,13 @@ const Navbar = async () => {
 
                 <div className="border-t pt-4 flex flex-col space-y-4">
                   <div className="flex justify-center"></div>
-                  <Link href="/login" className="text-lg font-medium">
-                    <Button>Login</Button>
-                  </Link>
+                  {accessToken ? (
+                    <LogoutButton />
+                  ) : (
+                    <Link href="/login">
+                      <Button>Login</Button>
+                    </Link>
+                  )}
                 </div>
               </nav>
             </SheetContent>
