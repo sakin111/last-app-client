@@ -40,10 +40,14 @@ export const createPlan = async (payload: PlanPayload) => {
 };
 
 export const getPlans = async () => {
+  const accessToken = await getCookie("accessToken")
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/getSub`,
     {
       method: "GET",
+      headers:{
+        cookie: accessToken ? `accessToken=${accessToken}` : "",
+      },
       credentials: "include",
     }
   );
