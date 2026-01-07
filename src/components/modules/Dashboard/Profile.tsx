@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
-import profile from "../../../../public/profile.png"
+
 import { changePassword, getUserProfile, updateProfile, updateProfileImage, } from "@/services/Dashboard/profile.service";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -176,7 +176,7 @@ export default function Profile() {
           <CardContent className="flex flex-col items-center gap-2">
             <div className="relative">
               <Image
-                src={user.profileImage || profile}
+                src={user.profileImage || "/public/profile.png"}
                 alt="Profile Image"
                 width={120}
                 height={120}
