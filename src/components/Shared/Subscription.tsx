@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getPlans } from "@/services/subscribe/sub.service";
+
 import SubsButton, { Plan } from "./SubButton";
+import { getPlans } from "@/services/subscribe/getSub";
 
 export default function Subscription() {
   const [plans, setPlans] = useState<Plan[]>([]);
