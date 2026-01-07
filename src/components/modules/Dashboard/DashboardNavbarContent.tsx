@@ -9,12 +9,14 @@ import { NavSection } from "@/Types/dashboard.interface";
 import { Icon, IconHome2} from "@tabler/icons-react";
 import Link from "next/link";
 import { getIcon } from "@/lib/icon-map";
+import { TeamSwitcher } from "@/components/ui/team-switcher";
 
 interface DashboardNavbarContentProps {
   userInfo: UserInfo;
   navItems?: NavSection[];
   dashboard?: string;
 }
+
 
 const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.ComponentProps<typeof Sidebar>> = ({
   userInfo,
@@ -28,6 +30,7 @@ const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.Compo
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
+        <TeamSwitcher teams={navItems} />
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -50,7 +53,6 @@ const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.Compo
             icon: getIcon(it.icon) as string | Icon
           }))}
         />
-
 
       </SidebarContent>
       <SidebarFooter>
