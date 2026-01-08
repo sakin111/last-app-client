@@ -22,10 +22,12 @@ export interface PlanPayload {
 }
 
 export const createPlan = async (payload: PlanPayload) => {
+  const accessToken = await getCookie("accessToken")
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      cookie: accessToken ? `accessToken=${accessToken}` : "",
     },
     credentials: "include", 
     body: JSON.stringify(payload),
