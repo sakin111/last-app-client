@@ -1,14 +1,29 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 function Footer() {
+
+    const logoUrl = process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL;
+    if (!logoUrl) {
+      return null; 
+    }
   return (
     <footer className="border-t bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div>
+        <div>
+            <div className='flex justify-start items-center gap-4'>
+                <Image
+                      src={logoUrl}
+                      alt="Typers Logo"
+                      width={40}
+                      height={40}
+                      className='rounded-full'
+                    />
             <h3 className="font-bold mb-2 font-sans text-2xl text-blue-950">Typers</h3>
-            <p className="text-sm text-muted-foreground">Your Travel Buddy will make your journey suitable through us.</p>
           </div>
+            <p className="text-sm text-muted-foreground">Your Travel Buddy will make your journey suitable through us.</p>
+        </div>
           <div>
             <h3 className="font-semibold mb-2">Quick Links</h3>
             <ul className="space-y-2 text-sm">
