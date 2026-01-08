@@ -22,20 +22,27 @@ export interface PlanPayload {
 }
 
 export const createPlan = async (payload: PlanPayload) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/create`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(payload),
+    }
+  );
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/create`, {
-    method: "POST",
-    headers: {
+  const data = await res.json();
 
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(payload),
-  });
+  if (!res.ok) {
+    throw new Error(data?.message || "Failed to create plan");
+  }
 
-  if (!res.ok) throw new Error("Failed to create plan");
-  return await res.json();
+  return data;
 };
+
 
 
 
