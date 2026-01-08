@@ -9,7 +9,7 @@ import { NavSection } from "@/Types/dashboard.interface";
 import { Icon, IconHome2} from "@tabler/icons-react";
 import Link from "next/link";
 import { getIcon } from "@/lib/icon-map";
-import { TeamSwitcher } from "@/components/ui/team-switcher";
+
 
 interface DashboardNavbarContentProps {
   userInfo: UserInfo;
@@ -30,7 +30,6 @@ const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.Compo
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={navItems} />
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
