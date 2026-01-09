@@ -94,14 +94,13 @@ export const adminGetAllUser = async (
 ): Promise<ApiResponse> => {
   try {
     const accessToken = await getCookie("accessToken");
-    const url = "/user/allUser";
-
-    const res = await fetch(url, { 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/user/allUser`,{ 
       signal,
-      method:"GET",
+      method: "GET",
       headers: {
         Cookie: accessToken ? `accessToken=${accessToken}` : ""
       },
+      credentials: "include"
     });
     
     if (!res.ok) {
