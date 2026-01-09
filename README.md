@@ -1,4 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# 🌍 Travel Buddy
+
+Travel Buddy is a full-stack travel companion platform built with **Next.js** that helps users find travel partners and join trips. Users can create travel plans, discover other travelers, and send requests to join trips easily and securely.
+
+---
+
+## 🚀 Live Url
+
+- **Frontend:** https://last-app-client.vercel.app/
+
+
+---
+
+## ✨ Features
+
+- JWT-based authentication
+- Create and manage travel plans
+- Find travel partners
+- Send & manage join requests
+- Accept or reject requests
+- User dashboard
+- Role-based access control
+- Fully responsive UI
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+
+
 
 ## Getting Started
 
