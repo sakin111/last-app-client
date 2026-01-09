@@ -4,7 +4,7 @@ import { getIndividualR } from '@/services/Dashboard/travel-comments.service';
 import { myTravel } from '@/services/Dashboard/travel.server';
 import { getMyPlan } from '@/services/subscribe/sub.service';
 
-// Mark this page as dynamic since it uses cookies for authentication
+
 export const dynamic = 'force-dynamic';
 
 const DashboardPage = async() => {

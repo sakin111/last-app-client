@@ -227,9 +227,9 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
 
                       <div className="flex items-center justify-start gap-7 mt-2 sm:mt-3 max-w-full sm:max-w-md">
 
-                        <ReviewsModal targetId={travel.author.id} checkSub={checkSub} />
+                        <ReviewsModal targetId={travel.author.id}/>
 
-                        <RequestButton travelId={travel.id} checkSub={checkSub} />
+                        <RequestButton travelId={travel.id} />
 
                       </div>
                     </div>

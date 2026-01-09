@@ -8,7 +8,7 @@ import { createRequest as createRequestService } from "@/services/Dashboard/trav
 
 
 
-const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub: boolean }) => {
+const RequestButton = ({ travelId }: { travelId: string}) => {
   const router = useRouter();
 
   const handleRequest = async () => {
@@ -20,11 +20,7 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub: boo
       return;
     }
 
-    if (checkSub === false) {
-      toast("Please subscribe to request a travel plan");
-      router.push("/dashboard/subscriptionPlan");
-      return;
-    }
+
     const result = await createRequestService(travelId);
 
     if (result.success) {

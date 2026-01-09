@@ -32,7 +32,7 @@ interface Review {
   };
 }
 
-export default function ReviewsModal({ targetId, checkSub }: { targetId: string, checkSub: boolean }) {
+export default function ReviewsModal({ targetId}: { targetId: string}) {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
@@ -66,11 +66,6 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
       if (!token) {
         toast.error("Please login to post a review");
         router.push("/login");
-        return;
-      }
-      if(checkSub === false){
-        toast("Please subscribe to post a review");
-        router.push("/dashboard/subscriptionPlan");
         return;
       }
       const result = await addReview(targetId, rating, content);
