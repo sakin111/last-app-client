@@ -46,7 +46,14 @@ export const adminGetAllUser = async (
 
 
 
-    const res = await serverFetch.get(url,{ signal });
+    const res = await fetch(url,{ 
+      signal,
+      method: "GET",
+      headers: {
+        Cookie: await getCookie("accessToken") ? `accessToken=${await getCookie("accessToken")}` : ""
+      },
+      credentials: "include"
+    });
     
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
