@@ -100,7 +100,6 @@ export const adminGetAllUser = async (
       headers: {
         Cookie: accessToken ? `accessToken=${accessToken}` : ""
       },
-      credentials: "include"
     });
     
     if (!res.ok) {
@@ -109,15 +108,11 @@ export const adminGetAllUser = async (
     }
     
     const data = await res.json();
-    if (process.env.NODE_ENV === "development") {
-      console.log('Users data:', data);
-    }
+    
     
     return data;
   } catch (error: any) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("Error fetching users:", error);
-    }
+  
     if (error.name === "AbortError") {
       throw error;
     }
