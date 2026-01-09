@@ -2,6 +2,7 @@
 
 
 
+import { serverFetch } from "@/lib/server-fetch";
 import { getCookie } from "../Auth/tokenHandler";
 
 
@@ -21,9 +22,24 @@ export interface PlanPayload {
   duration: number;
 }
 
+// export const createPlan = async (payload: PlanPayload) => {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/create`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     credentials: "include", 
+//     body: JSON.stringify(payload),
+//   });
+
+//   const data = await res.json();
+
+//   if (!res.ok) throw new Error(data?.message || "Failed to create plan");
+//   return data;
+// };
+
 export const createPlan = async (payload: PlanPayload) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/create`, {
-    method: "POST",
+  const res = await serverFetch.post(`/sub/create`, {
     headers: {
       "Content-Type": "application/json",
     },
