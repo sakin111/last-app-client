@@ -18,7 +18,6 @@ export const redirectToStripeCheckout = async (
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Cookie: accessToken ? `accessToken=${accessToken}` : "",
         },
         credentials: "include",
