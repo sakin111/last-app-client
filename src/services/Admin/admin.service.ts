@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
-import { profileFetch } from "@/lib/profile-fetch";
+
 import { getCookie } from "../Auth/tokenHandler";
+import { serverFetch } from "@/lib/server-fetch";
 
 
 
@@ -45,7 +46,7 @@ export const adminGetAllUser = async (
 
 
 
-    const res = await profileFetch.get(url,{ signal });
+    const res = await serverFetch.get(url,{ signal });
     
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
