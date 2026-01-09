@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,8 +19,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { ClearFilters, FilterSelect, SearchInput, SortSelect, TableFilterBar } from "@/components/Shared/TablerInput";
-import { Paginator } from "@/components/Shared/Paginator";
 
 interface User {
   id: string;
@@ -51,18 +48,17 @@ export default function AllUsers() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [meta, setMeta] = useState<ApiResponse['meta'] | null>(null);
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; userId: string | null; userName: string | null }>({
+  const [deleteDialog, setDeleteDialog] = useState<{ 
+    open: boolean; 
+    userId: string | null; 
+    userName: string | null;
+  }>({
     open: false,
     userId: null,
     userName: null,
   });
-
-  const queryKey = useMemo(() => searchParams.toString(), [searchParams]);
-
 
   const fetchUsers = useCallback(async () => {
     if (abortControllerRef.current) {
@@ -74,17 +70,13 @@ export default function AllUsers() {
     setIsRefreshing(true);
 
     try {
-      const params: Record<string, string> = {};
-      searchParams.forEach((v, k) => (params[k] = v));
-
-      const res = await adminGetAllUser(params, controller.signal);
+      const res = await adminGetAllUser(controller.signal);
 
       if (res?.success) {
         setUsers(res.data ?? []);
         setMeta(res.meta ?? null);
       } else {
         setUsers([]);
-        console.log(res.message);
         toast.error(res?.message || "Failed to fetch users");
       }
     } catch (e: any) {
@@ -96,26 +88,12 @@ export default function AllUsers() {
       setLoading(false);
       setIsRefreshing(false);
     }
-  }, [queryKey, searchParams]);
+  }, []);
 
   useEffect(() => {
     fetchUsers();
     return () => abortControllerRef.current?.abort();
   }, [fetchUsers]);
-
-
-
-  // Pagination
-  const onPageChange = useCallback(
-    (page: number) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (page === 1) params.delete("page");
-      else params.set("page", String(page));
-
-      router.replace(params.toString() ? `?${params.toString()}` : "", { scroll: false });
-    },
-    [router, searchParams]
-  );
 
   const handleStatusUpdate = async (userId: string, newStatus: "ACTIVE" | "INACTIVE") => {
     try {
@@ -182,28 +160,6 @@ export default function AllUsers() {
     return name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
   }, []);
 
-  const sortOptions = useMemo(
-    () => [
-      { label: "Old User", value: "createdAt" },
-      { label: "New User", value: "-createdAt" },
-    ],
-    []
-  );
-
-  const statusFilterOptions = useMemo(
-    () => [
-      { label: "Active", value: "ACTIVE" },
-      { label: "Inactive", value: "INACTIVE" },
-      { label: "Deleted", value: "DELETED" },
-    ],
-    []
-  );
-
-  const hasActiveFilters = useMemo(
-    () => searchParams.get("searchTerm") || searchParams.get("sort") || searchParams.get("userStatus"),
-    [searchParams]
-  );
-
   const UserCard = ({ user }: { user: User }) => (
     <div className="border rounded-lg p-4 space-y-4 bg-card">
       <div className="flex items-start justify-between gap-3">
@@ -236,19 +192,39 @@ export default function AllUsers() {
       <div className="flex flex-wrap gap-2">
         {user.userStatus === "ACTIVE" ? (
           <>
-            <Button variant="outline" size="sm" onClick={() => handleStatusUpdate(user.id, "INACTIVE")} disabled={actionLoading === user.id}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleStatusUpdate(user.id, "INACTIVE")} 
+              disabled={actionLoading === user.id}
+            >
               {actionLoading === user.id ? "Processing..." : "Deactivate"}
             </Button>
-            <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(user.id, user.name)} disabled={actionLoading === user.id}>
+            <Button 
+              variant="destructive" 
+              size="sm" 
+              onClick={() => openDeleteDialog(user.id, user.name)} 
+              disabled={actionLoading === user.id}
+            >
               Delete
             </Button>
           </>
         ) : user.userStatus === "INACTIVE" ? (
           <>
-            <Button variant="outline" size="sm" onClick={() => handleStatusUpdate(user.id, "ACTIVE")} disabled={actionLoading === user.id}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleStatusUpdate(user.id, "ACTIVE")} 
+              disabled={actionLoading === user.id}
+            >
               {actionLoading === user.id ? "Processing..." : "Activate"}
             </Button>
-            <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(user.id, user.name)} disabled={actionLoading === user.id}>
+            <Button 
+              variant="destructive" 
+              size="sm" 
+              onClick={() => openDeleteDialog(user.id, user.name)} 
+              disabled={actionLoading === user.id}
+            >
               Delete
             </Button>
           </>
@@ -266,7 +242,9 @@ export default function AllUsers() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
               <CardTitle>User Management</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Manage all registered users</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Manage all registered users
+              </p>
             </div>
             {isRefreshing && (
               <div className="text-xs text-muted-foreground flex items-center gap-2">
@@ -278,22 +256,20 @@ export default function AllUsers() {
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <TableFilterBar>
-            <SearchInput placeholder="Search by name or email..." />
-            <SortSelect options={sortOptions} defaultSort="-createdAt" />
-            <FilterSelect name="userStatus" label="User Status" options={statusFilterOptions} placeholder="All Status" />
-            <ClearFilters preserveParams={[]} />
-          </TableFilterBar>
-
           {loading && users.length === 0 ? (
-            <div className="space-y-3">{[...Array(5)].map((_, i) => <Skeleton key={i} className="h-20 w-full" />)}</div>
+            <div className="space-y-3">
+              {[...Array(5)].map((_, i) => (
+                <Skeleton key={i} className="h-20 w-full" />
+              ))}
+            </div>
           ) : users.length === 0 ? (
             <div className="text-center py-16 text-muted-foreground">
-              <div className="text-lg font-medium mb-1">{hasActiveFilters ? "No users found" : "No users yet"}</div>
-              <p className="text-sm">{hasActiveFilters ? "Try adjusting your filters to see more results" : "Users will appear here once they register"}</p>
+              <div className="text-lg font-medium mb-1">No users yet</div>
+              <p className="text-sm">Users will appear here once they register</p>
             </div>
           ) : (
             <>
+              {/* Desktop Table */}
               <div className="hidden lg:block overflow-x-auto">
                 <Table>
                   <TableHeader>
@@ -321,22 +297,58 @@ export default function AllUsers() {
                           </div>
                         </TableCell>
                         <TableCell>{user.email}</TableCell>
-                        <TableCell><div className="line-clamp-2">{user.bio || "No bio provided"}</div></TableCell>
+                        <TableCell>
+                          <div className="line-clamp-2">{user.bio || "No bio provided"}</div>
+                        </TableCell>
                         <TableCell>{user.location || "Not specified"}</TableCell>
-                        <TableCell><Badge variant={getStatusBadgeVariant(user.userStatus)}>{user.userStatus}</Badge></TableCell>
+                        <TableCell>
+                          <Badge variant={getStatusBadgeVariant(user.userStatus)}>
+                            {user.userStatus}
+                          </Badge>
+                        </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             {user.userStatus === "ACTIVE" ? (
                               <>
-                                <Button variant="outline" size="sm" onClick={() => handleStatusUpdate(user.id, "INACTIVE")} disabled={actionLoading === user.id}>{actionLoading === user.id ? "..." : "Deactivate"}</Button>
-                                <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(user.id, user.name)} disabled={actionLoading === user.id}>Delete</Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => handleStatusUpdate(user.id, "INACTIVE")} 
+                                  disabled={actionLoading === user.id}
+                                >
+                                  {actionLoading === user.id ? "..." : "Deactivate"}
+                                </Button>
+                                <Button 
+                                  variant="destructive" 
+                                  size="sm" 
+                                  onClick={() => openDeleteDialog(user.id, user.name)} 
+                                  disabled={actionLoading === user.id}
+                                >
+                                  Delete
+                                </Button>
                               </>
                             ) : user.userStatus === "INACTIVE" ? (
                               <>
-                                <Button variant="outline" size="sm" onClick={() => handleStatusUpdate(user.id, "ACTIVE")} disabled={actionLoading === user.id}>{actionLoading === user.id ? "..." : "Activate"}</Button>
-                                <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(user.id, user.name)} disabled={actionLoading === user.id}>Delete</Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => handleStatusUpdate(user.id, "ACTIVE")} 
+                                  disabled={actionLoading === user.id}
+                                >
+                                  {actionLoading === user.id ? "..." : "Activate"}
+                                </Button>
+                                <Button 
+                                  variant="destructive" 
+                                  size="sm" 
+                                  onClick={() => openDeleteDialog(user.id, user.name)} 
+                                  disabled={actionLoading === user.id}
+                                >
+                                  Delete
+                                </Button>
                               </>
-                            ) : <span className="text-sm text-muted-foreground">Deleted</span>}
+                            ) : (
+                              <span className="text-sm text-muted-foreground">Deleted</span>
+                            )}
                           </div>
                         </TableCell>
                       </TableRow>
@@ -345,34 +357,45 @@ export default function AllUsers() {
                 </Table>
               </div>
 
-              <div className="lg:hidden space-y-4">{users.map((user) => <UserCard key={user.id} user={user} />)}</div>
+              {/* Mobile Cards */}
+              <div className="lg:hidden space-y-4">
+                {users.map((user) => (
+                  <UserCard key={user.id} user={user} />
+                ))}
+              </div>
             </>
           )}
 
+          {/* Pagination Info */}
           {users.length > 0 && meta && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t">
-              <div className="text-sm text-muted-foreground order-2 sm:order-1">
-                Showing {(meta.page - 1) * meta.limit + 1}–{Math.min(meta.page * meta.limit, meta.total)} of {meta.total}
-              </div>
-              <div className="order-1 sm:order-2">
-                <Paginator page={meta.page} totalPages={meta.totalPage} onPageChange={onPageChange} />
+              <div className="text-sm text-muted-foreground">
+                Showing {users.length} of {meta.total} users
               </div>
             </div>
           )}
         </CardContent>
       </Card>
 
-      <AlertDialog open={deleteDialog.open} onOpenChange={(open) => setDeleteDialog({ open, userId: null, userName: null })}>
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog 
+        open={deleteDialog.open} 
+        onOpenChange={(open) => setDeleteDialog({ open, userId: null, userName: null })}
+      >
         <AlertDialogContent className="max-w-[90vw] sm:max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the user <strong>{deleteDialog.userName}</strong>. This action cannot be undone.
+              This will permanently delete the user <strong>{deleteDialog.userName}</strong>. 
+              This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col sm:flex-row gap-2">
             <AlertDialogCancel className="w-full sm:w-auto">Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm} className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm} 
+              className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               {actionLoading ? "Deleting..." : "Delete User"}
             </AlertDialogAction>
           </AlertDialogFooter>

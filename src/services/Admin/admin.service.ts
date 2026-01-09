@@ -22,31 +22,80 @@ interface ApiResponse<T = any> {
 
 
 
+// export const adminGetAllUser = async (
+//   params?: { [key: string]: string | string[] | undefined },
+//     signal?: AbortSignal
+// ): Promise<ApiResponse> => {
+//   try {
+//     let url = "/user/allUser";
+    
+//     if (params) {
+//       const queryParams = new URLSearchParams();
+      
+//       Object.entries(params).forEach(([key, value]) => {
+//         if (value !== undefined && value !== null && value !== '') {
+//           queryParams.append(key, String(value));
+//         }
+//       });
+
+//       const queryString = queryParams.toString();
+//       if (queryString) {
+//         url = `${url}?${queryString}`;
+//       }
+//     }
+
+
+
+//     const res = await fetch(url,{ 
+//       signal,
+//       method: "GET",
+//       headers: {
+//         Cookie: await getCookie("accessToken") ? `accessToken=${await getCookie("accessToken")}` : ""
+//       },
+//       credentials: "include"
+//     });
+    
+//     if (!res.ok) {
+//       const errorData = await res.json().catch(() => ({}));
+//       throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+//     }
+    
+//     const data = await res.json();
+//     if (process.env.NODE_ENV === "development") {
+//       console.log('Users data:', data);
+//     }
+    
+//     return data;
+//   } catch (error: any) {
+//     if (process.env.NODE_ENV === "development") {
+//       console.error("Error fetching users:", error);
+//     }
+//      if (error.name === "AbortError") {
+//       throw error;
+//      }
+//     return { 
+//       success: false, 
+//       message: "Failed to fetch Users",
+//       data: [],
+//       meta: {
+//         page: 1,
+//         limit: 10,
+//         total: 0,
+//         totalPage: 0
+//       }
+//     };
+//   }
+// };
+
+
+
 export const adminGetAllUser = async (
-  params?: { [key: string]: string | string[] | undefined },
-    signal?: AbortSignal
+  signal?: AbortSignal
 ): Promise<ApiResponse> => {
   try {
-    let url = "/user/allUser";
-    
-    if (params) {
-      const queryParams = new URLSearchParams();
-      
-      Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
-          queryParams.append(key, String(value));
-        }
-      });
+    const url = "/user/allUser";
 
-      const queryString = queryParams.toString();
-      if (queryString) {
-        url = `${url}?${queryString}`;
-      }
-    }
-
-
-
-    const res = await fetch(url,{ 
+    const res = await fetch(url, { 
       signal,
       method: "GET",
       headers: {
@@ -70,9 +119,9 @@ export const adminGetAllUser = async (
     if (process.env.NODE_ENV === "development") {
       console.error("Error fetching users:", error);
     }
-     if (error.name === "AbortError") {
+    if (error.name === "AbortError") {
       throw error;
-     }
+    }
     return { 
       success: false, 
       message: "Failed to fetch Users",
