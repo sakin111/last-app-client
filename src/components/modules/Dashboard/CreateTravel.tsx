@@ -23,29 +23,20 @@ import {
 } from "@/components/ui/popover";
 import { travelCreate } from "@/services/Dashboard/travel.server";
 import { showToast } from "@/components/Shared/UniversalToaster";
-import { toast } from "sonner";
+
 
 export default function TravelCreateForm({
-  redirect,checkSub
+  redirect
 }: {
   redirect?: string | undefined;
   checkSub:any
 }) {
-  const router = useRouter();
+ 
   const [state, formAction, isPending] = useActionState(travelCreate, null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
 
-  if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    console.log(checkSub,"this is checksub");
-  }
-  useEffect(() => {
-    if (checkSub === false)  {
-      toast("Please subscribe to create a travel plan");
-      router.push("/dashboard/subscriptionPlan");
-    }
-  }, [checkSub, router]);
+
 
   useEffect(() => {
     if (state && state.success) {
