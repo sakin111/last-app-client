@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+"use server"
 import { clientFetch } from "@/lib/ClientFetch";
 import { getCookie } from "../Auth/tokenHandler";
 
@@ -23,7 +23,10 @@ export interface PlanPayload {
 
 export const createPlan = async (payload: PlanPayload) => {
   const res = await clientFetch.post(`/sub/create`, {
-
+     headers: {
+        "Content-Type": "application/json",
+      },
+      credentials:"include",
     body: JSON.stringify(payload),
   });
 
