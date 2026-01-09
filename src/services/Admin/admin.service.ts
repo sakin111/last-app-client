@@ -96,12 +96,12 @@ export const adminGetAllUser = async (
     const accessToken = await getCookie("accessToken");
     const url = "/user/allUser";
 
-    const res = await serverFetch.get(url, { 
+    const res = await fetch(url, { 
       signal,
+      method:"GET",
       headers: {
         Cookie: accessToken ? `accessToken=${accessToken}` : ""
       },
-      credentials: "include"
     });
     
     if (!res.ok) {
