@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+"use server"
 
 import { getCookie } from "../Auth/tokenHandler";
 
@@ -31,7 +31,7 @@ export const redirectToStripeCheckout = async (
     const checkoutUrl = data.data.url;
     if (!checkoutUrl) throw new Error("No checkout URL returned");
 
-    window.location.href = checkoutUrl;
+   return checkoutUrl
    
   } catch (err: any) {
     console.error("Stripe redirect error:", err.message);
