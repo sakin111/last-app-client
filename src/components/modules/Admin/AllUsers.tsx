@@ -84,6 +84,7 @@ export default function AllUsers() {
         setMeta(res.meta ?? null);
       } else {
         setUsers([]);
+        console.log(res.message);
         toast.error(res?.message || "Failed to fetch users");
       }
     } catch (e: any) {
