@@ -4,6 +4,7 @@
 
 import { serverFetch } from "@/lib/server-fetch";
 import { getCookie } from "../Auth/tokenHandler";
+import { profileFetch } from "@/lib/profile-fetch";
 
 
 
@@ -39,7 +40,7 @@ export interface PlanPayload {
 // };
 
 export const createPlan = async (payload: PlanPayload) => {
-  const res = await serverFetch.post(`/sub/create`, {
+  const res = await profileFetch.post(`/sub/create`, {
     headers: {
       "Content-Type": "application/json",
     },
