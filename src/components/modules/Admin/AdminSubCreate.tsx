@@ -47,7 +47,7 @@ export default function AdminSubCreate() {
       form.reset();
     } catch (error) {
       console.error(error);
-      alert("Error creating plan");
+      toast.error("Error creating plan");
     }
   };
 
