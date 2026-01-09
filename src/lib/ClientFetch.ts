@@ -7,10 +7,12 @@ const clientFetchHelper = async (
   options: RequestInit
 ): Promise<Response> => {
   const { headers, ...restOptions } = options;
+  const accessToken = localStorage.getItem("accessToken");
 
   const response = await fetch(`${BACKEND_API_URL}${endpoint}`, {
     headers: {
       "Content-Type": "application/json",
+      cookie: accessToken ? `accessToken=${accessToken}` : "",
       ...headers,
     },
     credentials: "include", 
