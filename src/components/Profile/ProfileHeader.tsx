@@ -34,7 +34,7 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
    
           <div className="relative shrink-0">
             <Image
-              src={profile.profileImage || "/profile.png"}
+              src={profile.profileImage || ""}
               alt={profile.fullName}
               width={96}
               height={96}

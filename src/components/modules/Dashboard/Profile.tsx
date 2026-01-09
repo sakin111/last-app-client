@@ -176,7 +176,7 @@ export default function Profile() {
           <CardContent className="flex flex-col items-center gap-2">
             <div className="relative">
               <Image
-                src={user.profileImage || "/public/profile.png"}
+                src={user.profileImage || ""}
                 alt="Profile Image"
                 width={120}
                 height={120}

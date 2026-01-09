@@ -59,7 +59,7 @@ const DashboardNavbarContent: React.FC<DashboardNavbarContentProps & React.Compo
           user={{
             name: userInfo.data.name || "Guest",
             email: userInfo.data.email || "",
-            avatar: (userInfo as UserInfo).data.profileImage || "/public/profile.png",
+            avatar: (userInfo as UserInfo).data.profileImage || "",
           }}
         />
       </SidebarFooter>
