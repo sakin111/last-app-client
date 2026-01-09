@@ -93,13 +93,13 @@ export const adminGetAllUser = async (
   signal?: AbortSignal
 ): Promise<ApiResponse> => {
   try {
+    const accessToken = await getCookie("access")
     const url = "/user/allUser";
 
-    const res = await fetch(url, { 
+    const res = await serverFetch.get(url, { 
       signal,
-      method: "GET",
       headers: {
-        Cookie: await getCookie("accessToken") ? `accessToken=${await getCookie("accessToken")}` : ""
+        Cookie: accessToken ? `accessToken=${accessToken}` : ""
       },
       credentials: "include"
     });
