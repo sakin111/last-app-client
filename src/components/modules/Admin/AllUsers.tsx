@@ -77,7 +77,6 @@ export default function AllUsers() {
         setMeta(res.meta ?? null);
       } else {
         setUsers([]);
-        toast.error(res?.message || "Failed to fetch users");
       }
     } catch (e: any) {
       if (e.name !== "AbortError") {
