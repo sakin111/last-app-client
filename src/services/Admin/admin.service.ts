@@ -93,7 +93,7 @@ export const adminGetAllUser = async (
   signal?: AbortSignal
 ): Promise<ApiResponse> => {
   try {
-    const accessToken = await getCookie("access")
+    const accessToken = await getCookie("accessToken");
     const url = "/user/allUser";
 
     const res = await serverFetch.get(url, { 
