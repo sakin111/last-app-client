@@ -29,7 +29,7 @@ export default function TravelCreateForm({
   redirect
 }: {
   redirect?: string | undefined;
-  checkSub:any
+
 }) {
  
   const [state, formAction, isPending] = useActionState(travelCreate, null);
