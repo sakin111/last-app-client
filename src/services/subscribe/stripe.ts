@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server"
 
 
 import { getCookie } from "../Auth/tokenHandler";
@@ -19,8 +18,8 @@ export const redirectToStripeCheckout = async (
       {
         method: "POST",
         headers: {
-            Cookie: accessToken ? `accessToken=${accessToken}` : "" 
-
+          "Content-Type": "application/json",
+          Cookie: accessToken ? `accessToken=${accessToken}` : "",
         },
         credentials: "include",
         body: JSON.stringify(params),
@@ -33,7 +32,7 @@ export const redirectToStripeCheckout = async (
     const checkoutUrl = data.data.url;
     if (!checkoutUrl) throw new Error("No checkout URL returned");
 
-    return checkoutUrl;
+    window.location.href = checkoutUrl;
    
   } catch (err: any) {
     console.error("Stripe redirect error:", err.message);
