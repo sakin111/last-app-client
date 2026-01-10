@@ -100,6 +100,7 @@ export const adminGetAllUser = async (
       headers: {
         Cookie: accessToken ? `accessToken=${accessToken}` : ""
       },
+      credentials: "include"
     });
     
     if (!res.ok) {
