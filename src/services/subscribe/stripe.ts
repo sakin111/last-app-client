@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server"
 
-import { getCookie } from "../Auth/tokenHandler";
+
+import { serverFetch } from "@/lib/server-fetch";
+
 
 interface CheckoutParams {
  stripePriceId: string;
@@ -12,15 +13,12 @@ export const redirectToStripeCheckout = async (
   params: CheckoutParams
 ) => {
   try {
-  const accessToken = await getCookie("accessToken");
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/payment/checkout-session`,
+    const res = await serverFetch.post(
+      `/payment/checkout-session`,
       {
-        method: "POST",
         headers: {
-          Cookie: accessToken ? `accessToken=${accessToken}` : "",
+          "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify(params),
       }
     );
@@ -31,7 +29,7 @@ export const redirectToStripeCheckout = async (
     const checkoutUrl = data.data.url;
     if (!checkoutUrl) throw new Error("No checkout URL returned");
 
-   return checkoutUrl
+   window.location.href = checkoutUrl;
    
   } catch (err: any) {
     console.error("Stripe redirect error:", err.message);
