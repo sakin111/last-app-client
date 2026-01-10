@@ -8,6 +8,7 @@ Travel Buddy is a full-stack travel companion platform built with **Next.js** th
 ## 🚀 Live Url
 
 - **Frontend:** https://last-app-client.vercel.app/
+- **Backend:**  https://last-app-server-cuaa.onrender.com
 
 
 ---
