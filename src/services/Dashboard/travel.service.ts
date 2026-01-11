@@ -23,7 +23,16 @@ export const getAllTravels = async (
     }
 
     const res = await fetch(url, {
-      cache: 'no-store',
+      next:{
+        tags: [
+          'travel-data',
+          'travel-list',
+          `travel-list-${params?.page ?? 1}`,
+          `travel-search-${params?.searchTerm?? 'all'}`        
+        ],
+        revalidate:180
+
+      },
       signal
     });
 
