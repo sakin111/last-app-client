@@ -35,7 +35,7 @@ const testimonials: Testimonial[] = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
+    <section className="py-20 bg-white relative overflow-hidden dark:bg-gray-900">
 
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl"></div>
@@ -44,10 +44,10 @@ const TestimonialsSection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-liner-to-r from-blue-600 to-indigo-600">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-liner-to-r from-blue-600 to-indigo-600 dark:text-white">
             What Travelers Say
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto dark:text-gray-300">
             Join thousands of happy travelers who found their perfect travel companions
           </p>
         </div>
@@ -56,11 +56,11 @@ const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <Card 
               key={index} 
-              className="hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white group relative overflow-hidden"
+              className="hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white group relative overflow-hidden dark:bg-gradient-to-b dark:from-cyan-800 dark:to-gray-90"
             >
 
               <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote className="h-16 w-16 text-blue-600" />
+                <Quote className="h-16 w-16 text-blue-600 dark:text-cyan-200" />
               </div>
               
               <CardContent className="pt-8 pb-8 relative">
@@ -75,7 +75,7 @@ const TestimonialsSection = () => {
                 </p>
                 
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-liner-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-semibold text-lg shadow-lg group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-full bg-liner-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-gray-950 font-semibold text-lg shadow-lg group-hover:scale-110 transition-transform dark:text-white">
                     {testimonial.avatar}
                   </div>
                   <div>

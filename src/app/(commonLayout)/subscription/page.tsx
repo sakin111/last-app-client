@@ -1,9 +1,10 @@
+import Subscription from "@/components/Shared/Subscription";
 
 
 const subscriptionPage = () => {
     return (
-        <div>
-            
+        <div className="mt-6">
+            <Subscription/>
         </div>
     );
 };

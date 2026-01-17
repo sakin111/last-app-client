@@ -13,10 +13,10 @@ const CTASection = () => {
       
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-black">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-black dark:text-white">
             Ready to Start Your Adventure?
           </h2>
-          <p className="text-xl md:text-2xl mb-10 text-gray-600 leading-relaxed">
+          <p className="text-xl md:text-2xl mb-10 text-gray-600 leading-relaxed dark:text-gray-300">
             Join thousands of travelers and find your perfect travel companion today
           </p>
           
@@ -25,11 +25,11 @@ const CTASection = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className='text-xl text-blue-950'
+                className='text-xl text-blue-950 dark:text-white'
               >
-                <Heart className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                <Heart className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform dark:text-white" />
                 Join TravelBuddy Now
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform dark:text-white" />
               </Button>
             </Link>
           </div>
@@ -39,13 +39,13 @@ const CTASection = () => {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span className='text-cyan-800'>No credit card required</span>
+              <span className='text-cyan-800 dark:text-white'>No credit card required</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-teal-700">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span className='text-cyan-800'>Free to join</span>
+              <span className='text-cyan-800 dark:text-white'>Free to join</span>
             </div>
           </div>
         </div>

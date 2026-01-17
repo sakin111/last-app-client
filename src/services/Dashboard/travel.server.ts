@@ -6,6 +6,7 @@ import z from "zod";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { serverFetch } from "@/lib/server-fetch";
 import { TravelQuery, TravelResponse } from "@/Types";
+import { revalidateTag } from "next/cache";
 
 const TravelValidationSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -78,6 +79,14 @@ export const travelCreate = async (_currentState: any, formData: FormData): Prom
         'Cookie': `accessToken=${accessToken}`
       }
     });
+
+    if(res.ok){
+      revalidateTag("travel-data", { expire: 0 });
+      revalidateTag("travel-list", { expire: 0 });
+      revalidateTag(`travel-page`, { expire: 0 });
+      revalidateTag(`travel-searchTerm`, { expire: 0 });
+
+    }
 
     if (!res.ok) {
       const errorText = await res.text();
@@ -178,7 +187,15 @@ export async function getTravels(
       headers:{
       Cookie: accessToken ? `accessToken=${accessToken}` : "",
       },
-      cache:"no-cache"
+      next:{
+        tags: [
+          'travel-data',
+          'travel-list',
+          `travel-list-${query.page ?? 1}`,
+          `travel-search-${query.search ?? 'all'}`
+        ],
+        revalidate:180
+      }
     }
     
   );

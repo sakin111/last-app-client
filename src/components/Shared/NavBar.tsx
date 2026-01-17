@@ -6,6 +6,8 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import LogoutButton from "./LogoutButton";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import Image from "next/image";
+import { ModeToggle } from "../modeToggle";
+import { Dropdown } from "./Dropdown";
 
 
 
@@ -16,7 +18,8 @@ const Navbar = async () => {
     { href: "/travel", label: "Travel" },
     { href: "/WeProvide", label: "We Provide" },
     { href: "/howItWorks", label: "How it Works" },
-    { href: "/dashboard", label: "Dashboard", adminOnly: true, userOnly: true }
+    { href: "/dashboard", label: "Dashboard", adminOnly: true, userOnly: true },
+    { href: "/subscription", label: "Subscription", adminOnly: true, userOnly: true }
   ];
 
   const accessToken = await getCookie("accessToken");
@@ -56,10 +59,13 @@ const Navbar = async () => {
                 {link.label}
               </Link>
             ))}
+            <Dropdown/>
         </nav>
 
 
         <div className="hidden md:flex items-center space-x-2">
+
+          <ModeToggle/> 
           {accessToken ? (
             <LogoutButton />
           ) : (
@@ -101,6 +107,7 @@ const Navbar = async () => {
 
                 <div className="border-t pt-4 flex flex-col space-y-4">
                   <div className="flex justify-center"></div>
+                  <ModeToggle/>
                   {accessToken ? (
                     <LogoutButton />
                   ) : (

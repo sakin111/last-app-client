@@ -29,7 +29,7 @@ const steps: Step[] = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
+    <section className="py-20 bg-white relative overflow-hidden dark:bg-gray-900">
 
       <div className="absolute top-0 left-0 w-full h-full opacity-5">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl"></div>
@@ -38,10 +38,10 @@ const HowItWorksSection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-liner-to-r from-blue-600 to-indigo-600">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-liner-to-r from-blue-600 to-indigo-600 dark:text-white">
             How It Works
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto dark:text-gray-300">
             Getting started is easy. Follow these simple steps to find your travel buddy
           </p>
         </div>
@@ -51,17 +51,17 @@ const HowItWorksSection = () => {
             <div key={index} className="text-center relative group">
 
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-8 left-1/2 w-full h-0.5 bg-liner-to-r from-blue-600 to-indigo-600 opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <div className="hidden md:block absolute top-8 left-1/2 w-full h-0.5 bg-liner-to-r from-blue-600 to-indigo-600 opacity-20 group-hover:opacity-40 transition-opacity "></div>
               )}
               
               <div className="relative">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-liner-to-br from-blue-600 to-indigo-600 text-black text-2xl font-bold mb-6 shadow-lg group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-blue-500/50 transition-all duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-liner-to-br from-blue-600 to-indigo-600 text-black text-2xl font-bold mb-6 shadow-lg group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-blue-500/50 transition-all duration-300 dark:text-black dark:bg-white dark:group-hover:group-hover:shadow-blue-200/50">
                   {step.number}
                 </div>
               </div>
               
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{step.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{step.description}</p>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-300">{step.title}</h3>
+              <p className="text-gray-600 leading-relaxed dark:text-gray-500">{step.description}</p>
             </div>
           ))}
         </div>

@@ -5,10 +5,10 @@ import { Search, Sparkles } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative  text-white py-24 md:py-36 overflow-hidden">
+    <section className="relative  text-white py-24 md:py-36 overflow-hidden dark:bg-gray-900">
       <div className="absolute inset-0  opacity-10"></div>
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-      <div className="absolute top-40 right-10 w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob "></div>
+      <div className="absolute top-40 right-10 w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 "></div>
       <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       
       <div className="container mx-auto px-4 relative z-10">
@@ -18,7 +18,7 @@ const HeroSection = () => {
             <span className="text-sm font-medium text-accent-foreground">Join 50,000+ Happy Travelers</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-transparent mb-6 bg-clip-text bg-gradient-to-r from-black to-cyan-600 animate-fade-in-up">
+          <h1 className="text-5xl md:text-7xl font-bold text-transparent mb-6 bg-clip-text bg-gradient-to-r from-black to-cyan-600 animate-fade-in-up dark:from-white dark:to-cyan-400 animation-delay-100">
             Find Your Perfect Travel Companion
           </h1>
           

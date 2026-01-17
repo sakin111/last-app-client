@@ -20,7 +20,7 @@ function Footer() {
                       height={40}
                       className='rounded-full'
                     />
-            <h3 className="font-bold mb-2 font-sans text-2xl text-blue-950">Typers</h3>
+            <h3 className="font-bold mb-2 font-sans text-2xl text-blue-950 dark:text-cyan-300">Typers</h3>
           </div>
             <p className="text-sm text-muted-foreground">Your Travel Buddy will make your journey suitable through us.</p>
         </div>
