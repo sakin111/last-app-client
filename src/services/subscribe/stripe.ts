@@ -7,7 +7,7 @@ import { serverFetch } from "@/lib/server-fetch";
 
 
 interface CheckoutParams {
- stripePriceId: string;
+stripePriceId: string;
 planId: string;
 }
 
@@ -32,7 +32,7 @@ export const redirectToStripeCheckout = async (
     const checkoutUrl = data.data.url;
     if (!checkoutUrl) throw new Error("No checkout URL returned");
 
-   return checkoutUrl;
+     return window.location.href = checkoutUrl
    
   } catch (err: any) {
     console.error("Stripe redirect error:", err.message);
