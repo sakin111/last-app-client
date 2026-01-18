@@ -60,8 +60,6 @@ export default function Profile() {
     const fetchUser = async () => {
       setIsLoading(true);
       const result = await getUserProfile();
-      console.log(result);
-
 
       if (result && result.success && result.data) {
         const userData = result.data;

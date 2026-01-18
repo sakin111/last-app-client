@@ -28,7 +28,6 @@ export default function AllRequests() {
 
       try {
         const res = await getAllRequests({ page, limit });
-        console.log(res);
         if (!isMounted) return;
 
         setData(res.data);

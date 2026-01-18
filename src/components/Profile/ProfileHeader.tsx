@@ -26,7 +26,6 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ profile }: ProfileHeaderProps) {
 
-  console.log(profile);
   return (
     <Card className="border border-gray-200 bg-white shadow-sm">
       <CardContent className="p-6">
