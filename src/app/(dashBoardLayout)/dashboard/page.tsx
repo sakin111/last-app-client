@@ -13,7 +13,7 @@ const DashboardPage = async() => {
     const review = await getIndividualR(1, 10)
     const travel = await myTravel()
     const Subscribed = await getMyPlan()
-    console.log(Subscribed);
+  
 
   return (
     <div>

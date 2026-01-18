@@ -27,6 +27,8 @@ export default function DashboardHome({ user, review, travel, Subscribed }: any)
   const travels = Array.isArray(travel?.data) ? travel.data : [];
   const subscribe = Subscribed ? Subscribed.data : [];
 
+    console.log(Subscribed);
+
 
 
 
