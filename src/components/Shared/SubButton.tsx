@@ -22,21 +22,26 @@ interface SubsButtonProps {
 export default function SubsButton({ plan }: SubsButtonProps) {
   const [loading, setLoading] = useState(false);
 
+ 
   const handleSubscribe = async () => {
     setLoading(true);
     try {
-      await redirectToStripeCheckout({
-         stripePriceId: plan.stripeId,
-         planId: plan.id,
+      const result = await redirectToStripeCheckout({
+        stripePriceId: plan.stripeId,
+        planId: plan.id,
       });
+
+      if (result.success && result.url) {
+        window.location.href = result.url;
+      } else {
+        throw new Error(result.error || "Checkout failed");
+      }
     } catch (error: any) {
       console.error("Checkout error:", error);
       alert(error?.message || "Something went wrong during checkout");
-    } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md">
       <h3 className="text-lg font-semibold mb-2">{plan.name}</h3>
