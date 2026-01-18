@@ -51,9 +51,9 @@ export default function AllUsers() {
   const [meta, setMeta] = useState<ApiResponse['meta'] | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const [deleteDialog, setDeleteDialog] = useState<{ 
-    open: boolean; 
-    userId: string | null; 
+  const [deleteDialog, setDeleteDialog] = useState<{
+    open: boolean;
+    userId: string | null;
     userName: string | null;
   }>({
     open: false,
@@ -181,8 +181,15 @@ export default function AllUsers() {
       <div className="space-y-2 text-sm">
         <div>
           <span className="text-muted-foreground">Bio: </span>
-          <span>{user.bio || "No bio provided"}</span>
+          <span>
+            {user.bio && user.bio.length > 0
+              ? user.bio.length > 30
+                ? `${user.bio.slice(0, 30)}...`
+                : user.bio
+              : "No bio provided"}
+          </span>
         </div>
+
         <div>
           <span className="text-muted-foreground">Location: </span>
           <span>{user.location || "Not specified"}</span>
@@ -192,18 +199,18 @@ export default function AllUsers() {
       <div className="flex flex-wrap gap-2">
         {user.userStatus === "ACTIVE" ? (
           <>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handleStatusUpdate(user.id, "INACTIVE")} 
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleStatusUpdate(user.id, "INACTIVE")}
               disabled={actionLoading === user.id}
             >
               {actionLoading === user.id ? "Processing..." : "Deactivate"}
             </Button>
-            <Button 
-              variant="destructive" 
-              size="sm" 
-              onClick={() => openDeleteDialog(user.id, user.name)} 
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => openDeleteDialog(user.id, user.name)}
               disabled={actionLoading === user.id}
             >
               Delete
@@ -211,18 +218,18 @@ export default function AllUsers() {
           </>
         ) : user.userStatus === "INACTIVE" ? (
           <>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handleStatusUpdate(user.id, "ACTIVE")} 
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleStatusUpdate(user.id, "ACTIVE")}
               disabled={actionLoading === user.id}
             >
               {actionLoading === user.id ? "Processing..." : "Activate"}
             </Button>
-            <Button 
-              variant="destructive" 
-              size="sm" 
-              onClick={() => openDeleteDialog(user.id, user.name)} 
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => openDeleteDialog(user.id, user.name)}
               disabled={actionLoading === user.id}
             >
               Delete
@@ -298,7 +305,11 @@ export default function AllUsers() {
                         </TableCell>
                         <TableCell>{user.email}</TableCell>
                         <TableCell>
-                          <div className="line-clamp-2">{user.bio || "No bio provided"}</div>
+                          <div className="line-clamp-2"> {user.bio && user.bio.length > 0
+                            ? user.bio.length > 30
+                              ? `${user.bio.slice(0, 30)}...`
+                              : user.bio
+                            : "No bio provided"}</div>
                         </TableCell>
                         <TableCell>{user.location || "Not specified"}</TableCell>
                         <TableCell>
@@ -310,18 +321,18 @@ export default function AllUsers() {
                           <div className="flex gap-2">
                             {user.userStatus === "ACTIVE" ? (
                               <>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => handleStatusUpdate(user.id, "INACTIVE")} 
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleStatusUpdate(user.id, "INACTIVE")}
                                   disabled={actionLoading === user.id}
                                 >
                                   {actionLoading === user.id ? "..." : "Deactivate"}
                                 </Button>
-                                <Button 
-                                  variant="destructive" 
-                                  size="sm" 
-                                  onClick={() => openDeleteDialog(user.id, user.name)} 
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => openDeleteDialog(user.id, user.name)}
                                   disabled={actionLoading === user.id}
                                 >
                                   Delete
@@ -329,18 +340,18 @@ export default function AllUsers() {
                               </>
                             ) : user.userStatus === "INACTIVE" ? (
                               <>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => handleStatusUpdate(user.id, "ACTIVE")} 
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleStatusUpdate(user.id, "ACTIVE")}
                                   disabled={actionLoading === user.id}
                                 >
                                   {actionLoading === user.id ? "..." : "Activate"}
                                 </Button>
-                                <Button 
-                                  variant="destructive" 
-                                  size="sm" 
-                                  onClick={() => openDeleteDialog(user.id, user.name)} 
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => openDeleteDialog(user.id, user.name)}
                                   disabled={actionLoading === user.id}
                                 >
                                   Delete
@@ -378,22 +389,22 @@ export default function AllUsers() {
       </Card>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog 
-        open={deleteDialog.open} 
+      <AlertDialog
+        open={deleteDialog.open}
         onOpenChange={(open) => setDeleteDialog({ open, userId: null, userName: null })}
       >
         <AlertDialogContent className="max-w-[90vw] sm:max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the user <strong>{deleteDialog.userName}</strong>. 
+              This will permanently delete the user <strong>{deleteDialog.userName}</strong>.
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col sm:flex-row gap-2">
             <AlertDialogCancel className="w-full sm:w-auto">Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDeleteConfirm} 
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
               className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {actionLoading ? "Deleting..." : "Delete User"}
