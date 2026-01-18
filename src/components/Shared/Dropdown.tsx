@@ -21,20 +21,16 @@ export function Dropdown() {
   )
 
 
-    const drop = [
-        {
-            name: "Services", href: "/services"
-        },
-        {
-            name: "About", href: "/about"
-        },
-        {
-            name: "Support", href: "/support"
-        },
-        {
-            name: "Contact", href: "/contact"
-        }
-    ]
+  const drop = [
+    { name: "Services", href: "/services" },
+    { name: "About", href: "/about" },
+    { name: "Support", href: "/support" },
+    { name: "Contact", href: "/contact" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Help Center", href: "/help-center" },
+    { name: "Terms of Service", href: "/terms" },
+    { name: "Privacy Policy", href: "/privacy" }
+  ]
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 768px)")
@@ -73,7 +69,7 @@ export function Dropdown() {
         "
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-         {drop.map((item) => (
+          {drop.map((item) => (
             <DropdownMenuItem
               key={item.name}
               className="

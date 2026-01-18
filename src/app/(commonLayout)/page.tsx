@@ -5,6 +5,7 @@ import FeaturesSection from "@/components/modules/Home/FeaturesSection";
 import HeroSection from "@/components/modules/Home/HeroSection";
 import HowItWorksSection from "@/components/modules/Home/HowItWorksSection";
 import TestimonialsSection from "@/components/modules/Home/TestimonialsSection";
+import WhyTravelSection from "@/components/modules/Home/WhyTravelSection";
 
 export const metadata = {
   title: "A Travel Buddy website to get you a perfect exploring partner",
@@ -14,16 +15,17 @@ export const metadata = {
 
 
 const page = () => {
-    return (
-      <main>
+  return (
+    <main>
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
+      <WhyTravelSection />
       <DestinationsSection />
       <TestimonialsSection />
       <CTASection />
-        </main>
-    );
+    </main>
+  );
 };
 
 export default page;
