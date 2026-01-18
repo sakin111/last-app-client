@@ -26,19 +26,25 @@ import { showToast } from "@/components/Shared/UniversalToaster";
 
 
 export default function TravelCreateForm({
-  redirect
+  redirect,
+  sub
 }: {
   redirect?: string | undefined;
-
+  sub?: any;
 }) {
  
   const [state, formAction, isPending] = useActionState(travelCreate, null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+  const router = useRouter()
 
 
 
   useEffect(() => {
+    if(!sub || sub.length === 0) {
+      showToast("You need an active subscription to create a travel plan");
+     router.push('/dashboard/subscribe')
+    }
     if (state && state.success) {
       showToast("Travel created successfully", "success");
     }

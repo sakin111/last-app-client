@@ -23,13 +23,16 @@ export function Dropdown() {
 
     const drop = [
         {
-            name: "Profile", href: "#"
+            name: "Services", href: "/services"
         },
         {
-            name: "Billing", href: "#"
+            name: "About", href: "/about"
         },
         {
-            name: "Support", href: "#"
+            name: "Support", href: "/support"
+        },
+        {
+            name: "Contact", href: "/contact"
         }
     ]
 
