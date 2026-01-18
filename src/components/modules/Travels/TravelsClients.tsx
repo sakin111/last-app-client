@@ -87,9 +87,6 @@ export default function TravelsClient() {
     return () => abortControllerRef.current?.abort();
   }, [fetchTravels]);
 
-  // -------------------------
-  // Pagination (same logic)
-  // -------------------------
   const onPageChange = useCallback(
     (page: number) => {
       const params = new URLSearchParams(searchParams.toString());
@@ -105,7 +102,7 @@ export default function TravelsClient() {
 
   return (
     <section className="space-y-6">
-      {/* Filters */}
+    
       <TableFilterBar>
         <SearchInput placeholder="Search travels..." />
 
@@ -157,7 +154,7 @@ export default function TravelsClient() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <CardTitle>User Management</CardTitle>
+              <CardTitle>Travel Management</CardTitle>
               <p className="text-sm text-muted-foreground mt-1">Manage all registered users</p>
             </div>
             {isRefreshing && (
