@@ -3,21 +3,19 @@ import { serverFetch } from "@/lib/server-fetch";
 import { ApiResponse } from "./admin.service";
 
 export const adminGetAllUser = async (
-  signal?: AbortSignal
 ): Promise<ApiResponse> => {
   try {
 
     const res = await serverFetch.get(
       `/user/allUser`,
       {
-        signal,
         cache: "no-store",
       }
     );
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || "Failed to fetch users");
+      throw new Error(errorData.message && errorData.status || "Failed to fetch users");
     }
 
     return res.json();

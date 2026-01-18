@@ -71,7 +71,7 @@ export default function AllUsers() {
     setIsRefreshing(true);
 
     try {
-      const res = await adminGetAllUser(controller.signal);
+      const res = await adminGetAllUser();
 
       if (res?.success) {
         setUsers(res.data ?? []);
