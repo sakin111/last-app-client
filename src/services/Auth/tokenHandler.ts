@@ -10,7 +10,7 @@ export const setCookie = async(key: string, value:string, options: Partial<Respo
 }
 
 export const getCookie = async(key:string) =>{
-     const cookieStore =await cookies()
+     const cookieStore = await cookies()
     return  cookieStore.get(key)?.value || null
 }
 
