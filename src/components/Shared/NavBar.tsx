@@ -45,7 +45,7 @@ const Navbar = async () => {
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
           {navItems
             .filter((link) => {
-              if (link.href === "/dashboard") {
+              if (link.href === "/dashboard" || link.href === "/subscription") {
                 return !!accessToken;
               }
               return true;
@@ -90,7 +90,7 @@ const Navbar = async () => {
               <nav className="flex flex-col space-y-4 mt-8">
                 {navItems
                   .filter((link) => {
-                    if (link.href === "/dashboard") {
+                    if (link.href === "/dashboard" || link.href === "/subscription") {
                       return !!accessToken;
                     }
                     return true;
