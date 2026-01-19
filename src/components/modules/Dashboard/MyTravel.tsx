@@ -110,15 +110,15 @@ export default function MyTravel() {
   if (loading) return <div className="text-center p-8">Loading travels...</div>;
 
   if (!travels || travels.length === 0)
-    return <div className="text-center p-8 text-gray-500">You have not created any travels yet.</div>;
+    return <div className="text-center p-8 text-muted-foreground">You have not created any travels yet.</div>;
 
   return (
     <>
-      <Card className="w-full overflow-auto">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>My Travels</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

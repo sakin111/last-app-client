@@ -18,16 +18,16 @@ import ActivityLineChart from "@/components/Shared/ActivityLineCard";
 
 
 
-export default function AdminHome({ users,sub, travels }: any) {
+export default function AdminHome({ users, sub, travels }: any) {
 
-  
+
   const totalUsers = typeof users?.data === "number" ? users.data : 0;
   const totalSubscriptions = typeof sub?.data === "number" ? sub.data : 0;
   const totalTravels = Array.isArray(travels?.data) ? travels.data : [];
 
 
 
-    const activityData = [
+  const activityData = [
 
     { label: "Travels", value: totalTravels.length },
     { label: "Users", value: totalUsers },
@@ -35,33 +35,33 @@ export default function AdminHome({ users,sub, travels }: any) {
   ];
 
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <main className="min-h-screen bg-transparent text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
 
         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="flex items-center gap-2 text-3xl font-semibold tracking-tight">
-              <LayoutDashboard className="w-7 h-7 text-zinc-700 dark:text-zinc-300" />
+            <h1 className="flex items-center gap-2 text-3xl font-semibold tracking-tight text-foreground">
+              <LayoutDashboard className="w-7 h-7 text-primary" />
               Overview
             </h1>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-             Admin DashBoard Control
+            <p className="text-sm text-muted-foreground mt-1">
+              Admin Dashboard Control
             </p>
           </div>
 
-  
+
         </header>
 
-    
+
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
           <StatCard title="Travel Created" value={totalTravels.length} trend="" />
           <StatCard title="User Count" value={totalUsers} trend="" />
-         <StatCard title="Subscription Count" value={totalSubscriptions} trend="" />
+          <StatCard title="Subscription Count" value={totalSubscriptions} trend="" />
 
         </section>
 
- 
+
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           <ActivityBarCard
@@ -102,11 +102,11 @@ function StatCard({
   trend?: string;
 }) {
   return (
-    <Card>
+    <Card className="border-border bg-card">
       <CardContent className="p-6">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">{title}</p>
+        <p className="text-sm text-muted-foreground">{title}</p>
         <div className="flex items-end justify-between mt-2">
-          <span className="text-2xl font-semibold">{value}</span>
+          <span className="text-2xl font-semibold text-card-foreground">{value}</span>
           <Badge variant="secondary" className="text-xs">{trend}</Badge>
         </div>
       </CardContent>
@@ -119,7 +119,7 @@ function ActionLink({ href, icon: Icon, label }: any) {
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-md border px-4 py-2 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900 transition"
+      className="flex items-center gap-3 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted text-foreground transition"
     >
       <Icon className="w-4 h-4" />
       {label}

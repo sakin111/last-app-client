@@ -15,18 +15,20 @@ export const metadata = {
 export default async function AdminDashboardPage() {
 
 
-    const users = await getAllUserCount()
-    const reviews = await getAllReviews()
-    const sub = await getAllSubCount()
-    const travels = await getAllTravels()
+  const users = await getAllUserCount()
+  const reviews = await getAllReviews()
+  const sub = await getAllSubCount()
+  const travels = await getAllTravels()
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log(reviews,"this is server");
-    }
+  if (process.env.NODE_ENV === 'development') {
+    console.log(reviews, "this is server");
+  }
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
+    <div className="container mx-auto py-6 space-y-6">
+      <div className="px-4">
+        <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
+      </div>
       <AdminHome users={users} reviews={reviews} sub={sub} travels={travels} />
     </div>
   );

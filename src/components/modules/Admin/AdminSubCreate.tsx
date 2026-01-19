@@ -55,7 +55,7 @@ export default function AdminSubCreate() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-lg mx-auto p-8 bg-white rounded-xl shadow-md space-y-6"
+        className="max-w-lg mx-auto p-8 bg-card text-card-foreground border border-border rounded-xl shadow-md space-y-6"
       >
         <h2 className="text-2xl font-bold text-center">
           Create New Subscription Plan

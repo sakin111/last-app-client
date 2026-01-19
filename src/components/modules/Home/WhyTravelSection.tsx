@@ -36,16 +36,16 @@ const reasons = [
 
 export default function WhyTravelSection() {
     return (
-        <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+        <section className="py-20 bg-gradient-to-b from-muted/50 to-background">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4 dark:bg-blue-900/50 dark:text-blue-300">
+                    <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                         Why Choose Us
                     </span>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-foreground">
                         Why Travel With Us?
                     </h2>
-                    <p className="text-gray-600 text-lg max-w-2xl mx-auto dark:text-gray-300">
+                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                         Join thousands of travelers who have discovered the joy of exploring the world with the perfect companion.
                     </p>
                 </div>
@@ -54,18 +54,18 @@ export default function WhyTravelSection() {
                     {reasons.map((reason, index) => (
                         <Card
                             key={index}
-                            className="group border border-gray-200 bg-white hover:border-blue-300 hover:shadow-xl transition-all duration-300 dark:bg-gray-800/50 dark:border-gray-700 dark:hover:border-blue-500"
+                            className="group border-border bg-card hover:border-primary/50 hover:shadow-xl transition-all duration-300"
                         >
                             <CardContent className="p-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                        <reason.icon className="w-6 h-6 text-white" />
+                                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                        <reason.icon className="w-6 h-6 text-primary-foreground" />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                                        <h3 className="text-lg font-semibold mb-2 text-foreground">
                                             {reason.title}
                                         </h3>
-                                        <p className="text-gray-600 text-sm leading-relaxed dark:text-gray-400">
+                                        <p className="text-muted-foreground text-sm leading-relaxed">
                                             {reason.description}
                                         </p>
                                     </div>
@@ -78,7 +78,7 @@ export default function WhyTravelSection() {
                 <div className="mt-12 text-center">
                     <a
                         href="/register"
-                        className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+                        className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-primary/25"
                     >
                         Start Your Journey Today
                     </a>

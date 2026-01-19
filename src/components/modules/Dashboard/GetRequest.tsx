@@ -30,15 +30,15 @@ import { timeAgo } from "@/lib/time-ago";
 interface RequestUser {
   name: string;
   email: string;
-  profileImage:string
+  profileImage: string
 }
 
 interface TravelRequest {
   id: string;
   planTitle: string;
-  profileImage:string;
-  travelPlan:{
-    title:string
+  profileImage: string;
+  travelPlan: {
+    title: string
   },
 
   message: string;
@@ -82,11 +82,11 @@ export default function GetRequest() {
     }
   };
   if (process.env.NODE_ENV === 'development') {
-    console.log(requests,"thisis form request");
+    console.log(requests, "thisis form request");
   }
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <Card className="shadow-md">
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <Card className="shadow-sm border-border bg-card text-card-foreground">
         <CardHeader>
           <CardTitle className="text-xl md:text-2xl">
             Requests for My Travel Plans
@@ -154,8 +154,8 @@ export default function GetRequest() {
                             req.status === "ACCEPTED"
                               ? "default"
                               : req.status === "REJECTED"
-                              ? "destructive"
-                              : "secondary"
+                                ? "destructive"
+                                : "secondary"
                           }
                         >
                           {req.status}
@@ -163,9 +163,9 @@ export default function GetRequest() {
                       </TableCell>
 
                       <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
-                       {
-                        timeAgo(req.createdAt.toString())
-                       }
+                        {
+                          timeAgo(req.createdAt.toString())
+                        }
                       </TableCell>
 
                       <TableCell>

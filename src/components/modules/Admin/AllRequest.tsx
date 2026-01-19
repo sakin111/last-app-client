@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { TravelMeta} from "@/Types";
+import { TravelMeta } from "@/Types";
 import { getAllRequests } from "@/services/Dashboard/travel-comments.service";
 
 
@@ -55,7 +55,7 @@ export default function AllRequests() {
     router.push(`?${params.toString()}`);
   };
 
-  
+
 
   if (loading) {
     return <p className="text-sm text-muted-foreground">Loading requests…</p>;
@@ -71,57 +71,64 @@ export default function AllRequests() {
 
   return (
     <div className="space-y-6">
-      {/* TABLE */}
-      <div className="overflow-x-auto rounded-md border">
-        <table className="w-full text-sm">
-          <thead className="bg-muted">
-            <tr>
-              <th className="px-4 py-2 text-left">Title</th>
-              <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-left">Type</th>
-              <th className="px-4 py-2 text-left">Status</th>
-              <th className="px-4 py-2 text-left">Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item : any) => (
-              <tr key={item.id} className="border-t">
-                <td className="px-4 py-2">{item.travelPlan.title}</td>
-                <td className="px-4 py-2">{item.user.email}</td>
-                <td className="px-4 py-2">{item.travelPlan.travelType}</td>
-                <td className="px-4 py-2">{item.status}</td>
-                <td className="px-4 py-2">
-                  {new Date(item.createdAt).toLocaleDateString()}
-                </td>
+      <Card className="border-border bg-card text-card-foreground">
+        <CardContent className="p-0 overflow-x-auto rounded-md border border-border">
+          <table className="w-full text-sm">
+            <thead className="bg-muted text-muted-foreground">
+              <tr>
+                <th className="px-4 py-2 text-left font-medium">Title</th>
+                <th className="px-4 py-2 text-left font-medium">Email</th>
+                <th className="px-4 py-2 text-left font-medium">Type</th>
+                <th className="px-4 py-2 text-left font-medium">Status</th>
+                <th className="px-4 py-2 text-left font-medium">Created</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {data.map((item: any) => (
+                <tr key={item.id} className="hover:bg-muted/50 transition-colors">
+                  <td className="px-4 py-3 align-middle">{item.travelPlan.title}</td>
+                  <td className="px-4 py-3 align-middle">{item.user.email}</td>
+                  <td className="px-4 py-3 align-middle">{item.travelPlan.travelType}</td>
+                  <td className="px-4 py-3 align-middle">
+                    <Badge variant="outline" className="capitalize">
+                      {item.status.toLowerCase()}
+                    </Badge>
+                  </td>
+                  <td className="px-4 py-3 align-middle">
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CardContent>
+      </Card>
 
       {/* PAGINATION */}
       {meta && (
-        <div className="flex items-center justify-between text-sm">
-          <span>
-            Page {meta.page} of {meta.totalPages}
+        <div className="flex items-center justify-between text-sm px-1">
+          <span className="text-muted-foreground">
+            Page <span className="font-medium text-foreground">{meta.page}</span> of <span className="font-medium text-foreground">{meta.totalPages}</span>
           </span>
 
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               disabled={meta.page === 1}
               onClick={() => goToPage(meta.page - 1)}
-              className="px-3 py-1 border rounded disabled:opacity-50"
             >
               Previous
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               disabled={meta.page === meta.totalPages}
               onClick={() => goToPage(meta.page + 1)}
-              className="px-3 py-1 border rounded disabled:opacity-50"
             >
               Next
-            </button>
+            </Button>
           </div>
         </div>
       )}
