@@ -34,7 +34,6 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: an
       if (result?.success) {
         toast.success("Request sent successfully!");
       } else {
-        toast.error(result?.message || "Failed to send request");
         console.error("Request error:", result);
       }
     } catch (error) {

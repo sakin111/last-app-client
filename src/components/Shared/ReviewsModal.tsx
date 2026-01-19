@@ -70,13 +70,11 @@ export default function ReviewsModal({ targetId,checkSub }: {targetId:string, ch
       if (!token) {
         toast.error("Please login to post a review");
         setOpen(false);
-        router.push("/login");
         return;
       }
       if (!checkSub) {
         toast("you must subscribe to post a review");
         setOpen(false);
-        router.push("/subscription");
         return;
       }
 
@@ -89,6 +87,7 @@ export default function ReviewsModal({ targetId,checkSub }: {targetId:string, ch
         await fetchReviews();
       } else {
         toast.error(result?.message || "Failed to add review");
+        console.error("Add review error:", result);
       }
     } catch (error) {
       console.error("Error adding review:", error);
