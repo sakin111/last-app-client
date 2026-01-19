@@ -72,7 +72,7 @@ export default function Subscription() {
                   )}
 
                   <CardHeader className="text-center space-y-2">
-                    <CardTitle className="text-xl font-semibold text-foreground">
+                    <CardTitle className="text-xl font-semibold text-black dark:text-black">
                       {plan.name}
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
@@ -82,7 +82,7 @@ export default function Subscription() {
 
                   <CardContent className="flex flex-col items-center justify-between gap-6">
                     <div className="text-center">
-                      <p className="text-4xl font-bold text-foreground">
+                      <p className="text-4xl font-bold text-black dark:text-black">
                         ${plan.price}
                       </p>
                       <p className="mt-1 text-sm text-muted-foreground">
