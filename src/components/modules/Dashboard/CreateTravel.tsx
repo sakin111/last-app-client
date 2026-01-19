@@ -41,7 +41,7 @@ export default function TravelCreateForm({
   useEffect(() => {
     const paymentStatus = sub?.data?.subscription?.paymentStatus;
 
-    if (paymentStatus !== "SUCCESS") {
+    if (paymentStatus !== "COMPLETED") {
       showToast("You need an active subscription to create a travel plan", "error");
       router.push("/dashboard/subscribe");
     }
