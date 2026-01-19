@@ -3,14 +3,14 @@
 
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { createRequest } from "@/services/Dashboard/travel-comments.service";
 import { useState } from "react";
 
 
 
-const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: any }) => {
+const RequestButton = ({ travelId }: { travelId: string}) => {
 
   const [loading, setLoading] = useState(false);
 
@@ -24,10 +24,7 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: an
         toast.error("Please login to send a request");
         return;
       }
-        if (!checkSub) {
-              toast("you must subscribe to post a review");
-              return;
-           }
+   
 
       const result = await createRequest(travelId);
 

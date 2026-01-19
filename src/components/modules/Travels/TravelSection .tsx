@@ -229,7 +229,7 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
 
                         <ReviewsModal targetId={travel.id} checkSub={checkSub} />
 
-                        <RequestButton travelId={travel.id} checkSub={checkSub} />
+                        <RequestButton travelId={travel.id} />
 
                       </div>
                     </div>

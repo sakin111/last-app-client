@@ -16,12 +16,8 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 export const createRequest = async (travelPlanId: string) => {
   try {
     const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
-    
-    if (!accessToken) {
-      return { success: false, message: "No access token found" };
-    }
-
+    const accessToken = cookieStore.get("accessToken")
+   
     const res = await fetch(`https://last-app-server-cuaa.onrender.com/api/v1/request/createRequest`, {
       method: "POST",
       headers: {
