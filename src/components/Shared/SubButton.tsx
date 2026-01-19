@@ -44,9 +44,9 @@ export default function SubsButton({ plan }: SubsButtonProps) {
   };
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md">
-      <h3 className="text-lg font-semibold mb-2">{plan.name}</h3>
-      {plan.description && <p className="text-sm mb-4">{plan.description}</p>}
-      <p className="text-md font-medium mb-4">${plan.price} / {plan.duration} days</p>
+      <h3 className="text-lg font-semibold mb-2 dark:text-black">{plan.name}</h3>
+      {plan.description && <p className="text-sm mb-4 dark:text-black">{plan.description}</p>}
+      <p className="text-md font-medium mb-4 dark:text-black">${plan.price} / {plan.duration} days</p>
 
       <Button
         onClick={handleSubscribe}
