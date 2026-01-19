@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -34,11 +35,8 @@ interface Review {
   };
 }
 
-interface ReviewsModalProps {
-  targetId: string;
-}
 
-export default function ReviewsModal({ targetId }: ReviewsModalProps) {
+export default function ReviewsModal({ targetId,checkSub }: {targetId:string, checkSub?: any}) {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
@@ -73,6 +71,12 @@ export default function ReviewsModal({ targetId }: ReviewsModalProps) {
         toast.error("Please login to post a review");
         setOpen(false);
         router.push("/login");
+        return;
+      }
+      if (!checkSub) {
+        toast("you must subscribe to post a review");
+        setOpen(false);
+        router.push("/subscription");
         return;
       }
 

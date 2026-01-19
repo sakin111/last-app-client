@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -7,12 +8,9 @@ import { getCookie } from "@/services/Auth/tokenHandler";
 import { createRequest } from "@/services/Dashboard/travel-comments.service";
 import { useState } from "react";
 
-interface RequestButtonProps {
-  travelId: string;
-  checkSub?: boolean;
-}
 
-const RequestButton = ({ travelId }: RequestButtonProps) => {
+
+const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: any }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -27,6 +25,11 @@ const RequestButton = ({ travelId }: RequestButtonProps) => {
         router.push("/login");
         return;
       }
+        if (!checkSub) {
+              toast("you must subscribe to post a review");
+              router.push("/subscription");
+              return;
+            }
 
       const result = await createRequest(travelId);
 
