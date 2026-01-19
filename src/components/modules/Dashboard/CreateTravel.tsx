@@ -35,19 +35,9 @@ export default function TravelCreateForm({
   const [state, formAction, isPending] = useActionState(travelCreate, null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
-  const router = useRouter();
 
 
-  useEffect(() => {
-    const paymentStatus = sub?.data?.subscription?.paymentStatus;
 
-    if (!paymentStatus) {
-      showToast("You need an active subscription to create a travel plan", "error");
-      router.push("/dashboard/subscribe");
-    }
-  }, [sub, router]);
-
-  // ✅ Form result feedback
   useEffect(() => {
     if (state?.success) {
       showToast("Travel created successfully", "success");
