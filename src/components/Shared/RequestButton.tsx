@@ -18,12 +18,12 @@ const RequestButton = ({ travelId }: { travelId: string}) => {
     try {
       setLoading(true);
 
-      // const token = await getCookie("accessToken");
+      const token = await getCookie("accessToken");
 
-      // if (!token) {
-      //   toast.error("Please login to send a request");
-      //   return;
-      // }
+      if (!token) {
+        toast.error("Please login to send a request");
+        return;
+      }
    
 
       const result = await createRequest(travelId);

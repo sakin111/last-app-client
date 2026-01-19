@@ -2,8 +2,6 @@
 "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
-import { cookies } from "next/headers";
-
 import { TravelResponse } from "@/Types";
 
 
@@ -15,27 +13,12 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export const createRequest = async (travelPlanId: string) => {
   try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")
-   
-    const res = await fetch(`https://last-app-server-cuaa.onrender.com/api/v1/request/createRequest`, {
-      method: "POST",
+    const res = await serverFetch.post(`/request/createRequest`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
-        "Cookie": `accessToken=${accessToken}`,
       },
       body: JSON.stringify({ travelPlanId }),
     });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error("API Error:", res.status, errorText);
-      return { 
-        success: false, 
-        message: `API error: ${res.status} - ${errorText}` 
-      };
-    }
 
     const data = await res.json();
     return data;
