@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,13 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { createRequest as createRequestService } from "@/services/Dashboard/travel-comments.service";
 
-
-
-const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub?: boolean }) => {
+const RequestButton = ({
+  travelId,
+  checkSub,
+}: {
+  travelId: string;
+  checkSub?: any;
+}) => {
   const router = useRouter();
 
   const handleRequest = async () => {
@@ -20,12 +25,13 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub?: bo
       return;
     }
 
-    if (!checkSub) {
-      toast("You need an active subscription to send a request");
+    const paymentStatus = checkSub?.data?.subscription?.paymentStatus;
+
+    if (paymentStatus !== "COMPLETED") {
+      toast.error("You need an active subscription to send a request");
       router.push("/subscription");
       return;
     }
-
 
     const result = await createRequestService(travelId);
 
@@ -36,9 +42,7 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub?: bo
     }
   };
 
-  return (
-    <Button onClick={handleRequest}>Request</Button>
-  );
+  return <Button onClick={handleRequest}>Request</Button>;
 };
 
 export default RequestButton;

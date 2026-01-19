@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +20,6 @@ import { toast } from "sonner";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { useRouter } from "next/navigation";
 
-
 interface Review {
   id: string;
   rating: number;
@@ -32,7 +32,13 @@ interface Review {
   };
 }
 
-export default function ReviewsModal({ targetId, checkSub }: { targetId: string, checkSub?: boolean }) {
+export default function ReviewsModal({
+  targetId,
+  checkSub,
+}: {
+  targetId: string;
+  checkSub?: any;
+}) {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
@@ -40,7 +46,7 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
-  const router = useRouter()
+  const router = useRouter();
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -63,22 +69,31 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
     try {
       const token = await getCookie("accessToken");
 
+ 
       if (!token) {
         toast.error("Please login to post a review");
         router.push("/login");
         return;
       }
-      if (!checkSub) {
-        toast("You need an active subscription to post a review");
+
+
+      const paymentStatus = checkSub?.data?.subscription?.paymentStatus;
+
+      if (paymentStatus !== "SUCCESS") {
+        toast.error("You need an active subscription to post a review");
         router.push("/subscription");
         return;
       }
+
       const result = await addReview(targetId, rating, content);
+
       if (result.success) {
         toast.success("Review added successfully!");
         setContent("");
         setRating(5);
         await fetchReviews();
+      } else {
+        toast.error(result.message || "Failed to add review");
       }
     } catch (error) {
       console.error("Error adding review:", error);
@@ -108,10 +123,11 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
       className="focus:outline-none transition-transform hover:scale-110"
     >
       <IconStar
-        className={`w-6 h-6 sm:w-7 sm:h-7 ${value <= (hoveredRating || rating)
-          ? "fill-yellow-400 text-yellow-400"
-          : "text-gray-300"
-          }`}
+        className={`w-6 h-6 sm:w-7 sm:h-7 ${
+          value <= (hoveredRating || rating)
+            ? "fill-yellow-400 text-yellow-400"
+            : "text-gray-300"
+        }`}
       />
     </button>
   );
@@ -137,21 +153,22 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
           </DialogDescription>
         </DialogHeader>
 
-
         {reviews.length > 0 && (
           <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg">
             <div>
               <div className="flex items-center gap-1">
-                <span className="text-2xl font-bold text-foreground">{avgRating}</span>
+                <span className="text-2xl font-bold text-foreground">
+                  {avgRating}
+                </span>
                 <IconStar className="w-5 h-5 fill-yellow-400 text-yellow-400" />
               </div>
               <p className="text-sm text-muted-foreground">
-                Based on {reviews.length} review{reviews.length !== 1 ? "s" : ""}
+                Based on {reviews.length} review
+                {reviews.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>
         )}
-
 
         <div className="space-y-3 border-b border-border pb-4">
           <label className="text-sm font-medium text-foreground mb-2 block">
@@ -180,10 +197,11 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
           </Button>
         </div>
 
-
         <div className="space-y-4 max-h-96 overflow-y-auto">
           {loading ? (
-            <div className="text-center py-8 text-gray-500">Loading reviews...</div>
+            <div className="text-center py-8 text-gray-500">
+              Loading reviews...
+            </div>
           ) : reviews.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               No reviews yet. Be the first to review!
@@ -195,8 +213,13 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
                 className="flex gap-2 sm:gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
               >
                 <Avatar className="w-8 h-8 sm:w-10 sm:h-10 shrink-0">
-                  <AvatarImage src={review.author?.profileImage} alt={review.author?.name} />
-                  <AvatarFallback>{review.author?.name?.charAt(0) || "U"}</AvatarFallback>
+                  <AvatarImage
+                    src={review.author?.profileImage}
+                    alt={review.author?.name}
+                  />
+                  <AvatarFallback>
+                    {review.author?.name?.charAt(0) || "U"}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -208,15 +231,22 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
                         {[...Array(5)].map((_, i) => (
                           <IconStar
                             key={i}
-                            className={`w-3 h-3 sm:w-4 sm:h-4 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                              }`}
+                            className={`w-3 h-3 sm:w-4 sm:h-4 ${
+                              i < review.rating
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300"
+                            }`}
                           />
                         ))}
                       </div>
                     </div>
-                    <span className="text-xs text-muted-foreground shrink-0">{timeAgo(review.createdAt)}</span>
+                    <span className="text-xs text-muted-foreground shrink-0">
+                      {timeAgo(review.createdAt)}
+                    </span>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1 break-words">{review.content}</p>
+                  <p className="text-sm text-muted-foreground mt-1 break-words">
+                    {review.content}
+                  </p>
                 </div>
               </div>
             ))
