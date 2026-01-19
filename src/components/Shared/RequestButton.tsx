@@ -21,8 +21,8 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub?: bo
     }
 
     if (!checkSub) {
-      toast.error("You need an active subscription to send a request");
-      router.push("/dashboard/subscribe");
+      toast("You need an active subscription to send a request");
+      router.push("/subscription");
       return;
     }
 

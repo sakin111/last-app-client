@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import { timeAgo } from "@/lib/time-ago";
 import { toast } from "sonner";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import { useRouter } from "next/navigation";
-import { check } from "zod";
+
 
 interface Review {
   id: string;
@@ -69,8 +69,8 @@ export default function ReviewsModal({ targetId, checkSub }: { targetId: string,
         return;
       }
       if (!checkSub) {
-        toast.error("You need an active subscription to post a review");
-        router.push("/dashboard/subscribe");
+        toast("You need an active subscription to post a review");
+        router.push("/subscription");
         return;
       }
       const result = await addReview(targetId, rating, content);
