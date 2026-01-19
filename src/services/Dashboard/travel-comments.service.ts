@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server";
+// "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
-import { getCookie } from "../Auth/tokenHandler";
+
 import { TravelResponse } from "@/Types";
+import { getCookie } from "../Auth/tokenHandler";
 
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
@@ -11,9 +12,11 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export const createRequest = async (travelPlanId: string) => {
   try {
-    const res = await serverFetch.post(`/request/createRequest`, {
+    const accessToken = await getCookie("accessToken");
+    const res = await fetch(`${baseUrl}/request/createRequest`, {
       headers: {
         "Content-Type": "application/json",
+        cookie: accessToken ? `accessToken=${accessToken}` : "",
       },
       body: JSON.stringify({ travelPlanId }),
     });
