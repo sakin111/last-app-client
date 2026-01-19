@@ -26,11 +26,15 @@ export default function ActivityLineChart({ title, data }: ActivityLineChartProp
           <div className="w-full h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="label" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#4f46e5" strokeWidth={2} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="label" tick={{ fill: "currentColor", opacity: 0.5 }} fontSize={12} />
+                <YAxis tick={{ fill: "currentColor", opacity: 0.5 }} fontSize={12} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "var(--popover)", borderColor: "var(--border)", borderRadius: 8, color: "var(--popover-foreground)" }}
+                  itemStyle={{ color: "inherit" }}
+                  labelStyle={{ color: "inherit" }}
+                />
+                <Line type="monotone" dataKey="value" stroke="var(--primary)" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>

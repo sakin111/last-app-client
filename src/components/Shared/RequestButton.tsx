@@ -8,7 +8,7 @@ import { createRequest as createRequestService } from "@/services/Dashboard/trav
 
 
 
-const RequestButton = ({ travelId }: { travelId: string}) => {
+const RequestButton = ({ travelId, checkSub }: { travelId: string, checkSub?: boolean }) => {
   const router = useRouter();
 
   const handleRequest = async () => {
@@ -17,6 +17,12 @@ const RequestButton = ({ travelId }: { travelId: string}) => {
     if (!token) {
       toast.error("Please login to send a request");
       router.push("/login");
+      return;
+    }
+
+    if (!checkSub) {
+      toast.error("You need an active subscription to send a request");
+      router.push("/dashboard/subscribe");
       return;
     }
 

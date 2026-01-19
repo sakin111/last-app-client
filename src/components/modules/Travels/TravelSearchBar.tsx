@@ -70,14 +70,14 @@ export function TravelSearchBar({
   };
 
   return (
-    <div className="w-full mx-auto bg-white sm:p-4">
+    <div className="w-full mx-auto bg-background sm:p-4">
       <div className="max-w-2xl mx-auto mb-8 px-4 sm:px-0">
         <div className="relative">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-full border-2 border-gray-300 bg-white shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:shadow-lg">
+          <div className="flex items-center gap-3 px-4 py-3 rounded-full border-2 border-border bg-background shadow-sm hover:shadow-md transition-shadow focus-within:border-primary focus-within:shadow-lg">
             {isPending ? (
-              <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+              <Loader2 className="w-5 h-5 text-primary animate-spin" />
             ) : (
-              <Search className="w-5 h-5 text-gray-400" />
+              <Search className="w-5 h-5 text-muted-foreground" />
             )}
 
             <input
@@ -85,7 +85,7 @@ export function TravelSearchBar({
               onChange={(e) => setValue(e.target.value)}
               placeholder={placeholder}
               disabled={isPending}
-              className="flex-1 outline-none text-gray-700 placeholder-gray-400 bg-transparent"
+              className="flex-1 outline-none text-foreground placeholder-muted-foreground bg-transparent"
             />
 
             {value && !isPending && (

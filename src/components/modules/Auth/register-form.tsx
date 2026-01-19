@@ -81,11 +81,11 @@ const RegisterForm = () => {
 
             <FieldDescription className="px-6 text-center">
               Already have an account?{" "}
-              <Link href="/login" className="text-teal-600 hover:underline">
+              <Link href="/login" className="text-primary hover:underline">
                 Sign in
               </Link>
               <span className="px-1">or go to{" "}</span>
-              <Link href="/" className="text-teal-600 hover:underline">
+              <Link href="/" className="text-primary hover:underline">
                 home
               </Link>
             </FieldDescription>

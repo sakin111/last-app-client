@@ -44,14 +44,14 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section className="py-16 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-slate-50 to-white">
+    <section className="py-16 px-4 md:px-8 lg:px-16 bg-background">
       <div className="max-w-6xl mx-auto">
-      
+
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             How Travel Buddy Works
           </h2>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Find your perfect travel companion in just 4 simple steps
           </p>
         </div>
@@ -62,26 +62,26 @@ const HowItWorksSection = () => {
             const Icon = step.icon;
             return (
               <div key={index} className="relative">
-          
-                <div className="h-full bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-slate-100">
-                 
+
+                <div className="h-full bg-card text-card-foreground rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-border">
+
                   <div
                     className={`w-16 h-16 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-6 transform transition-transform hover:scale-110`}
                   >
                     <Icon size={32} className="text-white" strokeWidth={1.5} />
                   </div>
 
-            
-               
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">
+
+
+                  <h3 className="text-xl font-bold text-foreground mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed">
                     {step.description}
                   </p>
                 </div>
 
-        
+
                 {index < steps.length - 1 && (
                   <div className="hidden lg:flex absolute -right-3 top-1/2 transform -translate-y-1/2 text-slate-300 z-10">
                     <IconArrowRight size={24} />
@@ -92,9 +92,9 @@ const HowItWorksSection = () => {
           })}
         </div>
 
-    
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12 border border-blue-100">
-          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
+
+        <div className="bg-secondary/30 rounded-3xl p-8 md:p-12 border border-border">
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
             Why Choose Travel Buddy?
           </h3>
 
@@ -117,26 +117,26 @@ const HowItWorksSection = () => {
               },
             ].map((benefit, index) => (
               <div key={index} className="text-center">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
                   <IconCheck size={24} className="text-green-500" />
                 </div>
-                <h4 className="font-bold text-slate-900 mb-2">
+                <h4 className="font-bold text-foreground mb-2">
                   {benefit.title}
                 </h4>
-                <p className="text-slate-600 text-sm">{benefit.description}</p>
+                <p className="text-muted-foreground text-sm">{benefit.description}</p>
               </div>
             ))}
           </div>
         </div>
 
-    
+
         <div className="mt-16 text-center">
-          <p className="text-slate-600 mb-6 text-lg">
+          <p className="text-muted-foreground mb-6 text-lg">
             Ready to find your travel buddy?
           </p>
 
           <Button variant="outline" >
-         Start Planning Your Adventure
+            Start Planning Your Adventure
           </Button>
         </div>
       </div>

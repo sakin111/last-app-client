@@ -30,34 +30,33 @@ const WeProvideSection = () => {
   };
 
   return (
-    <section className="w-full min-h-screen bg-white py-20">
+    <section className="w-full min-h-screen bg-background py-20">
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800">What We Provides</h1>
-          <p className="mt-4 text-gray-600">
+          <h1 className="text-4xl font-bold text-foreground">What We Provide</h1>
+          <p className="mt-4 text-muted-foreground">
             Tap a question to see the answer.
           </p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="border rounded-lg">
+            <div key={idx} className="border border-border bg-card rounded-lg">
 
               <button
                 onClick={() => toggleFAQ(idx)}
-                className="w-full flex justify-between items-center px-5 py-4 text-left text-lg font-medium text-gray-800 focus:outline-none"
+                className="w-full flex justify-between items-center px-5 py-4 text-left text-lg font-medium text-foreground focus:outline-none"
               >
                 {faq.q}
                 <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    openIndex === idx ? "rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 transition-transform ${openIndex === idx ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 
 
               {openIndex === idx && (
-                <div className="px-5 pb-4 text-gray-600">{faq.a}</div>
+                <div className="px-5 pb-4 text-muted-foreground">{faq.a}</div>
               )}
             </div>
           ))}

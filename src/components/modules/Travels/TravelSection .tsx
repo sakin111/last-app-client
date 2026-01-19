@@ -82,11 +82,11 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
         setError(res?.message || "Failed to fetch travels");
       }
     } catch (e: any) {
-     if (e.name !== "AbortError") {
-      setTravels([]);
-      setError("Failed to fetch travels");
-      console.error(e);
-    }
+      if (e.name !== "AbortError") {
+        setTravels([]);
+        setError("Failed to fetch travels");
+        console.error(e);
+      }
     } finally {
       setLoading(false);
       setIsRefreshing(false);
@@ -119,7 +119,7 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
   }
 
   return (
-    <div className="w-full mx-auto bg-white min-h-screen sm:p-4">
+    <div className="w-full mx-auto bg-background min-h-screen sm:p-4">
       {isRefreshing && (
         <div className="text-xs text-muted-foreground flex items-center gap-2">
           <div className="h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -130,7 +130,7 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
       <div className="max-w-2xl mx-auto">
         {travels.map((travel: TravelSectionProps, idx: number) => (
           <Card
-            className="border-0 shadow-none rounded-none border-b border-gray-200 bg-white hover: transition-colors cursor-pointer"
+            className="border-0 shadow-none rounded-none border-b border-border bg-background hover:bg-muted/50 transition-colors cursor-pointer"
             key={travel.id || idx}
           >
             <CardContent className="p-0">
@@ -149,7 +149,7 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
                   </Link>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
-                      <h3 className="font-bold text-gray-900  text-sm sm:text-base truncate">
+                      <h3 className="font-bold text-foreground  text-sm sm:text-base truncate">
                         {travel.author.fullName || travel.author.name}
                       </h3>
                       <span className="text-gray-500 text-xs sm:text-sm truncate">
@@ -194,10 +194,10 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
 
 
                     <div className="mt-2">
-                      <p className="text-black text-sm sm:text-[15px] leading-normal mb-2 sm:mb-3">
+                      <p className="text-foreground text-sm sm:text-[15px] leading-normal mb-2 sm:mb-3">
                         {travel.title}
                       </p>
-                      <p className="text-gray-700 text-sm sm:text-[15px] leading-normal mb-2 sm:mb-3">
+                      <p className="text-muted-foreground text-sm sm:text-[15px] leading-normal mb-2 sm:mb-3">
                         {travel.description}
                       </p>
 
@@ -214,7 +214,7 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
 
 
                       {(travel.image || travel.images?.[0]) && (
-                        <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200">
+                        <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-border">
                           <Image
                             src={travel.image || travel.images[0]}
                             alt="Travel post"
@@ -227,9 +227,9 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
 
                       <div className="flex items-center justify-start gap-7 mt-2 sm:mt-3 max-w-full sm:max-w-md">
 
-                        <ReviewsModal targetId={travel.author.id}/>
+                        <ReviewsModal targetId={travel.author.id} checkSub={checkSub} />
 
-                        <RequestButton travelId={travel.id} />
+                        <RequestButton travelId={travel.id} checkSub={checkSub} />
 
                       </div>
                     </div>

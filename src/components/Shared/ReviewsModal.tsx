@@ -32,7 +32,7 @@ interface Review {
   };
 }
 
-export default function ReviewsModal({ targetId}: { targetId: string}) {
+export default function ReviewsModal({ targetId, checkSub }: { targetId: string, checkSub?: boolean }) {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
@@ -66,6 +66,11 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
       if (!token) {
         toast.error("Please login to post a review");
         router.push("/login");
+        return;
+      }
+      if (!checkSub) {
+        toast.error("You need an active subscription to post a review");
+        router.push("/dashboard/subscribe");
         return;
       }
       const result = await addReview(targetId, rating, content);
@@ -104,8 +109,8 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
     >
       <IconStar
         className={`w-6 h-6 sm:w-7 sm:h-7 ${value <= (hoveredRating || rating)
-            ? "fill-yellow-400 text-yellow-400"
-            : "text-gray-300"
+          ? "fill-yellow-400 text-yellow-400"
+          : "text-gray-300"
           }`}
       />
     </button>
@@ -132,24 +137,24 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
           </DialogDescription>
         </DialogHeader>
 
-   
+
         {reviews.length > 0 && (
-          <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+          <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg">
             <div>
               <div className="flex items-center gap-1">
-                <span className="text-2xl font-bold text-gray-900">{avgRating}</span>
+                <span className="text-2xl font-bold text-foreground">{avgRating}</span>
                 <IconStar className="w-5 h-5 fill-yellow-400 text-yellow-400" />
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 Based on {reviews.length} review{reviews.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>
         )}
 
-  
-        <div className="space-y-3 border-b pb-4">
-          <label className="text-sm font-medium text-gray-700 mb-2 block">
+
+        <div className="space-y-3 border-b border-border pb-4">
+          <label className="text-sm font-medium text-foreground mb-2 block">
             Your Rating
           </label>
           <div className="flex gap-2">
@@ -160,7 +165,7 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
 
           <Textarea
             placeholder="Share your experience..."
-            value={content} 
+            value={content}
             onChange={(e) => setContent(e.target.value)}
             className="min-h-20 resize-none text-sm"
           />
@@ -175,7 +180,7 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
           </Button>
         </div>
 
-   
+
         <div className="space-y-4 max-h-96 overflow-y-auto">
           {loading ? (
             <div className="text-center py-8 text-gray-500">Loading reviews...</div>
@@ -187,7 +192,7 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
             reviews.map((review) => (
               <div
                 key={review.id}
-                className="flex gap-2 sm:gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="flex gap-2 sm:gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
               >
                 <Avatar className="w-8 h-8 sm:w-10 sm:h-10 shrink-0">
                   <AvatarImage src={review.author?.profileImage} alt={review.author?.name} />
@@ -196,7 +201,7 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="font-semibold text-sm text-gray-900 truncate">
+                      <span className="font-semibold text-sm text-foreground truncate">
                         {review.author?.name}
                       </span>
                       <div className="flex gap-0.5">
@@ -209,9 +214,9 @@ export default function ReviewsModal({ targetId}: { targetId: string}) {
                         ))}
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500 shrink-0">{timeAgo(review.createdAt)}</span>
+                    <span className="text-xs text-muted-foreground shrink-0">{timeAgo(review.createdAt)}</span>
                   </div>
-                  <p className="text-sm text-gray-700 mt-1 break-words">{review.content}</p>
+                  <p className="text-sm text-muted-foreground mt-1 break-words">{review.content}</p>
                 </div>
               </div>
             ))

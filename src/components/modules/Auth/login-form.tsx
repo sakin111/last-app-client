@@ -18,11 +18,11 @@ import { toast } from "sonner";
 
 
 
-const LoginForm = ({redirect} : {redirect?:string | undefined}) => {
+const LoginForm = ({ redirect }: { redirect?: string | undefined }) => {
   const [state, formAction, isPending] = useActionState(loginUser, null);
 
   useEffect(() => {
-if (state && !state.success && state.message) {
+    if (state && !state.success && state.message) {
       toast.error("login failed");
       console.log(state.error);
     }
@@ -30,7 +30,7 @@ if (state && !state.success && state.message) {
   return (
     <form action={formAction}>
 
-      {redirect && <input type="hidden" name="redirect" value={redirect}/>}
+      {redirect && <input type="hidden" name="redirect" value={redirect} />}
       <FieldGroup>
         <div className="grid grid-cols-1 gap-4">
           {/* Email */}
@@ -44,7 +44,7 @@ if (state && !state.success && state.message) {
 
             />
 
-      <InputFieldError field="email" state={state} />
+            <InputFieldError field="email" state={state} />
           </Field>
 
           {/* Password */}
@@ -55,9 +55,9 @@ if (state && !state.success && state.message) {
               name="password"
               type="password"
               placeholder="Enter your password"
-    
+
             />
-      <InputFieldError field="password" state={state} />
+            <InputFieldError field="password" state={state} />
           </Field>
         </div>
         <FieldGroup className="mt-4">
@@ -68,7 +68,7 @@ if (state && !state.success && state.message) {
 
             <FieldDescription className="px-6 text-center">
               Don&apos;t have an account?{" "}
-              <a href="/register" className="text-blue-600 hover:underline">
+              <a href="/register" className="text-primary hover:underline">
                 Sign up
               </a>
             </FieldDescription>

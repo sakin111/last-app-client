@@ -157,12 +157,12 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
-          <p className="text-gray-600 mt-1">Manage your profile and account preferences</p>
+          <h1 className="text-3xl font-bold text-foreground">Account Settings</h1>
+          <p className="text-muted-foreground mt-1">Manage your profile and account preferences</p>
         </div>
 
         {/* Profile Picture Section */}
@@ -178,11 +178,11 @@ export default function Profile() {
                 alt="Profile Image"
                 width={120}
                 height={120}
-                className="rounded-full object-cover border-4 border-blue-100"
+                className="rounded-full object-cover border-4 border-primary/10"
               />
             </div>
             <div className="text-sm font-medium">{user?.fullName?.toUpperCase() || ""}</div>
-            <div className="text-sm text-gray-600">{user?.email}</div>
+            <div className="text-sm text-muted-foreground">{user?.email}</div>
             <label className="cursor-pointer">
               <input
                 type="file"
@@ -205,7 +205,7 @@ export default function Profile() {
             </label>
             <CardContent className="space-y-3 text-center">
 
-              <div className="text-sm text-gray-500">{user?.bio || "No bio provided"}</div>
+              <div className="text-sm text-muted-foreground">{user?.bio || "No bio provided"}</div>
             </CardContent>
           </CardContent>
         </Card>
@@ -231,7 +231,7 @@ export default function Profile() {
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-foreground mb-2">
                         Full Name
                       </label>
                       <Input
@@ -246,7 +246,7 @@ export default function Profile() {
                       )}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-foreground mb-2">
                         Name
                       </label>
                       <Input
@@ -262,7 +262,7 @@ export default function Profile() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-foreground mb-2">
                         Email
                       </label>
                       <Input
@@ -296,7 +296,7 @@ export default function Profile() {
                     </label>
                     <textarea
                       placeholder="Tell us about yourself"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                      className="w-full px-3 py-2 border border-border bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                       rows={4}
                       {...profileForm.register("bio")}
                     />
