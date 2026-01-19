@@ -38,20 +38,13 @@ export async function getAllRequests(
     page: String(params.page),
     limit: String(params.limit),
   });
-  const accessToken = await getCookie("accessToken")
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/request/getAll?${query.toString()}`,
-
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken}` : "",
-      },
-      cache: "no-store"
-
-    }
-  );
+  const res = await serverFetch.get(`/request/getAll?${query.toString()}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch requests");
@@ -65,7 +58,7 @@ export const getRequestsForMyPlans = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      cache: "no-store"
+      cache: "no-store",
     });
 
     const result = await res.json();
@@ -103,13 +96,11 @@ export const updateRequestStatus = async (
 
 export const getAllReviews = async () => {
   try {
-    const accessToken = await getCookie("accessToken")
-    const res = await fetch(`${baseUrl}/review/getAll`, {
-      method: "GET",
+    const res = await serverFetch.get("/review/getAll", {
       headers: {
-        cookie: accessToken ? `accessToken=${accessToken}` : "",
+        "Content-Type": "application/json",
       },
-      credentials: "include"
+      cache: "no-store",
     });
 
     const result = await res.json();
@@ -124,19 +115,18 @@ export const getAllReviews = async () => {
     return { success: false, message: "Failed to fetch reviews" };
   }
 };
+
 export const getIndividualR = async (page: number = 1, limit: number = 10) => {
   try {
-    const accessToken = await getCookie("accessToken")
     const query = new URLSearchParams({
       page: String(page),
       limit: String(limit),
     });
-    const res = await fetch(`${baseUrl}/review/individual?${query.toString()}`, {
-      method: "GET",
+    const res = await serverFetch.get(`/review/individual?${query.toString()}`, {
       headers: {
-        cookie: accessToken ? `accessToken=${accessToken}` : "",
+        "Content-Type": "application/json",
       },
-      credentials: "include",
+      cache: "no-store",
     });
 
     const result = await res.json();
@@ -144,7 +134,6 @@ export const getIndividualR = async (page: number = 1, limit: number = 10) => {
     if (!result?.data) {
       if (!result.success) {
         throw new Error(result.message || "Unauthorized");
-
       }
       return { success: false, message: "Unauthorized", data: [] };
     }
@@ -162,11 +151,11 @@ export const getIndividualR = async (page: number = 1, limit: number = 10) => {
 
 export const getReviewById = async (reviewId: string) => {
   try {
-    const res = await fetch(`${baseUrl}/review/${reviewId}`, {
-      method: "GET",
+    const res = await serverFetch.get(`/review/${reviewId}`, {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
 
     const result = await res.json();
@@ -177,14 +166,13 @@ export const getReviewById = async (reviewId: string) => {
   }
 };
 
-
 export const getReviews = async (travelId: string) => {
   try {
-    const res = await fetch(`${baseUrl}/review/${travelId}/reviews`, {
-      method: "GET",
+    const res = await serverFetch.get(`/review/${travelId}/reviews`, {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
 
     const result = await res.json();

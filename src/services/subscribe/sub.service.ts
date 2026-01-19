@@ -1,18 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
-import { clientFetch } from "@/lib/ClientFetch";
-import { getCookie } from "../Auth/tokenHandler";
-
-
-
+import { serverFetch } from "@/lib/server-fetch";
 
 export interface CreateCheckoutPayload {
   priceId: string;
   plan: string;
 }
-
-
-
 
 export interface PlanPayload {
   name: string;
@@ -22,11 +15,10 @@ export interface PlanPayload {
 }
 
 export const createPlan = async (payload: PlanPayload) => {
-  const res = await clientFetch.post(`/sub/create`, {
+  const res = await serverFetch.post(`/sub/create`, {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
     body: JSON.stringify(payload),
   });
 
@@ -36,24 +28,10 @@ export const createPlan = async (payload: PlanPayload) => {
   return data;
 };
 
-
-
-
-
-
 export const getMyPlan = async () => {
-
-  const accessToken = await getCookie("accessToken")
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/myPlan`,
-    {
-      method: "GET",
-      headers: {
-        cookie: accessToken ? `accessToken=${accessToken}` : "",
-      },
-      credentials: "include",
-    }
-  );
+  const res = await serverFetch.get("/sub/myPlan", {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch plans");
@@ -64,18 +42,9 @@ export const getMyPlan = async () => {
 
 
 export const getAllSubCount = async () => {
-
-  const accessToken = await getCookie("accessToken")
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/sub/allSub`,
-    {
-      method: "GET",
-      headers: {
-        cookie: accessToken ? `accessToken=${accessToken}` : "",
-      },
-      credentials: "include",
-    }
-  );
+  const res = await serverFetch.get("/sub/allSub", {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch subscriptions count");
@@ -84,17 +53,10 @@ export const getAllSubCount = async () => {
   return res.json();
 };
 
-
-
 export const checkSubscription = async () => {
   try {
-    const accessToken = await getCookie("accessToken");
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/subscription-status`, {
-      method: 'GET',
-      headers: {
-        cookie: accessToken ? `accessToken=${accessToken}` : '',
-      },
-      credentials: 'include',
+    const response = await serverFetch.get("/travel/subscription-status", {
+      cache: "no-store",
     });
     const data = await response.json();
 
@@ -104,7 +66,7 @@ export const checkSubscription = async () => {
     }
     return false;
   } catch (error) {
-    console.error('Error checking subscription status:', error);
+    console.error("Error checking subscription status:", error);
     return false;
   }
 };

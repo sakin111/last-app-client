@@ -33,6 +33,8 @@ interface Review {
 }
 
 export default function ReviewsModal({
+
+
   targetId,
   checkSub,
 }: {
@@ -116,8 +118,8 @@ export default function ReviewsModal({
     >
       <IconStar
         className={`w-6 h-6 sm:w-7 sm:h-7 ${value <= (hoveredRating || rating)
-            ? "fill-yellow-400 text-yellow-400"
-            : "text-gray-300"
+          ? "fill-yellow-400 text-yellow-400"
+          : "text-gray-300"
           }`}
       />
     </button>
@@ -223,8 +225,8 @@ export default function ReviewsModal({
                           <IconStar
                             key={i}
                             className={`w-3 h-3 sm:w-4 sm:h-4 ${i < review.rating
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300"
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300"
                               }`}
                           />
                         ))}
