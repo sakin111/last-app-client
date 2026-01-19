@@ -2,26 +2,47 @@
 "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
+import { cookies } from "next/headers";
 
 import { TravelResponse } from "@/Types";
-import { getCookie } from "../Auth/tokenHandler";
+
 
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 
+
+
+
+
 export const createRequest = async (travelPlanId: string) => {
   try {
-    const accessToken = await getCookie("accessToken");
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+    
+    if (!accessToken) {
+      return { success: false, message: "No access token found" };
+    }
+
     const res = await fetch(`${baseUrl}/request/createRequest`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        cookie: accessToken ? `accessToken=${accessToken}` : "",
+        "Authorization": `Bearer ${accessToken}`,
+        // Or if your backend expects cookies in the Cookie header:
+        "Cookie": `accessToken=${accessToken}`,
       },
-      credentials: "include",
       body: JSON.stringify({ travelPlanId }),
     });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("API Error:", res.status, errorText);
+      return { 
+        success: false, 
+        message: `API error: ${res.status} - ${errorText}` 
+      };
+    }
 
     const data = await res.json();
     return data;

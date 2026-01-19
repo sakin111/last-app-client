@@ -29,7 +29,7 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: an
               toast("you must subscribe to post a review");
               router.push("/subscription");
               return;
-            }
+           }
 
       const result = await createRequest(travelId);
 
