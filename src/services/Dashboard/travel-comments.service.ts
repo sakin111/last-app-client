@@ -13,8 +13,6 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 
 
-
-
 export const createRequest = async (travelPlanId: string) => {
   try {
     const cookieStore = await cookies();
@@ -24,12 +22,11 @@ export const createRequest = async (travelPlanId: string) => {
       return { success: false, message: "No access token found" };
     }
 
-    const res = await fetch(`${baseUrl}/request/createRequest`, {
+    const res = await fetch(`https://last-app-server-cuaa.onrender.com/api/v1/request/createRequest`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${accessToken}`,
-        // Or if your backend expects cookies in the Cookie header:
         "Cookie": `accessToken=${accessToken}`,
       },
       body: JSON.stringify({ travelPlanId }),
