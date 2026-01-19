@@ -14,6 +14,7 @@ export const createRequest = async (travelPlanId: string) => {
   try {
     const accessToken = await getCookie("accessToken");
     const res = await fetch(`${baseUrl}/request/createRequest`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         cookie: accessToken ? `accessToken=${accessToken}` : "",
