@@ -11,7 +11,6 @@ Travel Buddy is a full-stack travel companion platform built with **Next.js** th
 - **Backend:**  https://last-app-server-cuaa.onrender.com
 
 
----
 
 ## ✨ Features
 
