@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { TravelMeta } from "@/Types";
 import { getAllRequests } from "@/services/Dashboard/travel-comments.service";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 
 export default function AllRequests() {
