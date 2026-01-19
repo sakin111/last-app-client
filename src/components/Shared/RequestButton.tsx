@@ -25,9 +25,7 @@ const RequestButton = ({
       return;
     }
 
-    const paymentStatus = checkSub?.data?.subscription?.paymentStatus;
-
-    if (paymentStatus !== "COMPLETED") {
+    if (!checkSub) {
       toast.error("You need an active subscription to send a request");
       router.push("/subscription");
       return;

@@ -23,10 +23,10 @@ export interface PlanPayload {
 
 export const createPlan = async (payload: PlanPayload) => {
   const res = await clientFetch.post(`/sub/create`, {
-     headers: {
-        "Content-Type": "application/json",
-      },
-      credentials:"include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
     body: JSON.stringify(payload),
   });
 
@@ -87,25 +87,26 @@ export const getAllSubCount = async () => {
 
 
 export const checkSubscription = async () => {
-try {
-  const accessToken = await getCookie("accessToken");
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/subscription-status`, {
-    method: 'GET',
-    headers: {
-      cookie: accessToken ? `accessToken=${accessToken}` : '',
-    },
-    credentials: 'include',
-  });
-  const data = await response.json();
-  
-  if (data.success && data.data?.subscription?.paymentStatus === 'COMPLETED') {
-    return true;
+  try {
+    const accessToken = await getCookie("accessToken");
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/travel/subscription-status`, {
+      method: 'GET',
+      headers: {
+        cookie: accessToken ? `accessToken=${accessToken}` : '',
+      },
+      credentials: 'include',
+    });
+    const data = await response.json();
+
+    const paymentStatus = data.data?.subscription?.paymentStatus;
+    if (data.success && paymentStatus) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error checking subscription status:', error);
+    return false;
   }
-  return false;
-} catch (error) {
-  console.error('Error checking subscription status:', error);
-  return false;
-}
 };
 
 

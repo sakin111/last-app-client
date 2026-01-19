@@ -69,7 +69,7 @@ export default function ReviewsModal({
     try {
       const token = await getCookie("accessToken");
 
- 
+
       if (!token) {
         toast.error("Please login to post a review");
         router.push("/login");
@@ -77,9 +77,7 @@ export default function ReviewsModal({
       }
 
 
-      const paymentStatus = checkSub?.data?.subscription?.paymentStatus;
-
-      if (paymentStatus !== "SUCCESS") {
+      if (!checkSub) {
         toast.error("You need an active subscription to post a review");
         router.push("/subscription");
         return;
@@ -123,11 +121,10 @@ export default function ReviewsModal({
       className="focus:outline-none transition-transform hover:scale-110"
     >
       <IconStar
-        className={`w-6 h-6 sm:w-7 sm:h-7 ${
-          value <= (hoveredRating || rating)
+        className={`w-6 h-6 sm:w-7 sm:h-7 ${value <= (hoveredRating || rating)
             ? "fill-yellow-400 text-yellow-400"
             : "text-gray-300"
-        }`}
+          }`}
       />
     </button>
   );
@@ -231,11 +228,10 @@ export default function ReviewsModal({
                         {[...Array(5)].map((_, i) => (
                           <IconStar
                             key={i}
-                            className={`w-3 h-3 sm:w-4 sm:h-4 ${
-                              i < review.rating
+                            className={`w-3 h-3 sm:w-4 sm:h-4 ${i < review.rating
                                 ? "fill-yellow-400 text-yellow-400"
                                 : "text-gray-300"
-                            }`}
+                              }`}
                           />
                         ))}
                       </div>

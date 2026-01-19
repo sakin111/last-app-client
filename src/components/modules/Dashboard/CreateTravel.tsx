@@ -41,7 +41,7 @@ export default function TravelCreateForm({
   useEffect(() => {
     const paymentStatus = sub?.data?.subscription?.paymentStatus;
 
-    if (paymentStatus !== "COMPLETED") {
+    if (!paymentStatus) {
       showToast("You need an active subscription to create a travel plan", "error");
       router.push("/dashboard/subscribe");
     }
@@ -71,7 +71,7 @@ export default function TravelCreateForm({
       {redirect && <input type="hidden" name="redirect" value={redirect} />}
 
       <FieldGroup className="space-y-5">
-      
+
         <Field>
           <FieldLabel htmlFor="title">Title</FieldLabel>
           <Input id="title" name="title" placeholder="Trip to Cox's Bazar" />
@@ -84,7 +84,7 @@ export default function TravelCreateForm({
           <InputFieldError field="destination" state={state} />
         </Field>
 
-  
+
         <Field>
           <FieldLabel>Start Date</FieldLabel>
           <Popover>
@@ -113,7 +113,7 @@ export default function TravelCreateForm({
           <InputFieldError field="startDate" state={state} />
         </Field>
 
-    
+
         <Field>
           <FieldLabel>End Date</FieldLabel>
           <Popover>
@@ -142,14 +142,14 @@ export default function TravelCreateForm({
           <InputFieldError field="endDate" state={state} />
         </Field>
 
-       
+
         <Field>
           <FieldLabel>Budget Range</FieldLabel>
           <Input name="budgetRange" placeholder="Enter budget range" />
           <InputFieldError field="budgetRange" state={state} />
         </Field>
 
-       
+
         <Field>
           <FieldLabel>Travel Type</FieldLabel>
           <div className="flex gap-4">
@@ -160,14 +160,14 @@ export default function TravelCreateForm({
           <InputFieldError field="travelType" state={state} />
         </Field>
 
-      
+
         <Field>
           <FieldLabel>Description</FieldLabel>
           <Textarea name="description" rows={4} placeholder="Describe your travel plan..." />
           <InputFieldError field="description" state={state} />
         </Field>
 
-   
+
         <Field>
           <FieldLabel>Public Visibility</FieldLabel>
           <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ export default function TravelCreateForm({
           </div>
         </Field>
 
-    
+
         <Field>
           <FieldLabel>Images</FieldLabel>
           <Input type="file" name="images" multiple accept="image/*" />
