@@ -25,11 +25,7 @@ const RequestButton = ({
       return;
     }
 
-    if (!checkSub) {
-      toast.error("You need an active subscription to send a request");
-      router.push("/subscription");
-      return;
-    }
+
 
     const result = await createRequestService(travelId);
 

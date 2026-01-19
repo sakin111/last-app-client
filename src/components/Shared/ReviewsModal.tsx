@@ -77,12 +77,6 @@ export default function ReviewsModal({
       }
 
 
-      if (!checkSub) {
-        toast.error("You need an active subscription to post a review");
-        router.push("/subscription");
-        return;
-      }
-
       const result = await addReview(targetId, rating, content);
 
       if (result.success) {
