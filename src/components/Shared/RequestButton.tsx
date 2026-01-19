@@ -11,7 +11,7 @@ import { useState } from "react";
 
 
 const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: any }) => {
-  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
   const handleRequest = async () => {
@@ -22,12 +22,10 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: an
 
       if (!token) {
         toast.error("Please login to send a request");
-        router.replace("/login");
         return;
       }
         if (!checkSub) {
               toast("you must subscribe to post a review");
-              router.replace("/subscription");
               return;
            }
 
