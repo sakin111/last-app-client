@@ -22,12 +22,12 @@ const RequestButton = ({ travelId, checkSub }: { travelId: string; checkSub?: an
 
       if (!token) {
         toast.error("Please login to send a request");
-        router.push("/login");
+        router.replace("/login");
         return;
       }
         if (!checkSub) {
               toast("you must subscribe to post a review");
-              router.push("/subscription");
+              router.replace("/subscription");
               return;
            }
 
