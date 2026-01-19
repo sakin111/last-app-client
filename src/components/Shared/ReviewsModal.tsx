@@ -44,7 +44,7 @@ export default function ReviewsModal({ targetId,checkSub }: {targetId:string, ch
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [hoveredRating, setHoveredRating] = useState(0);
-  const router = useRouter();
+
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -86,12 +86,11 @@ export default function ReviewsModal({ targetId,checkSub }: {targetId:string, ch
         setRating(5);
         await fetchReviews();
       } else {
-        toast.error(result?.message || "Failed to add review");
+       
         console.error("Add review error:", result);
       }
     } catch (error) {
       console.error("Error adding review:", error);
-      toast.error("Something went wrong");
     } finally {
       setSubmitting(false);
     }
