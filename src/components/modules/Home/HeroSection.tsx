@@ -13,16 +13,16 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-muted/20 backdrop-blur-sm border border-primary/20 rounded-full px-4 py-2 mb-8 animate-fade-in text-muted-foreground">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Join 50,000+ Happy Travelers</span>
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-cyan-800 rounded-full px-4 py-2 mb-8 animate-fade-in">
+            <Sparkles className="h-4 w-4 text-cyan-800" />
+            <span className="text-sm font-medium text-accent-foreground">Join 50,000+ Happy Travelers</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-transparent mb-6 bg-clip-text bg-gradient-to-r from-foreground to-primary animate-fade-in-up animation-delay-100">
+          <h1 className="text-5xl md:text-7xl font-bold text-transparent mb-6 bg-clip-text bg-gradient-to-r from-black to-cyan-600 animate-fade-in-up dark:from-white dark:to-cyan-400 animation-delay-100">
             Find Your Perfect Travel Companion
           </h1>
 
-          <p className="text-xl md:text-2xl mb-10 text-muted-foreground leading-relaxed animate-fade-in-up animation-delay-200">
+          <p className="text-xl md:text-2xl mb-10 text-chart-3 leading-relaxed animate-fade-in-up animation-delay-200">
             Connect with verified travelers worldwide, share adventures, and create unforgettable memories together
           </p>
 
@@ -30,8 +30,7 @@ const HeroSection = () => {
             <Link href="/travel">
               <Button
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-primary/50 w-full sm:w-auto group"
-              >
+                className="bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 w-full sm:w-auto group">
                 <Search className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                 Explore Travelers
               </Button>
@@ -40,8 +39,7 @@ const HeroSection = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="hover:scale-105 transition-all duration-300 w-full sm:w-auto border-border"
-              >
+                className=" border-2 border-white/30 bg-accent-foreground backdrop-blur-sm text-white hover:bg-white hover:text-blue-600 hover:scale-105 transition-all duration-300 w-full sm:w-auto">
                 Get Started Free
               </Button>
             </Link>
