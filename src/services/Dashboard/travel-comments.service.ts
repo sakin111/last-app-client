@@ -19,6 +19,7 @@ export const createRequest = async (travelPlanId: string) => {
         "Content-Type": "application/json",
         cookie: accessToken ? `accessToken=${accessToken}` : "",
       },
+      credentials: "include",
       body: JSON.stringify({ travelPlanId }),
     });
 
