@@ -1,5 +1,6 @@
 
 <img width="1363" height="554" alt="Screenshot (45)" src="https://github.com/user-attachments/assets/f0f18d0c-a295-43f7-a053-d0ea283d60bf" />
+
 # 🌍 Travel Buddy
 
 
