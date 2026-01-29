@@ -1,5 +1,7 @@
 
+<img width="1363" height="554" alt="Screenshot (45)" src="https://github.com/user-attachments/assets/f0f18d0c-a295-43f7-a053-d0ea283d60bf" />
 # 🌍 Travel Buddy
+
 
 Travel Buddy is a full-stack travel companion platform built with **Next.js** that helps users find travel partners and join trips. Users can create travel plans, discover other travelers, and send requests to join trips easily and securely.
 
