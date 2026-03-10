@@ -1,8 +1,10 @@
 
+import AIRecommendations from "@/components/modules/Home/AIRecommendations";
 import CTASection from "@/components/modules/Home/CTASection";
 import DestinationsSection from "@/components/modules/Home/DestinationsSection";
 import FeaturesSection from "@/components/modules/Home/FeaturesSection";
 import HeroSection from "@/components/modules/Home/HeroSection";
+import TiltText from "@/components/Shared/TiltText";
 import HowItWorksSection from "@/components/modules/Home/HowItWorksSection";
 import TestimonialsSection from "@/components/modules/Home/TestimonialsSection";
 import WhyTravelSection from "@/components/modules/Home/WhyTravelSection";
@@ -18,9 +20,11 @@ const page = () => {
   return (
     <main>
       <HeroSection />
+      <TiltText text="EXPLORE" />
       <FeaturesSection />
       <HowItWorksSection />
       <WhyTravelSection />
+      <AIRecommendations />
       <DestinationsSection />
       <TestimonialsSection />
       <CTASection />

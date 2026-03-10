@@ -23,7 +23,7 @@ const Navbar = async () => {
   ];
 
   const accessToken = await getCookie("accessToken");
-    const logoUrl = process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL;
+  const logoUrl = process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_URL;
 
 
 
@@ -32,13 +32,6 @@ const Navbar = async () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur  dark:bg-background/95">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-        <Image
-          src={logoUrl !}
-          alt="Typers Logo"
-          width={40}
-          height={40}
-           className='rounded-full'
-        />
           <span className="text-2xl font-bold text-primary font-sans">Typers</span>
         </Link>
 
@@ -59,13 +52,13 @@ const Navbar = async () => {
                 {link.label}
               </Link>
             ))}
-            <Dropdown/>
+          <Dropdown />
         </nav>
 
 
         <div className="hidden md:flex items-center space-x-2">
 
-          <ModeToggle/> 
+          <ModeToggle />
           {accessToken ? (
             <LogoutButton />
           ) : (
@@ -107,7 +100,7 @@ const Navbar = async () => {
 
                 <div className="border-t pt-4 flex flex-col space-y-4">
                   <div className="flex justify-center"></div>
-                  <ModeToggle/>
+                  <ModeToggle />
                   {accessToken ? (
                     <LogoutButton />
                   ) : (

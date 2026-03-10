@@ -46,11 +46,12 @@ type TravelSectionProps = {
 
 
 
-const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
+const TravelSection = () => {
   const [travels, setTravels] = useState<TravelSectionProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [checkSub, setCheckSub] = useState(false);
   const searchParams = useSearchParams();
 
 
@@ -94,6 +95,12 @@ const TravelSection = ({ checkSub }: { checkSub: boolean }) => {
   }, [queryKey, searchParams]);
 
   useEffect(() => {
+    const fetchSub = async () => {
+      const { checkSubscription } = await import('@/services/subscribe/sub.service');
+      const subStatus = await checkSubscription();
+      setCheckSub(subStatus);
+    };
+    fetchSub();
     fetchTravels();
     return () => abortControllerRef.current?.abort();
   }, [fetchTravels]);
