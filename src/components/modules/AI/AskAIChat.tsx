@@ -10,6 +10,7 @@ import { askAIAdventure } from "@/services/Dashboard/ai.service";
 import { checkSubscription } from "@/services/subscribe/sub.service";
 import { getCookie } from "@/services/Auth/tokenHandler";
 import Link from "next/link";
+import ai from "../../../../public/ai-avatar.png"
 
 interface Message {
     role: "user" | "ai";
@@ -137,7 +138,7 @@ const AskAIChat = () => {
                 <CardHeader className="border-b border-border/50 bg-background/50 px-6 py-4 flex flex-row items-center gap-4">
                     <div className="relative">
                         <Avatar className="h-10 w-10 border-2 border-primary/20">
-                            <AvatarImage src="/ai-avatar.png" />
+                            <AvatarImage src={ai as unknown as string} />
                             <AvatarFallback className="bg-primary text-primary-foreground">AI</AvatarFallback>
                         </Avatar>
                         <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-background rounded-full"></div>
