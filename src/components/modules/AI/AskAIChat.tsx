@@ -147,7 +147,7 @@ const AskAIChat = () => {
                         <CardTitle className="text-lg">AI Travel Buddy</CardTitle>
                         <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
                             <Sparkles className="h-3 w-3 text-amber-500" />
-                            <span>Powered by GPT-4 Travel Engine</span>
+                            <span>Powered by Travel Buddy AI</span>
                         </div>
                     </div>
                 </CardHeader>
