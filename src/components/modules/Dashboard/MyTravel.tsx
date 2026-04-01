@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import TravelChat from "./TravelChat";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DeleteMyTravelById, myTravel, UpdateMyTravel, } from "@/services/Dashboard/travel.server";
 import {
   Table,
@@ -14,7 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -108,6 +109,10 @@ export default function MyTravel() {
     }
   };
 
+
+  // Chat dialog state
+  const [openChat, setOpenChat] = useState(false);
+
   if (loading) return <div className="text-center p-8">Loading travels...</div>;
 
   if (!travels || travels.length === 0)
@@ -146,6 +151,10 @@ export default function MyTravel() {
                     <Badge variant={travel.visibility ? "default" : "outline"}>
                       {travel.visibility ? "Public" : "Private"}
                     </Badge>
+                    {/* Review Request Button Example */}
+                    <Button size="sm" variant="outline" className="ml-2" onClick={() => toast.success("Review request sent (demo)")}>Request Review</Button>
+                    {/* Chat Button */}
+                    <Button size="sm" variant="secondary" className="ml-2" onClick={() => setOpenChat(true)}>Chat</Button>
                   </TableCell>
                   <TableCell>
                     <Button size="sm" variant="ghost" onClick={() => handleEdit(travel)}>
@@ -164,8 +173,15 @@ export default function MyTravel() {
         </CardContent>
       </Card>
 
-      {/* Travel Chat */}
-      <TravelChat />
+      {/* Chat Dialog */}
+      <Dialog open={openChat} onOpenChange={setOpenChat}>
+        <DialogContent className="max-w-lg w-full">
+          <DialogHeader>
+            <DialogTitle>Travel Chat</DialogTitle>
+          </DialogHeader>
+          <TravelChat />
+        </DialogContent>
+      </Dialog>
 
       {/* Edit Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
