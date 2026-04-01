@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import TravelChat from "./TravelChat";
 import { DeleteMyTravelById, myTravel, UpdateMyTravel, } from "@/services/Dashboard/travel.server";
 import {
   Table,
@@ -153,6 +154,8 @@ export default function MyTravel() {
                     <Button size="sm" variant="ghost" className="ml-2" onClick={() => handleDelete(travel.id)}>
                       Delete
                     </Button>
+                    {/* Review Request Button Example */}
+                    <Button size="sm" variant="outline" className="ml-2" onClick={() => toast.success("Review request sent (demo)")}>Request Review</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -160,6 +163,9 @@ export default function MyTravel() {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Travel Chat */}
+      <TravelChat />
 
       {/* Edit Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
