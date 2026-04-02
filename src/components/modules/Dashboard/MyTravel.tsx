@@ -151,10 +151,6 @@ export default function MyTravel() {
                     <Badge variant={travel.visibility ? "default" : "outline"}>
                       {travel.visibility ? "Public" : "Private"}
                     </Badge>
-                    {/* Review Request Button Example */}
-                    <Button size="sm" variant="outline" className="ml-2" onClick={() => toast.success("Review request sent (demo)")}>Request Review</Button>
-                    {/* Chat Button */}
-                    <Button size="sm" variant="secondary" className="ml-2" onClick={() => setOpenChat(true)}>Chat</Button>
                   </TableCell>
                   <TableCell>
                     <Button size="sm" variant="ghost" onClick={() => handleEdit(travel)}>
@@ -163,8 +159,8 @@ export default function MyTravel() {
                     <Button size="sm" variant="ghost" className="ml-2" onClick={() => handleDelete(travel.id)}>
                       Delete
                     </Button>
-                    {/* Review Request Button Example */}
                     <Button size="sm" variant="outline" className="ml-2" onClick={() => toast.success("Review request sent (demo)")}>Request Review</Button>
+                    <Button size="sm" variant="secondary" className="ml-2" onClick={() => setOpenChat(true)}>Chat</Button>
                   </TableCell>
                 </TableRow>
               ))}
