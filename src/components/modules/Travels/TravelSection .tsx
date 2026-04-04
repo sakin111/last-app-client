@@ -15,6 +15,8 @@ import Link from 'next/link';
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { TravelSearchBar } from './TravelSearchBar';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import TravelChat from '../Dashboard/TravelChat';
 
 type TravelSectionProps = {
   id: string;
@@ -52,6 +54,7 @@ const TravelSection = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [checkSub, setCheckSub] = useState(false);
+    const [openChat, setOpenChat] = useState(false);
   const searchParams = useSearchParams();
 
 
@@ -124,6 +127,15 @@ const TravelSection = () => {
       </div>
     );
   }
+
+
+
+
+  if (loading) return <div className="text-center p-8">Loading travels...</div>;
+
+  if (!travels || travels.length === 0)
+    return <div className="text-center p-8 text-muted-foreground">You have not created any travels yet.</div>;
+
 
   return (
     <div className="w-full mx-auto bg-background min-h-screen sm:p-4">
@@ -237,6 +249,15 @@ const TravelSection = () => {
                         <ReviewsModal targetId={travel.id} checkSub={checkSub} />
 
                         <RequestButton travelId={travel.id} />
+
+                        <Dialog open={openChat} onOpenChange={setOpenChat}>
+                          <DialogContent className="max-w-lg w-full">
+                            <DialogHeader>
+                              <DialogTitle>Travel Chat</DialogTitle>
+                            </DialogHeader>
+                            <TravelChat />
+                          </DialogContent>
+                        </Dialog>
 
                       </div>
                     </div>

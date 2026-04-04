@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import TravelChat from "./TravelChat";
+import { useEffect, useState } from "react";
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DeleteMyTravelById, myTravel, UpdateMyTravel, } from "@/services/Dashboard/travel.server";
 import {
@@ -110,13 +110,6 @@ export default function MyTravel() {
   };
 
 
-  // Chat dialog state
-  const [openChat, setOpenChat] = useState(false);
-
-  if (loading) return <div className="text-center p-8">Loading travels...</div>;
-
-  if (!travels || travels.length === 0)
-    return <div className="text-center p-8 text-muted-foreground">You have not created any travels yet.</div>;
 
   return (
     <>
@@ -159,8 +152,8 @@ export default function MyTravel() {
                     <Button size="sm" variant="ghost" className="ml-2" onClick={() => handleDelete(travel.id)}>
                       Delete
                     </Button>
-                    <Button size="sm" variant="outline" className="ml-2" onClick={() => toast.success("Review request sent (demo)")}>Request Review</Button>
-                    <Button size="sm" variant="secondary" className="ml-2" onClick={() => setOpenChat(true)}>Chat</Button>
+
+                   
                   </TableCell>
                 </TableRow>
               ))}
@@ -169,15 +162,6 @@ export default function MyTravel() {
         </CardContent>
       </Card>
 
-      {/* Chat Dialog */}
-      <Dialog open={openChat} onOpenChange={setOpenChat}>
-        <DialogContent className="max-w-lg w-full">
-          <DialogHeader>
-            <DialogTitle>Travel Chat</DialogTitle>
-          </DialogHeader>
-          <TravelChat />
-        </DialogContent>
-      </Dialog>
 
       {/* Edit Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>

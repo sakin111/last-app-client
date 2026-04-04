@@ -25,6 +25,8 @@ Travel Buddy is a full-stack travel companion platform built with **Next.js** th
 - User dashboard
 - Role-based access control
 - Fully responsive UI
+- AI recommendation system
+- Free Socket.IO chatting system
 
 ---
 
@@ -35,9 +37,27 @@ Travel Buddy is a full-stack travel companion platform built with **Next.js** th
 - React
 - TypeScript
 - Tailwind CSS
+- shadcn/ui
 
+### Backend
+- Node.js
+- Express.js
+- Socket.IO
+- JWT
+- Prisma
+- PostgreSQL
 
+## 🛠️ Skills and Technologies Demonstrated
 
+- **Full-Stack Development:** Built a complete application with Next.js frontend and Node.js backend
+- **Real-Time Features:** Implemented Socket.IO for live chatting
+- **Authentication:** Secure user authentication using JWT
+- **UI/UX Design:** Responsive and modern interface with Tailwind CSS and shadcn/ui components
+- **TypeScript:** Type-safe development for better code quality
+- **API Integration:** Seamless communication between frontend and backend services
+- **State Management:** Efficient handling of application state and user interactions
+- **AI Recommendations:** Integrated AI-powered recommendation system
+- **Database Management:** Used Prisma ORM with PostgreSQL for data handling
 
 ## Getting Started
 
