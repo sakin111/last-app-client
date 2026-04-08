@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { MapPin } from 'lucide-react';
+import { MapPin, MessageCircle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getAllTravels } from '@/services/Dashboard/travel.service';
@@ -249,6 +249,16 @@ const TravelSection = () => {
                         <ReviewsModal targetId={travel.id} checkSub={checkSub} />
 
                         <RequestButton travelId={travel.id} />
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setOpenChat(true)}
+                          className="flex items-center gap-2"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          Chat
+                        </Button>
 
                         <Dialog open={openChat} onOpenChange={setOpenChat}>
                           <DialogContent className="max-w-lg w-full">

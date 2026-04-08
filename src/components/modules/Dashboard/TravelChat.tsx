@@ -1,8 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+
+
+import  { useEffect, useRef, useState } from "react";
 import { getSocket } from "@/lib/socket";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getUserInfo } from "@/services/Auth/getUserInfo";
 
 interface ChatMessage {
   user: string;
@@ -15,6 +19,15 @@ export default function TravelChat() {
   const [chatInput, setChatInput] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [socketConnected, setSocketConnected] = useState(false);
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userInfo = await getUserInfo();
+      setUser(userInfo);
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const socket = getSocket();
@@ -38,7 +51,7 @@ export default function TravelChat() {
     if (!chatInput.trim()) return;
     const socket = getSocket();
     const msg: ChatMessage = {
-      user: "User", // Replace with actual user info
+      user: user?.name || "Anonymous",
       message: chatInput,
       time: new Date().toLocaleTimeString(),
     };
