@@ -16,7 +16,8 @@ export const getAIAdventureRecommendations = async () => {
             throw new Error(`Failed to fetch AI recommendations: ${res.status}`);
         }
 
-        return await res.json();
+        const result = await res.json();
+        return result?.data;
     } catch (error) {
         console.error("AI Recommendation Error:", error);
         return {
@@ -37,7 +38,7 @@ export const askAIAdventure = async (message: string) => {
         });
 
         const result = await res.json();
-        return result;
+        return result?.data;
     } catch (error: any) {
         console.error("Ask AI Error:", error);
         return {

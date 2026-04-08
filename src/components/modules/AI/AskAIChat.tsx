@@ -58,10 +58,19 @@ const AskAIChat = () => {
 
         try {
             const result = await askAIAdventure(userMessage);
-            if (result.success) {
-                setMessages((prev: Message[]) => [...prev, { role: "ai", content: result.data || result.message }]);
+            if (result.success && result.data) {
+                setMessages((prev) => [
+                    ...prev,
+                    { role: "ai", content: result.data }
+                ]);
             } else {
-                setMessages((prev: Message[]) => [...prev, { role: "ai", content: "Sorry, I encountered an error: " + result.message }]);
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        role: "ai",
+                        content: result.message || "⚠️ AI failed to respond properly."
+                    }
+                ]);
             }
         } catch (error) {
             setMessages((prev: Message[]) => [...prev, { role: "ai", content: "Something went wrong. Please try again later." }]);
