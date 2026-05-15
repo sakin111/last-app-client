@@ -1,72 +1,65 @@
-interface Step {
-  number: number;
-  title: string;
-  description: string;
-}
-
-const steps: Step[] = [
-  {
-    number: 1,
-    title: 'Create Your Profile',
-    description: 'Sign up and tell us about yourself, your travel preferences, and interests',
-  },
-  {
-    number: 2,
-    title: 'Browse Travelers',
-    description: 'Explore travel plans and find travelers heading to your dream destination',
-  },
-  {
-    number: 3,
-    title: 'Connect & Chat',
-    description: 'Send requests and start conversations with potential travel buddies',
-  },
-  {
-    number: 4,
-    title: 'Travel Together',
-    description: 'Plan your adventure together and create unforgettable memories',
-  },
-];
+import Image from 'next/image';
+import { Apple, Play } from 'lucide-react';
 
 const HowItWorksSection = () => {
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
-
-      <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/80 rounded-full filter blur-3xl"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-            How It Works
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Getting started is easy. Follow these simple steps to find your travel buddy
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          {steps.map((step, index) => (
-            <div key={index} className="text-center relative group">
-
-              {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-8 left-1/2 w-full h-0.5 bg-gradient-to-r from-primary to-primary/80 opacity-20 group-hover:opacity-40 transition-opacity "></div>
-              )}
-
-              <div className="relative">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary text-primary-foreground text-2xl font-bold mb-6 shadow-lg group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-primary/50 transition-all duration-300">
-                  {step.number}
-                </div>
-              </div>
-
-              <h3 className="text-xl font-semibold mb-3 text-foreground">{step.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+    <section className="py-24 bg-white dark:bg-gray-950 overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-20 items-center max-w-6xl mx-auto">
+          {/* Phone Mockup Image */}
+          <div className="relative flex justify-center">
+            <div className="relative w-[320px] h-[640px] md:w-[380px] md:h-[760px]">
+              <Image 
+                src="/images/home/app-mockup.png" 
+                alt="App Mockup" 
+                fill 
+                className="object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]"
+                priority
+              />
             </div>
-          ))}
+            {/* Background blob */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-100 dark:bg-orange-950/20 rounded-full -z-10 blur-3xl"></div>
+          </div>
+
+          {/* Content */}
+          <div className="space-y-10">
+            <div className="space-y-6">
+              <h2 className="text-4xl md:text-6xl font-bold text-[#1B2E4B] dark:text-white leading-tight">
+                Adventure in your pocket
+              </h2>
+              <p className="text-lg md:text-xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-lg">
+                Swipe through trusted profiles, chat with vetted travelers, and plan adventures together. The world is just a few taps away with our mobile app.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-6">
+              {/* App Store Button */}
+              <button className="flex items-center gap-4 bg-[#1B2E4B] text-white px-8 py-4 rounded-[1.5rem] hover:scale-105 transition-all shadow-xl shadow-blue-900/20 w-full sm:w-auto">
+                <div className="bg-white/10 p-2 rounded-xl">
+                  <Apple className="w-8 h-8 fill-white" />
+                </div>
+                <div className="text-left">
+                  <p className="text-xs font-bold opacity-60 uppercase tracking-widest">Download on the</p>
+                  <p className="text-xl font-bold leading-none">App Store</p>
+                </div>
+              </button>
+
+              {/* Play Store Button */}
+              <button className="flex items-center gap-4 bg-[#1B2E4B] text-white px-8 py-4 rounded-[1.5rem] hover:scale-105 transition-all shadow-xl shadow-blue-900/20 w-full sm:w-auto">
+                <div className="bg-white/10 p-2 rounded-xl">
+                  <Play className="w-8 h-8 fill-white" />
+                </div>
+                <div className="text-left">
+                  <p className="text-xs font-bold opacity-60 uppercase tracking-widest">Get it on</p>
+                  <p className="text-xl font-bold leading-none">Google Play</p>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 export default HowItWorksSection;

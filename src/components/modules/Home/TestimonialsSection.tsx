@@ -1,91 +1,82 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, Quote } from 'lucide-react';
-
-interface Testimonial {
-  name: string;
-  location: string;
-  rating: number;
-  text: string;
-  avatar: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    name: 'Sarah Johnson',
-    location: 'New York, USA',
-    rating: 5,
-    text: 'Found an amazing travel buddy for my Europe trip! We had the best time exploring together. Highly recommend TravelBuddy!',
-    avatar: 'SJ',
-  },
-  {
-    name: 'Miguel Rodriguez',
-    location: 'Barcelona, Spain',
-    rating: 5,
-    text: 'As a solo traveler, this platform changed everything for me. Made lifelong friends and discovered places I never would have alone.',
-    avatar: 'MR',
-  },
-  {
-    name: 'Yuki Tanaka',
-    location: 'Tokyo, Japan',
-    rating: 5,
-    text: 'Safe, easy to use, and filled with genuine travelers. Met my travel buddy for Southeast Asia and planning our next adventure!',
-    avatar: 'YT',
-  },
-];
+import { Quote, ShieldCheck, CheckCircle2, UserCircle2 } from 'lucide-react';
+import Image from 'next/image';
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
-
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl"></div>
-      </div>
-
+    <section className="py-24 bg-[#1B2E4B] dark:bg-gray-950 text-white overflow-hidden relative">
+      {/* Decorative background shape */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-400/5 rounded-full -translate-y-1/2 translate-x-1/3"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-            What Travelers Say
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto dark:text-gray-300">
-            Join thousands of happy travelers who found their perfect travel companions
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
+          {/* Stats/Benefits List */}
+          <div className="space-y-12">
+            <div className="space-y-4">
+              <span className="text-orange-400 font-bold tracking-widest uppercase text-sm">COMMUNITY FIRST</span>
+              <h2 className="text-4xl md:text-5xl font-bold leading-tight">Your Safety is Our Top Priority</h2>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <Card
-              key={index}
-              className="hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-border bg-card text-card-foreground group relative overflow-hidden"
-            >
-
-              <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote className="h-16 w-16 text-blue-600 dark:text-cyan-200" />
-              </div>
-
-              <CardContent className="pt-8 pb-8 relative">
-                <div className="flex mb-5">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-
-                <p className="text-muted-foreground mb-6 leading-relaxed relative z-10">
-                  {testimonial.text}
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-liner-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-gray-950 font-semibold text-lg shadow-lg group-hover:scale-110 transition-transform dark:text-white">
-                    {testimonial.avatar}
+            <div className="space-y-8">
+              {[
+                {
+                  icon: ShieldCheck,
+                  title: "Encrypted Communication",
+                  desc: "Your details are only shared when you both agree to a match."
+                },
+                {
+                  icon: CheckCircle2,
+                  title: "Document ID Verification",
+                  desc: "We verify all premium members with official documentation."
+                },
+                {
+                  icon: UserCircle2,
+                  title: "Community Reviews",
+                  desc: "Transparent history and ratings from previous travel partners."
+                }
+              ].map((item, i) => (
+                <div key={i} className="flex gap-6 items-start group">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-orange-500/20 transition-colors">
+                    <item.icon className="w-7 h-7 text-orange-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                    <p className="text-gray-400 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Testimonial Card */}
+          <div className="relative">
+            <div className="bg-white/5 backdrop-blur-md rounded-[3rem] p-12 border border-white/10 shadow-2xl relative">
+              <Quote className="w-16 h-16 text-orange-500 opacity-50 mb-8" />
+              
+              <blockquote className="text-2xl md:text-3xl font-medium leading-relaxed mb-10 italic">
+                "Finding the right person to travel with changed everything for me. I was hesitant at first, but now I've found a life-long friend and travel partner. Truly a game changer."
+              </blockquote>
+
+              <div className="flex items-center gap-5">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-orange-500">
+                  <Image 
+                    src="https://res.cloudinary.com/dmbf41o2r/image/upload/v1762332917/file-1762332910196-56934235.jpg" 
+                    alt="Sarah Jenkins" 
+                    width={64} 
+                    height={64} 
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="text-xl font-bold">Sarah Jenkins</p>
+                  <p className="text-orange-400 text-sm font-semibold uppercase tracking-wider">Adventurer since 2023</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating decoration */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-500 rounded-[2rem] -z-10 rotate-12"></div>
+          </div>
         </div>
       </div>
     </section>
